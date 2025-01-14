@@ -24,6 +24,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install pika
+
       - name: Install Docker Compose V2
         run: |
           mkdir -p ~/.docker/cli-plugins/
@@ -55,30 +63,6 @@ jobs:
         run: |
           docker exec wedding_mariadb mysql -u${DB_WEDDING_SITE_USERNAME} -p${DB_WEDDING_SITE_PASSWORD} -e "SHOW DATABASES;"
 
-      - name: Stop containers
-        if: always()
-        run: docker compose down -v
-
-  rabbitmq-test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
-
-      - name: Install dependencies
-        run: pip install pika
-
-      - name: Set up Services
-        run: |
-          docker compose up -d
-          echo "Waiting for services to initialize..."
-          sleep 30
-
       - name: Wait for RabbitMQ to be ready
         run: |
           echo "Waiting for RabbitMQ..."
@@ -103,3 +87,6 @@ jobs:
           RABBITMQ_USER: ${{ secrets.RABBITMQ_USER }}
           RABBITMQ_PASSWORD: ${{ secrets.RABBITMQ_PASSWORD }}
 
+      - name: Stop containers
+        if: always()
+        run: docker compose down -v

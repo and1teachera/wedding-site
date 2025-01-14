@@ -33,14 +33,11 @@ jobs:
       - name: Validate Docker Compose configuration
         run: docker compose config
 
-      - name: Build Docker images
-        run: docker compose build
-
       - name: Start containers
         run: |
           docker compose up -d
           echo "Waiting for RabbitMQ to initialize..."
-          timeout=60  # Timeout in seconds
+          timeout=120
           while [ $timeout -gt 0 ]; do
             if curl -sf http://localhost:15672/api/healthchecks/node; then
               echo "RabbitMQ is ready"
@@ -63,9 +60,8 @@ jobs:
           RABBITMQ_PASSWORD: ${{ secrets.RABBITMQ_PASSWORD }}
 
       - name: Debug RabbitMQ Logs
-        if: failure()
         run: |
-          echo "RabbitMQ logs on failure:"
+          docker compose ps
           docker compose logs rabbitmq
 
       - name: Stop containers

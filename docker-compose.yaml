@@ -28,6 +28,7 @@ services:
       - --collation-server=utf8mb4_unicode_ci
       - --max-connections=50
       - --innodb-buffer-pool-size=128M
+      - --expire-logs-days=0
 
 volumes:
   mariadb_data:

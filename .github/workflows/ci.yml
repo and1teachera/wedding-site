@@ -1,0 +1,58 @@
+name: Docker Compose Validation
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  docker-compose-validation:
+    runs-on: ubuntu-latest
+
+    env:
+      DB_WEDDING_SITE_USERNAME: ${{ secrets.DB_WEDDING_SITE_USERNAME }}
+      DB_WEDDING_SITE_PASSWORD: ${{ secrets.DB_WEDDING_SITE_PASSWORD }}
+      DB_ROOT_PASSWORD: ${{ secrets.DB_ROOT_PASSWORD }}
+      MONITORING_PASSWORD: ${{ secrets.MONITORING_PASSWORD }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Docker Compose V2
+        run: |
+          mkdir -p ~/.docker/cli-plugins/
+          curl -SL https://github.com/docker/compose/releases/download/v2.31.0/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
+          chmod +x ~/.docker/cli-plugins/docker-compose
+
+      - name: Validate Docker Compose configuration
+        run: docker compose config
+
+      - name: Build Docker images
+        run: docker compose build
+
+      - name: Start containers
+        run: |
+          docker compose up -d
+          echo "Waiting for containers to initialize..."
+          sleep 30
+
+      - name: Check container health
+        run: |
+          docker compose ps
+          docker compose logs
+          if [ "$(docker compose ps --format json | jq -r '.[].Health' | grep -v healthy)" ]; then
+            echo "Some containers are not healthy"
+            exit 1
+          fi
+
+      - name: Test MariaDB
+        run: |
+          docker exec wedding_mariadb mysql -u${DB_WEDDING_SITE_USERNAME} -p${DB_WEDDING_SITE_PASSWORD} -e "SHOW DATABASES;"
+
+      - name: Stop containers
+        if: always()
+        run: docker compose down -v

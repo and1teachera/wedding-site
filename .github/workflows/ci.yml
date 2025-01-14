@@ -37,20 +37,26 @@ jobs:
         run: |
           docker compose up -d
           echo "Waiting for RabbitMQ to initialize..."
-          timeout=120
+          timeout=300
           while [ $timeout -gt 0 ]; do
-            if curl -sf http://localhost:15672/api/healthchecks/node; then
+            if curl -sf -u $RABBITMQ_USER:$RABBITMQ_PASSWORD http://localhost:15672/api/health/checks/virtual-hosts; then
               echo "RabbitMQ is ready"
               break
             fi
-            sleep 1
-            ((timeout--))
+            sleep 5
+            ((timeout-=5))
+            echo "Still waiting for RabbitMQ... $(($timeout))s remaining"
           done
           if [ $timeout -eq 0 ]; then
             echo "RabbitMQ failed to start within the timeout period"
             docker compose logs rabbitmq
             exit 1
           fi
+
+      - name: Install test dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install pika
 
       - name: Test RabbitMQ
         run: |
@@ -60,6 +66,7 @@ jobs:
           RABBITMQ_PASSWORD: ${{ secrets.RABBITMQ_PASSWORD }}
 
       - name: Debug RabbitMQ Logs
+        if: always()
         run: |
           docker compose ps
           docker compose logs rabbitmq

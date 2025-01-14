@@ -17,10 +17,10 @@ def get_credentials():
     
     return pika.PlainCredentials(user, password)
 
-def get_connection(max_retries=3):
+def get_connection(max_retries=5, retry_delay=2):
     """Create a connection to RabbitMQ with retry logic."""
     credentials = get_credentials()
-    
+
     for attempt in range(max_retries):
         try:
             connection = pika.BlockingConnection(
@@ -28,7 +28,8 @@ def get_connection(max_retries=3):
                     host='localhost',
                     credentials=credentials,
                     connection_attempts=3,
-                    retry_delay=2
+                    retry_delay=retry_delay,
+                    socket_timeout=5
                 )
             )
             print("✓ Successfully connected to RabbitMQ")
@@ -37,15 +38,18 @@ def get_connection(max_retries=3):
             if attempt == max_retries - 1:
                 print(f"✗ Failed to connect to RabbitMQ after {max_retries} attempts: {e}")
                 sys.exit(1)
-            print(f"Connection attempt {attempt + 1} failed, retrying...")
-            time.sleep(2 ** attempt)  # Exponential backoff
+            print(f"Connection attempt {attempt + 1} failed, retrying in {retry_delay} seconds...")
+            time.sleep(retry_delay)
 
 def setup_queue(channel, queue_name):
     """Create queue with required properties if it doesn't exist."""
     try:
         channel.queue_declare(
             queue=queue_name,
-            durable=True     # Queue survives broker restart
+            durable=True,
+            arguments={
+                'x-message-ttl': 3600000  # 1 hour TTL
+            }
         )
         print(f"✓ Queue '{queue_name}' created/confirmed")
         return True
@@ -53,27 +57,32 @@ def setup_queue(channel, queue_name):
         print(f"✗ Failed to setup queue: {e}")
         return False
 
-def send_test_message(channel, queue_name, message):
-    """Send a test message to the queue."""
-    try:
-        channel.basic_publish(
-            exchange='',
-            routing_key=queue_name,
-            body=json.dumps(message),
-            properties=pika.BasicProperties(
-                delivery_mode=2,  # Make message persistent
-                content_type='application/json'
+def send_test_message(channel, queue_name, message, max_retries=3):
+    """Send a test message to the queue with retry logic."""
+    for attempt in range(max_retries):
+        try:
+            channel.basic_publish(
+                exchange='',
+                routing_key=queue_name,
+                body=json.dumps(message),
+                properties=pika.BasicProperties(
+                    delivery_mode=2,  # Make message persistent
+                    content_type='application/json'
+                )
             )
-        )
-        print(f"✓ Sent message to '{queue_name}': {message}")
-        return True
-    except Exception as e:
-        print(f"✗ Failed to send message: {e}")
-        return False
+            print(f"✓ Sent message to '{queue_name}': {message}")
+            return True
+        except Exception as e:
+            if attempt == max_retries - 1:
+                print(f"✗ Failed to send message after {max_retries} attempts: {e}")
+                return False
+            print(f"Send attempt {attempt + 1} failed, retrying...")
+            time.sleep(1)
 
 def receive_test_message(channel, queue_name, expected_message):
-    """Receive and validate a test message."""
+    """Receive and validate a test message with error handling."""
     messages_received = []
+    timeout_seconds = 10
 
     def callback(ch, method, properties, body):
         try:
@@ -81,7 +90,6 @@ def receive_test_message(channel, queue_name, expected_message):
             messages_received.append(received_message)
             print(f"✓ Received message: {received_message}")
 
-            # Verify message content
             if received_message == expected_message:
                 print("✓ Message content verified")
             else:
@@ -101,10 +109,9 @@ def receive_test_message(channel, queue_name, expected_message):
             on_message_callback=callback
         )
 
-        print(f" [*] Waiting for messages on '{queue_name}'. Timeout in 10 seconds...")
+        print(f" [*] Waiting for messages on '{queue_name}'. Timeout in {timeout_seconds} seconds...")
 
-        # Start consuming with a timeout
-        channel.connection.call_later(10, channel.stop_consuming)
+        channel.connection.call_later(timeout_seconds, channel.stop_consuming)
         channel.start_consuming()
 
         return len(messages_received) > 0
@@ -113,7 +120,7 @@ def receive_test_message(channel, queue_name, expected_message):
         return False
 
 def run_tests():
-    """Run all RabbitMQ tests."""
+    """Run all RabbitMQ tests with error handling."""
     queue_name = 'booking_operations'
     test_message = {
         'operation': 'book_room',
@@ -122,32 +129,33 @@ def run_tests():
         'timestamp': time.strftime('%Y-%m-%dT%H:%M:%SZ')
     }
 
-    # Step 1: Create connection
-    connection = get_connection()
-    channel = connection.channel()
-
     try:
-        # Step 2: Setup queue
+        # Step 1: Create connection with retries
+        connection = get_connection()
+        channel = connection.channel()
+
+        # Step 2: Setup queue with error handling
         if not setup_queue(channel, queue_name):
             sys.exit(1)
-        
-        # Step 3: Send test message
+
+        # Step 3: Send test message with retries
         if not send_test_message(channel, queue_name, test_message):
             sys.exit(1)
-        
+
         # Step 4: Receive and validate message
         if not receive_test_message(channel, queue_name, test_message):
             sys.exit(1)
-        
+
         print("\n✓ All tests completed successfully")
-        
+
     except Exception as e:
         print(f"\n✗ Test failed with error: {e}")
         sys.exit(1)
     finally:
         try:
-            connection.close()
-            print("✓ Connection closed properly")
+            if connection and not connection.is_closed:
+                connection.close()
+                print("✓ Connection closed properly")
         except Exception as e:
             print(f"✗ Error closing connection: {e}")
 

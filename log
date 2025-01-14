@@ -1,0 +1,457 @@
+2025-01-14T10:38:49.7040581Z Current runner version: '2.321.0'
+2025-01-14T10:38:49.7067181Z ##[group]Operating System
+2025-01-14T10:38:49.7068052Z Ubuntu
+2025-01-14T10:38:49.7068573Z 24.04.1
+2025-01-14T10:38:49.7069118Z LTS
+2025-01-14T10:38:49.7069622Z ##[endgroup]
+2025-01-14T10:38:49.7070141Z ##[group]Runner Image
+2025-01-14T10:38:49.7070768Z Image: ubuntu-24.04
+2025-01-14T10:38:49.7071322Z Version: 20250105.1.0
+2025-01-14T10:38:49.7072541Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20250105.1/images/ubuntu/Ubuntu2404-Readme.md
+2025-01-14T10:38:49.7073994Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20250105.1
+2025-01-14T10:38:49.7074930Z ##[endgroup]
+2025-01-14T10:38:49.7075460Z ##[group]Runner Image Provisioner
+2025-01-14T10:38:49.7076130Z 2.0.404.1
+2025-01-14T10:38:49.7076649Z ##[endgroup]
+2025-01-14T10:38:49.7077796Z ##[group]GITHUB_TOKEN Permissions
+2025-01-14T10:38:49.7079666Z Contents: read
+2025-01-14T10:38:49.7080199Z Metadata: read
+2025-01-14T10:38:49.7081101Z Packages: read
+2025-01-14T10:38:49.7081797Z ##[endgroup]
+2025-01-14T10:38:49.7085003Z Secret source: Actions
+2025-01-14T10:38:49.7085720Z Prepare workflow directory
+2025-01-14T10:38:49.7576935Z Prepare all required actions
+2025-01-14T10:38:49.7612894Z Getting action download info
+2025-01-14T10:38:49.9424579Z Download action repository 'actions/checkout@v4' (SHA:11bd71901bbe5b1630ceea73d27597364c9af683)
+2025-01-14T10:38:50.1199844Z Complete job name: docker-compose-validation
+2025-01-14T10:38:50.1873618Z ##[group]Run actions/checkout@v4
+2025-01-14T10:38:50.1874474Z with:
+2025-01-14T10:38:50.1874963Z   repository: and1teachera/wedding-site
+2025-01-14T10:38:50.1875678Z   token: ***
+2025-01-14T10:38:50.1876088Z   ssh-strict: true
+2025-01-14T10:38:50.1876508Z   ssh-user: git
+2025-01-14T10:38:50.1876947Z   persist-credentials: true
+2025-01-14T10:38:50.1877454Z   clean: true
+2025-01-14T10:38:50.1877903Z   sparse-checkout-cone-mode: true
+2025-01-14T10:38:50.1878418Z   fetch-depth: 1
+2025-01-14T10:38:50.1878836Z   fetch-tags: false
+2025-01-14T10:38:50.1879304Z   show-progress: true
+2025-01-14T10:38:50.1879782Z   lfs: false
+2025-01-14T10:38:50.1880238Z   submodules: false
+2025-01-14T10:38:50.1880730Z   set-safe-directory: true
+2025-01-14T10:38:50.1881445Z env:
+2025-01-14T10:38:50.1881899Z   DB_WEDDING_SITE_USERNAME: ***
+2025-01-14T10:38:50.1882599Z   DB_WEDDING_SITE_PASSWORD: ***
+2025-01-14T10:38:50.1883160Z   DB_ROOT_PASSWORD: ***
+2025-01-14T10:38:50.1883650Z   MONITORING_PASSWORD: ***
+2025-01-14T10:38:50.1884163Z ##[endgroup]
+2025-01-14T10:38:50.4783372Z Syncing repository: and1teachera/wedding-site
+2025-01-14T10:38:50.4785638Z ##[group]Getting Git version info
+2025-01-14T10:38:50.4786911Z Working directory is '/home/runner/work/wedding-site/wedding-site'
+2025-01-14T10:38:50.4788131Z [command]/usr/bin/git version
+2025-01-14T10:38:50.4891310Z git version 2.47.1
+2025-01-14T10:38:50.4921769Z ##[endgroup]
+2025-01-14T10:38:50.4937951Z Temporarily overriding HOME='/home/runner/work/_temp/46acd456-7678-4c15-b1e6-9ef40b8afec6' before making global git config changes
+2025-01-14T10:38:50.4940418Z Adding repository directory to the temporary git global config as a safe directory
+2025-01-14T10:38:50.4944660Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/wedding-site/wedding-site
+2025-01-14T10:38:50.4982097Z Deleting the contents of '/home/runner/work/wedding-site/wedding-site'
+2025-01-14T10:38:50.4986378Z ##[group]Initializing the repository
+2025-01-14T10:38:50.4991074Z [command]/usr/bin/git init /home/runner/work/wedding-site/wedding-site
+2025-01-14T10:38:50.5091699Z hint: Using 'master' as the name for the initial branch. This default branch name
+2025-01-14T10:38:50.5093326Z hint: is subject to change. To configure the initial branch name to use in all
+2025-01-14T10:38:50.5094261Z hint: of your new repositories, which will suppress this warning, call:
+2025-01-14T10:38:50.5094949Z hint:
+2025-01-14T10:38:50.5095459Z hint: 	git config --global init.defaultBranch <name>
+2025-01-14T10:38:50.5096160Z hint:
+2025-01-14T10:38:50.5097028Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2025-01-14T10:38:50.5098166Z hint: 'development'. The just-created branch can be renamed via this command:
+2025-01-14T10:38:50.5099328Z hint:
+2025-01-14T10:38:50.5099759Z hint: 	git branch -m <name>
+2025-01-14T10:38:50.5101046Z Initialized empty Git repository in /home/runner/work/wedding-site/wedding-site/.git/
+2025-01-14T10:38:50.5112507Z [command]/usr/bin/git remote add origin https://github.com/and1teachera/wedding-site
+2025-01-14T10:38:50.5158250Z ##[endgroup]
+2025-01-14T10:38:50.5159544Z ##[group]Disabling automatic garbage collection
+2025-01-14T10:38:50.5163097Z [command]/usr/bin/git config --local gc.auto 0
+2025-01-14T10:38:50.5193057Z ##[endgroup]
+2025-01-14T10:38:50.5194374Z ##[group]Setting up auth
+2025-01-14T10:38:50.5200666Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-01-14T10:38:50.5231860Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-01-14T10:38:50.5625005Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-01-14T10:38:50.5656838Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-01-14T10:38:50.5883331Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2025-01-14T10:38:50.5921968Z ##[endgroup]
+2025-01-14T10:38:50.5931460Z ##[group]Fetching the repository
+2025-01-14T10:38:50.5933239Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +447fc0c339883204072ff17808f216b43935f7ca:refs/remotes/pull/19/merge
+2025-01-14T10:38:50.9911316Z From https://github.com/and1teachera/wedding-site
+2025-01-14T10:38:50.9913119Z  * [new ref]         447fc0c339883204072ff17808f216b43935f7ca -> pull/19/merge
+2025-01-14T10:38:50.9940245Z ##[endgroup]
+2025-01-14T10:38:50.9940983Z ##[group]Determining the checkout info
+2025-01-14T10:38:50.9942584Z ##[endgroup]
+2025-01-14T10:38:50.9947547Z [command]/usr/bin/git sparse-checkout disable
+2025-01-14T10:38:50.9989409Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2025-01-14T10:38:51.0015813Z ##[group]Checking out the ref
+2025-01-14T10:38:51.0020519Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/19/merge
+2025-01-14T10:38:51.0061787Z Note: switching to 'refs/remotes/pull/19/merge'.
+2025-01-14T10:38:51.0062540Z 
+2025-01-14T10:38:51.0062944Z You are in 'detached HEAD' state. You can look around, make experimental
+2025-01-14T10:38:51.0063824Z changes and commit them, and you can discard any commits you make in this
+2025-01-14T10:38:51.0064691Z state without impacting any branches by switching back to a branch.
+2025-01-14T10:38:51.0065214Z 
+2025-01-14T10:38:51.0065549Z If you want to create a new branch to retain commits you create, you may
+2025-01-14T10:38:51.0066857Z do so (now or later) by using -c with the switch command. Example:
+2025-01-14T10:38:51.0067749Z 
+2025-01-14T10:38:51.0068151Z   git switch -c <new-branch-name>
+2025-01-14T10:38:51.0068817Z 
+2025-01-14T10:38:51.0069215Z Or undo this operation with:
+2025-01-14T10:38:51.0069809Z 
+2025-01-14T10:38:51.0070167Z   git switch -
+2025-01-14T10:38:51.0070605Z 
+2025-01-14T10:38:51.0071271Z Turn off this advice by setting config variable advice.detachedHead to false
+2025-01-14T10:38:51.0072440Z 
+2025-01-14T10:38:51.0073555Z HEAD is now at 447fc0c Merge 3334126b9683b7d9bf5784297858a4abf1f040d5 into fa6dff406187f291a93c61092aa5842a215cd76b
+2025-01-14T10:38:51.0076809Z ##[endgroup]
+2025-01-14T10:38:51.0111174Z [command]/usr/bin/git log -1 --format=%H
+2025-01-14T10:38:51.0133053Z 447fc0c339883204072ff17808f216b43935f7ca
+2025-01-14T10:38:51.0329740Z ##[group]Run echo "Debugging secrets..."
+2025-01-14T10:38:51.0330598Z [36;1mecho "Debugging secrets..."[0m
+2025-01-14T10:38:51.0331351Z [36;1mecho "MONITORING_PASSWORD starts with: ${MONITORING_PASSWORD:0:3}***"[0m
+2025-01-14T10:38:51.0362884Z shell: /usr/bin/bash -e {0}
+2025-01-14T10:38:51.0363380Z env:
+2025-01-14T10:38:51.0363871Z   DB_WEDDING_SITE_USERNAME: ***
+2025-01-14T10:38:51.0364395Z   DB_WEDDING_SITE_PASSWORD: ***
+2025-01-14T10:38:51.0364898Z   DB_ROOT_PASSWORD: ***
+2025-01-14T10:38:51.0365376Z   MONITORING_PASSWORD: ***
+2025-01-14T10:38:51.0365822Z ##[endgroup]
+2025-01-14T10:38:51.0508072Z Debugging secrets...
+2025-01-14T10:38:51.0509062Z MONITORING_PASSWORD starts with: mon***
+2025-01-14T10:38:51.0551952Z ##[group]Run mkdir -p ~/.docker/cli-plugins/
+2025-01-14T10:38:51.0552847Z [36;1mmkdir -p ~/.docker/cli-plugins/[0m
+2025-01-14T10:38:51.0554023Z [36;1mcurl -SL https://github.com/docker/compose/releases/download/v2.31.0/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose[0m
+2025-01-14T10:38:51.0555251Z [36;1mchmod +x ~/.docker/cli-plugins/docker-compose[0m
+2025-01-14T10:38:51.0581498Z shell: /usr/bin/bash -e {0}
+2025-01-14T10:38:51.0581966Z env:
+2025-01-14T10:38:51.0582565Z   DB_WEDDING_SITE_USERNAME: ***
+2025-01-14T10:38:51.0583090Z   DB_WEDDING_SITE_PASSWORD: ***
+2025-01-14T10:38:51.0583584Z   DB_ROOT_PASSWORD: ***
+2025-01-14T10:38:51.0584050Z   MONITORING_PASSWORD: ***
+2025-01-14T10:38:51.0584493Z ##[endgroup]
+2025-01-14T10:38:51.0710934Z   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+2025-01-14T10:38:51.0712447Z                                  Dload  Upload   Total   Spent    Left  Speed
+2025-01-14T10:38:51.0713214Z 
+2025-01-14T10:38:51.2582930Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+2025-01-14T10:38:51.2583920Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+2025-01-14T10:38:52.0489631Z 
+2025-01-14T10:38:52.2380640Z  65 61.2M   65 40.0M    0     0  40.9M      0  0:00:01 --:--:--  0:00:01 40.9M
+2025-01-14T10:38:52.2431108Z 100 61.2M  100 61.2M    0     0  52.4M      0  0:00:01  0:00:01 --:--:--  112M
+2025-01-14T10:38:52.2501205Z ##[group]Run docker compose config
+2025-01-14T10:38:52.2502628Z [36;1mdocker compose config[0m
+2025-01-14T10:38:52.2530918Z shell: /usr/bin/bash -e {0}
+2025-01-14T10:38:52.2531972Z env:
+2025-01-14T10:38:52.2533395Z   DB_WEDDING_SITE_USERNAME: ***
+2025-01-14T10:38:52.2534601Z   DB_WEDDING_SITE_PASSWORD: ***
+2025-01-14T10:38:52.2535737Z   DB_ROOT_PASSWORD: ***
+2025-01-14T10:38:52.2536808Z   MONITORING_PASSWORD: ***
+2025-01-14T10:38:52.2537836Z ##[endgroup]
+2025-01-14T10:38:52.3823827Z name: wedding-site
+2025-01-14T10:38:52.3825308Z services:
+2025-01-14T10:38:52.3826465Z   mariadb:
+2025-01-14T10:38:52.3827642Z     command:
+2025-01-14T10:38:52.3828977Z       - --character-set-server=utf8mb4
+2025-01-14T10:38:52.3830811Z       - --collation-server=utf8mb4_unicode_ci
+2025-01-14T10:38:52.3832809Z       - --max-connections=50
+2025-01-14T10:38:52.3834450Z       - --innodb-buffer-pool-size=128M
+2025-01-14T10:38:52.3836270Z       - --expire-logs-days=0
+2025-01-14T10:38:52.3837901Z     container_name: wedding_mariadb
+2025-01-14T10:38:52.3839508Z     environment:
+2025-01-14T10:38:52.3840997Z       MARIADB_DATABASE: wedding_site
+2025-01-14T10:38:52.3843128Z       MARIADB_PASSWORD: ***
+2025-01-14T10:38:52.3844734Z       MARIADB_ROOT_PASSWORD: ***
+2025-01-14T10:38:52.3845832Z       MARIADB_USER: ***
+2025-01-14T10:38:52.3846828Z       MONITORING_PASSWORD: ***
+2025-01-14T10:38:52.3847805Z       TZ: UTC
+2025-01-14T10:38:52.3848610Z     healthcheck:
+2025-01-14T10:38:52.3849433Z       test:
+2025-01-14T10:38:52.3850219Z         - CMD
+2025-01-14T10:38:52.3851019Z         - mysqladmin
+2025-01-14T10:38:52.3851864Z         - ping
+2025-01-14T10:38:52.3852897Z         - -h
+2025-01-14T10:38:52.3853703Z         - localhost
+2025-01-14T10:38:52.3854526Z         - -u
+2025-01-14T10:38:52.3855328Z         - monitoring
+2025-01-14T10:38:52.3856381Z         - -p***
+2025-01-14T10:38:52.3857587Z       timeout: 5s
+2025-01-14T10:38:52.3859169Z       interval: 10s
+2025-01-14T10:38:52.3861122Z       retries: 3
+2025-01-14T10:38:52.3862562Z       start_period: 30s
+2025-01-14T10:38:52.3863507Z     image: mariadb:10.6
+2025-01-14T10:38:52.3864373Z     networks:
+2025-01-14T10:38:52.3865163Z       wedding_network: null
+2025-01-14T10:38:52.3866066Z     ports:
+2025-01-14T10:38:52.3866814Z       - mode: ingress
+2025-01-14T10:38:52.3867650Z         target: 3306
+2025-01-14T10:38:52.3868488Z         published: "3307"
+2025-01-14T10:38:52.3869401Z         protocol: tcp
+2025-01-14T10:38:52.3870269Z     restart: unless-stopped
+2025-01-14T10:38:52.3871202Z     volumes:
+2025-01-14T10:38:52.3871958Z       - type: volume
+2025-01-14T10:38:52.3873062Z         source: mariadb_data
+2025-01-14T10:38:52.3874003Z         target: /var/lib/mysql
+2025-01-14T10:38:52.3874935Z         volume: {}
+2025-01-14T10:38:52.3875710Z       - type: bind
+2025-01-14T10:38:52.3876901Z         source: /home/runner/work/wedding-site/wedding-site/init-scripts
+2025-01-14T10:38:52.3878456Z         target: /docker-entrypoint-initdb.d
+2025-01-14T10:38:52.3879535Z         bind:
+2025-01-14T10:38:52.3880316Z           create_host_path: true
+2025-01-14T10:38:52.3881269Z networks:
+2025-01-14T10:38:52.3881994Z   wedding_network:
+2025-01-14T10:38:52.3883016Z     name: wedding_network
+2025-01-14T10:38:52.3883894Z volumes:
+2025-01-14T10:38:52.3884612Z   mariadb_data:
+2025-01-14T10:38:52.3885415Z     name: wedding_mariadb_data
+2025-01-14T10:38:52.3946809Z ##[group]Run docker compose build
+2025-01-14T10:38:52.3947921Z [36;1mdocker compose build[0m
+2025-01-14T10:38:52.3976075Z shell: /usr/bin/bash -e {0}
+2025-01-14T10:38:52.3976988Z env:
+2025-01-14T10:38:52.3977863Z   DB_WEDDING_SITE_USERNAME: ***
+2025-01-14T10:38:52.3978903Z   DB_WEDDING_SITE_PASSWORD: ***
+2025-01-14T10:38:52.3979916Z   DB_ROOT_PASSWORD: ***
+2025-01-14T10:38:52.3980890Z   MONITORING_PASSWORD: ***
+2025-01-14T10:38:52.3981795Z ##[endgroup]
+2025-01-14T10:38:52.4659760Z ##[group]Run docker compose up -d
+2025-01-14T10:38:52.4661122Z [36;1mdocker compose up -d[0m
+2025-01-14T10:38:52.4662611Z [36;1mecho "Waiting for containers to initialize..."[0m
+2025-01-14T10:38:52.4663989Z [36;1msleep 30[0m
+2025-01-14T10:38:52.4692418Z shell: /usr/bin/bash -e {0}
+2025-01-14T10:38:52.4693474Z env:
+2025-01-14T10:38:52.4694472Z   DB_WEDDING_SITE_USERNAME: ***
+2025-01-14T10:38:52.4695640Z   DB_WEDDING_SITE_PASSWORD: ***
+2025-01-14T10:38:52.4696766Z   DB_ROOT_PASSWORD: ***
+2025-01-14T10:38:52.4697834Z   MONITORING_PASSWORD: ***
+2025-01-14T10:38:52.4698860Z ##[endgroup]
+2025-01-14T10:38:52.5251529Z  mariadb Pulling 
+2025-01-14T10:38:53.7804293Z  d9802f032d67 Pulling fs layer 
+2025-01-14T10:38:53.7805037Z  873038ceda5e Pulling fs layer 
+2025-01-14T10:38:53.7805410Z  e87af840c300 Pulling fs layer 
+2025-01-14T10:38:53.7805759Z  6c99d11262b2 Pulling fs layer 
+2025-01-14T10:38:53.7806117Z  38069d6a121a Pulling fs layer 
+2025-01-14T10:38:53.7806530Z  87679c50d17a Pulling fs layer 
+2025-01-14T10:38:53.7806840Z  0e7283181181 Pulling fs layer 
+2025-01-14T10:38:53.7807171Z  b0b462da5821 Pulling fs layer 
+2025-01-14T10:38:53.7807499Z  6c99d11262b2 Waiting 
+2025-01-14T10:38:53.7807812Z  87679c50d17a Waiting 
+2025-01-14T10:38:53.7808104Z  0e7283181181 Waiting 
+2025-01-14T10:38:53.7808396Z  38069d6a121a Waiting 
+2025-01-14T10:38:53.7808678Z  b0b462da5821 Waiting 
+2025-01-14T10:38:54.0366250Z  d9802f032d67 Downloading [>                                                  ]  276.7kB/27.51MB
+2025-01-14T10:38:54.0418251Z  873038ceda5e Downloading [=======================================>           ]  1.369kB/1.722kB
+2025-01-14T10:38:54.0419329Z  873038ceda5e Download complete 
+2025-01-14T10:38:54.0430396Z  e87af840c300 Downloading [>                                                  ]  73.99kB/7.193MB
+2025-01-14T10:38:54.0745715Z  e87af840c300 Download complete 
+2025-01-14T10:38:54.1364722Z  d9802f032d67 Download complete 
+2025-01-14T10:38:54.1762435Z  d9802f032d67 Extracting [>                                                  ]  294.9kB/27.51MB
+2025-01-14T10:38:54.2784430Z  d9802f032d67 Extracting [===========>                                       ]  6.193MB/27.51MB
+2025-01-14T10:38:54.3022877Z  6c99d11262b2 Downloading [==================================================>]     116B/116B
+2025-01-14T10:38:54.3023775Z  6c99d11262b2 Verifying Checksum 
+2025-01-14T10:38:54.3024182Z  6c99d11262b2 Download complete 
+2025-01-14T10:38:54.3329499Z  38069d6a121a Downloading [==================================================>]     332B/332B
+2025-01-14T10:38:54.3330373Z  38069d6a121a Verifying Checksum 
+2025-01-14T10:38:54.3331330Z  38069d6a121a Download complete 
+2025-01-14T10:38:54.3837568Z  87679c50d17a Downloading [>                                                  ]  540.7kB/86.31MB
+2025-01-14T10:38:54.3911321Z  d9802f032d67 Extracting [=================>                                 ]  9.732MB/27.51MB
+2025-01-14T10:38:54.4850246Z  87679c50d17a Downloading [=================>                                 ]  30.99MB/86.31MB
+2025-01-14T10:38:54.4927816Z  d9802f032d67 Extracting [========================>                          ]  13.27MB/27.51MB
+2025-01-14T10:38:54.5528971Z  0e7283181181 Downloading [========>                                          ]     720B/4.02kB
+2025-01-14T10:38:54.5530360Z  0e7283181181 Downloading [==================================================>]   4.02kB/4.02kB
+2025-01-14T10:38:54.5531373Z  0e7283181181 Verifying Checksum 
+2025-01-14T10:38:54.5531989Z  0e7283181181 Download complete 
+2025-01-14T10:38:54.5828528Z  b0b462da5821 Downloading [====>                                              ]     720B/8.229kB
+2025-01-14T10:38:54.5829620Z  b0b462da5821 Downloading [==================================================>]  8.229kB/8.229kB
+2025-01-14T10:38:54.5835059Z  b0b462da5821 Download complete 
+2025-01-14T10:38:54.5863803Z  87679c50d17a Downloading [==============================>                    ]  52.41MB/86.31MB
+2025-01-14T10:38:54.5942885Z  d9802f032d67 Extracting [===================================>               ]  19.46MB/27.51MB
+2025-01-14T10:38:54.6867301Z  87679c50d17a Downloading [===============================================>   ]  82.48MB/86.31MB
+2025-01-14T10:38:54.6959402Z  d9802f032d67 Extracting [=========================================>         ]     23MB/27.51MB
+2025-01-14T10:38:54.6977953Z  87679c50d17a Verifying Checksum 
+2025-01-14T10:38:54.6978626Z  87679c50d17a Download complete 
+2025-01-14T10:38:54.8184614Z  d9802f032d67 Extracting [==========================================>        ]   23.3MB/27.51MB
+2025-01-14T10:38:54.9349900Z  d9802f032d67 Extracting [===============================================>   ]  26.25MB/27.51MB
+2025-01-14T10:38:55.0388000Z  d9802f032d67 Extracting [=================================================> ]  27.13MB/27.51MB
+2025-01-14T10:38:55.1149774Z  d9802f032d67 Extracting [==================================================>]  27.51MB/27.51MB
+2025-01-14T10:38:55.1552442Z  d9802f032d67 Pull complete 
+2025-01-14T10:38:55.1568133Z  873038ceda5e Extracting [==================================================>]  1.722kB/1.722kB
+2025-01-14T10:38:55.1572626Z  873038ceda5e Extracting [==================================================>]  1.722kB/1.722kB
+2025-01-14T10:38:55.5106030Z  873038ceda5e Pull complete 
+2025-01-14T10:38:55.5122667Z  e87af840c300 Extracting [>                                                  ]   98.3kB/7.193MB
+2025-01-14T10:38:55.6124446Z  e87af840c300 Extracting [===================================>               ]  5.112MB/7.193MB
+2025-01-14T10:38:55.7277342Z  e87af840c300 Extracting [==========================================>        ]  6.095MB/7.193MB
+2025-01-14T10:38:55.8759098Z  e87af840c300 Extracting [===========================================>       ]  6.291MB/7.193MB
+2025-01-14T10:38:56.0098833Z  e87af840c300 Extracting [=============================================>     ]  6.488MB/7.193MB
+2025-01-14T10:38:56.0402274Z  e87af840c300 Extracting [==================================================>]  7.193MB/7.193MB
+2025-01-14T10:38:56.1185675Z  e87af840c300 Pull complete 
+2025-01-14T10:38:56.1198030Z  6c99d11262b2 Extracting [==================================================>]     116B/116B
+2025-01-14T10:38:56.1201839Z  6c99d11262b2 Extracting [==================================================>]     116B/116B
+2025-01-14T10:38:56.1294523Z  6c99d11262b2 Pull complete 
+2025-01-14T10:38:56.1307955Z  38069d6a121a Extracting [==================================================>]     332B/332B
+2025-01-14T10:38:56.1311504Z  38069d6a121a Extracting [==================================================>]     332B/332B
+2025-01-14T10:38:56.1400245Z  38069d6a121a Pull complete 
+2025-01-14T10:38:56.1634463Z  87679c50d17a Extracting [>                                                  ]  557.1kB/86.31MB
+2025-01-14T10:38:56.2682842Z  87679c50d17a Extracting [====>                                              ]  8.356MB/86.31MB
+2025-01-14T10:38:56.3709261Z  87679c50d17a Extracting [=========>                                         ]  16.71MB/86.31MB
+2025-01-14T10:38:56.4737777Z  87679c50d17a Extracting [==============>                                    ]  24.51MB/86.31MB
+2025-01-14T10:38:56.5791344Z  87679c50d17a Extracting [==================>                                ]  32.31MB/86.31MB
+2025-01-14T10:38:56.6796432Z  87679c50d17a Extracting [======================>                            ]  39.55MB/86.31MB
+2025-01-14T10:38:56.7833335Z  87679c50d17a Extracting [===========================>                       ]  47.91MB/86.31MB
+2025-01-14T10:38:56.8883491Z  87679c50d17a Extracting [=================================>                 ]  57.93MB/86.31MB
+2025-01-14T10:38:56.9936418Z  87679c50d17a Extracting [====================================>              ]  62.39MB/86.31MB
+2025-01-14T10:38:57.0960029Z  87679c50d17a Extracting [======================================>            ]  66.29MB/86.31MB
+2025-01-14T10:38:57.2128072Z  87679c50d17a Extracting [========================================>          ]  70.19MB/86.31MB
+2025-01-14T10:38:57.3178953Z  87679c50d17a Extracting [============================================>      ]  76.32MB/86.31MB
+2025-01-14T10:38:57.4247250Z  87679c50d17a Extracting [===============================================>   ]  81.33MB/86.31MB
+2025-01-14T10:38:57.5406956Z  87679c50d17a Extracting [================================================>  ]  83.56MB/86.31MB
+2025-01-14T10:38:57.7617297Z  87679c50d17a Extracting [=================================================> ]  85.79MB/86.31MB
+2025-01-14T10:38:57.8043346Z  87679c50d17a Extracting [==================================================>]  86.31MB/86.31MB
+2025-01-14T10:38:58.3200572Z  87679c50d17a Pull complete 
+2025-01-14T10:38:58.3213788Z  0e7283181181 Extracting [==================================================>]   4.02kB/4.02kB
+2025-01-14T10:38:58.3218514Z  0e7283181181 Extracting [==================================================>]   4.02kB/4.02kB
+2025-01-14T10:38:58.3354013Z  0e7283181181 Pull complete 
+2025-01-14T10:38:58.3368537Z  b0b462da5821 Extracting [==================================================>]  8.229kB/8.229kB
+2025-01-14T10:38:58.3371515Z  b0b462da5821 Extracting [==================================================>]  8.229kB/8.229kB
+2025-01-14T10:38:58.3486736Z  b0b462da5821 Pull complete 
+2025-01-14T10:38:58.3553436Z  mariadb Pulled 
+2025-01-14T10:38:58.3582729Z  Network wedding_network  Creating
+2025-01-14T10:38:58.4210000Z  Network wedding_network  Created
+2025-01-14T10:38:58.4214491Z  Volume "wedding_mariadb_data"  Creating
+2025-01-14T10:38:58.4228377Z  Volume "wedding_mariadb_data"  Created
+2025-01-14T10:38:58.4233515Z  Container wedding_mariadb  Creating
+2025-01-14T10:38:58.4499419Z  Container wedding_mariadb  Created
+2025-01-14T10:38:58.4507594Z  Container wedding_mariadb  Starting
+2025-01-14T10:38:58.7053604Z  Container wedding_mariadb  Started
+2025-01-14T10:38:58.7083280Z Waiting for containers to initialize...
+2025-01-14T10:39:28.7146471Z ##[group]Run docker compose ps
+2025-01-14T10:39:28.7146791Z [36;1mdocker compose ps[0m
+2025-01-14T10:39:28.7147028Z [36;1mdocker compose logs[0m
+2025-01-14T10:39:28.7147597Z [36;1mif [ "$(docker compose ps --format json | jq -r '.[].Health' | grep -v healthy)" ]; then[0m
+2025-01-14T10:39:28.7148031Z [36;1m  echo "Some containers are not healthy"[0m
+2025-01-14T10:39:28.7148298Z [36;1m  exit 1[0m
+2025-01-14T10:39:28.7148478Z [36;1mfi[0m
+2025-01-14T10:39:28.7176059Z shell: /usr/bin/bash -e {0}
+2025-01-14T10:39:28.7176296Z env:
+2025-01-14T10:39:28.7176627Z   DB_WEDDING_SITE_USERNAME: ***
+2025-01-14T10:39:28.7176892Z   DB_WEDDING_SITE_PASSWORD: ***
+2025-01-14T10:39:28.7177141Z   DB_ROOT_PASSWORD: ***
+2025-01-14T10:39:28.7177378Z   MONITORING_PASSWORD: ***
+2025-01-14T10:39:28.7177597Z ##[endgroup]
+2025-01-14T10:39:28.7738881Z NAME              IMAGE          COMMAND                  SERVICE   CREATED          STATUS                    PORTS
+2025-01-14T10:39:28.7746102Z wedding_mariadb   mariadb:10.6   "docker-entrypoint.s…"   mariadb   30 seconds ago   Up 30 seconds (healthy)   0.0.0.0:3307->3306/tcp, [::]:3307->3306/tcp
+2025-01-14T10:39:28.8442465Z wedding_mariadb  | 2025-01-14 10:38:58+00:00 [Note] [Entrypoint]: Entrypoint script for MariaDB Server 1:10.6.20+maria~ubu2004 started.
+2025-01-14T10:39:28.8443973Z wedding_mariadb  | 2025-01-14 10:38:58+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'
+2025-01-14T10:39:28.8445098Z wedding_mariadb  | 2025-01-14 10:38:58+00:00 [Note] [Entrypoint]: Entrypoint script for MariaDB Server 1:10.6.20+maria~ubu2004 started.
+2025-01-14T10:39:28.8446186Z wedding_mariadb  | 2025-01-14 10:38:58+00:00 [Note] [Entrypoint]: Initializing database files
+2025-01-14T10:39:28.8447150Z wedding_mariadb  | 2025-01-14 10:38:59+00:00 [Note] [Entrypoint]: Database files initialized
+2025-01-14T10:39:28.8448125Z wedding_mariadb  | 2025-01-14 10:38:59+00:00 [Note] [Entrypoint]: Starting temporary server
+2025-01-14T10:39:28.8449203Z wedding_mariadb  | 2025-01-14 10:38:59+00:00 [Note] [Entrypoint]: Waiting for server startup
+2025-01-14T10:39:28.8478288Z wedding_mariadb  | 2025-01-14 10:38:59 0 [Note] Starting MariaDB 10.6.20-MariaDB-ubu2004 source revision f00711bba2cd383825d0be1867f7d7d7f641c9e4 server_uid 72+4ASMvYxproTQgRqIDplDA1XA= as process 100
+2025-01-14T10:39:28.8479728Z wedding_mariadb  | 2025-01-14 10:38:59 0 [Note] InnoDB: Compressed tables use zlib 1.2.11
+2025-01-14T10:39:28.8480510Z wedding_mariadb  | 2025-01-14 10:38:59 0 [Note] InnoDB: Number of pools: 1
+2025-01-14T10:39:28.8481286Z wedding_mariadb  | 2025-01-14 10:38:59 0 [Note] InnoDB: Using crc32 + pclmulqdq instructions
+2025-01-14T10:39:28.8482389Z wedding_mariadb  | 2025-01-14 10:38:59 0 [Note] mariadbd: O_TMPFILE is not supported on /tmp (disabling future attempts)
+2025-01-14T10:39:28.8483327Z wedding_mariadb  | 2025-01-14 10:38:59 0 [Note] InnoDB: Using Linux native AIO
+2025-01-14T10:39:28.8484294Z wedding_mariadb  | 2025-01-14 10:38:59 0 [Note] InnoDB: Initializing buffer pool, total size = 134217728, chunk size = 134217728
+2025-01-14T10:39:28.8485382Z wedding_mariadb  | 2025-01-14 10:38:59 0 [Note] InnoDB: Completed initialization of buffer pool
+2025-01-14T10:39:28.8486281Z wedding_mariadb  | 2025-01-14 10:38:59 0 [Note] InnoDB: 128 rollback segments are active.
+2025-01-14T10:39:28.8487506Z wedding_mariadb  | 2025-01-14 10:38:59 0 [Note] InnoDB: Creating shared tablespace for temporary tables
+2025-01-14T10:39:28.8488675Z wedding_mariadb  | 2025-01-14 10:38:59 0 [Note] InnoDB: Setting file './ibtmp1' size to 12 MB. Physically writing the file full; Please wait ...
+2025-01-14T10:39:28.8489768Z wedding_mariadb  | 2025-01-14 10:38:59 0 [Note] InnoDB: File './ibtmp1' size is now 12 MB.
+2025-01-14T10:39:28.8490721Z wedding_mariadb  | 2025-01-14 10:38:59 0 [Note] InnoDB: 10.6.20 started; log sequence number 41342; transaction id 14
+2025-01-14T10:39:28.8491650Z wedding_mariadb  | 2025-01-14 10:38:59 0 [Note] Plugin 'FEEDBACK' is disabled.
+2025-01-14T10:39:28.8492964Z wedding_mariadb  | 2025-01-14 10:38:59 0 [Note] mariadbd: ready for connections.
+2025-01-14T10:39:28.8494080Z wedding_mariadb  | Version: '10.6.20-MariaDB-ubu2004'  socket: '/run/mysqld/mysqld.sock'  port: 0  mariadb.org binary distribution
+2025-01-14T10:39:28.8495517Z wedding_mariadb  | 2025-01-14 10:39:00+00:00 [Note] [Entrypoint]: Temporary server started.
+2025-01-14T10:39:28.8496466Z wedding_mariadb  | 2025-01-14 10:39:01+00:00 [Note] [Entrypoint]: Creating database wedding_site
+2025-01-14T10:39:28.8497583Z wedding_mariadb  | 2025-01-14 10:39:02+00:00 [Note] [Entrypoint]: Creating user ***
+2025-01-14T10:39:28.8498623Z wedding_mariadb  | 2025-01-14 10:39:02+00:00 [Note] [Entrypoint]: Giving user *** access to schema wedding_site
+2025-01-14T10:39:28.8499846Z wedding_mariadb  | 2025-01-14 10:39:02+00:00 [Note] [Entrypoint]: Securing system users (equivalent to running mysql_secure_installation)
+2025-01-14T10:39:28.8500787Z wedding_mariadb  | 
+2025-01-14T10:39:28.8501671Z wedding_mariadb  | 2025-01-14 10:39:02+00:00 [Note] [Entrypoint]: /usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/01-init.sql
+2025-01-14T10:39:28.8502861Z wedding_mariadb  | 
+2025-01-14T10:39:28.8503200Z wedding_mariadb  | 
+2025-01-14T10:39:28.8503771Z wedding_mariadb  | 2025-01-14 10:39:02+00:00 [Note] [Entrypoint]: Stopping temporary server
+2025-01-14T10:39:28.8504525Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] mariadbd (initiated by: unknown): Normal shutdown
+2025-01-14T10:39:28.8505033Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: FTS optimize thread exiting.
+2025-01-14T10:39:28.8505479Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: Starting shutdown...
+2025-01-14T10:39:28.8505992Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: Dumping buffer pool(s) to /var/lib/mysql/ib_buffer_pool
+2025-01-14T10:39:28.8506737Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: Buffer pool(s) dump completed at 250114 10:39:02
+2025-01-14T10:39:28.8507853Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: Removed temporary tablespace data file: "./ibtmp1"
+2025-01-14T10:39:28.8508917Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: Shutdown completed; log sequence number 42652; transaction id 15
+2025-01-14T10:39:28.8509477Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] mariadbd: Shutdown complete
+2025-01-14T10:39:28.8509820Z wedding_mariadb  | 
+2025-01-14T10:39:28.8510142Z wedding_mariadb  | 2025-01-14 10:39:02+00:00 [Note] [Entrypoint]: Temporary server stopped
+2025-01-14T10:39:28.8510498Z wedding_mariadb  | 
+2025-01-14T10:39:28.8510868Z wedding_mariadb  | 2025-01-14 10:39:02+00:00 [Note] [Entrypoint]: MariaDB init process done. Ready for start up.
+2025-01-14T10:39:28.8511512Z wedding_mariadb  | 
+2025-01-14T10:39:28.8512636Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] Starting MariaDB 10.6.20-MariaDB-ubu2004 source revision f00711bba2cd383825d0be1867f7d7d7f641c9e4 server_uid 72+4ASMvYxproTQgRqIDplDA1XA= as process 1
+2025-01-14T10:39:28.8513480Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: Compressed tables use zlib 1.2.11
+2025-01-14T10:39:28.8513932Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: Number of pools: 1
+2025-01-14T10:39:28.8514382Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: Using crc32 + pclmulqdq instructions
+2025-01-14T10:39:28.8515200Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] mariadbd: O_TMPFILE is not supported on /tmp (disabling future attempts)
+2025-01-14T10:39:28.8516150Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: Using Linux native AIO
+2025-01-14T10:39:28.8517134Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: Initializing buffer pool, total size = 134217728, chunk size = 134217728
+2025-01-14T10:39:28.8518188Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: Completed initialization of buffer pool
+2025-01-14T10:39:28.8519048Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: 128 rollback segments are active.
+2025-01-14T10:39:28.8519766Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: Creating shared tablespace for temporary tables
+2025-01-14T10:39:28.8520434Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: Setting file './ibtmp1' size to 12 MB. Physically writing the file full; Please wait ...
+2025-01-14T10:39:28.8521161Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: File './ibtmp1' size is now 12 MB.
+2025-01-14T10:39:28.8521692Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: 10.6.20 started; log sequence number 42652; transaction id 15
+2025-01-14T10:39:28.8522444Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] Plugin 'FEEDBACK' is disabled.
+2025-01-14T10:39:28.8523339Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: Loading buffer pool(s) from /var/lib/mysql/ib_buffer_pool
+2025-01-14T10:39:28.8524327Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: Buffer pool(s) load completed at 250114 10:39:02
+2025-01-14T10:39:28.8525234Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] Server socket created on IP: '0.0.0.0'.
+2025-01-14T10:39:28.8526110Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] Server socket created on IP: '::'.
+2025-01-14T10:39:28.8526903Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] mariadbd: ready for connections.
+2025-01-14T10:39:28.8527954Z wedding_mariadb  | Version: '10.6.20-MariaDB-ubu2004'  socket: '/run/mysqld/mysqld.sock'  port: 3306  mariadb.org binary distribution
+2025-01-14T10:39:28.8529216Z wedding_mariadb  | 2025-01-14 10:39:08 3 [Warning] Access denied for user 'monitoring'@'localhost' (using password: YES)
+2025-01-14T10:39:28.8530371Z wedding_mariadb  | 2025-01-14 10:39:18 4 [Warning] Access denied for user 'monitoring'@'localhost' (using password: YES)
+2025-01-14T10:39:28.8531516Z wedding_mariadb  | 2025-01-14 10:39:28 5 [Warning] Access denied for user 'monitoring'@'localhost' (using password: YES)
+2025-01-14T10:39:28.9028101Z jq: error (at <stdin>:1): Cannot index string with string "Health"
+2025-01-14T10:39:28.9094560Z ##[group]Run docker exec wedding_mariadb mysql -u${DB_WEDDING_SITE_USERNAME} -p${DB_WEDDING_SITE_PASSWORD} -e "SHOW DATABASES;"
+2025-01-14T10:39:28.9095366Z [36;1mdocker exec wedding_mariadb mysql -u${DB_WEDDING_SITE_USERNAME} -p${DB_WEDDING_SITE_PASSWORD} -e "SHOW DATABASES;"[0m
+2025-01-14T10:39:28.9123468Z shell: /usr/bin/bash -e {0}
+2025-01-14T10:39:28.9123729Z env:
+2025-01-14T10:39:28.9124010Z   DB_WEDDING_SITE_USERNAME: ***
+2025-01-14T10:39:28.9124280Z   DB_WEDDING_SITE_PASSWORD: ***
+2025-01-14T10:39:28.9124536Z   DB_ROOT_PASSWORD: ***
+2025-01-14T10:39:28.9124786Z   MONITORING_PASSWORD: ***
+2025-01-14T10:39:28.9125014Z ##[endgroup]
+2025-01-14T10:39:28.9750957Z Database
+2025-01-14T10:39:28.9751330Z information_schema
+2025-01-14T10:39:28.9751580Z wedding_site
+2025-01-14T10:39:28.9816146Z ##[group]Run docker compose down -v
+2025-01-14T10:39:28.9816466Z [36;1mdocker compose down -v[0m
+2025-01-14T10:39:28.9844297Z shell: /usr/bin/bash -e {0}
+2025-01-14T10:39:28.9844540Z env:
+2025-01-14T10:39:28.9844826Z   DB_WEDDING_SITE_USERNAME: ***
+2025-01-14T10:39:28.9845101Z   DB_WEDDING_SITE_PASSWORD: ***
+2025-01-14T10:39:28.9845400Z   DB_ROOT_PASSWORD: ***
+2025-01-14T10:39:28.9845643Z   MONITORING_PASSWORD: ***
+2025-01-14T10:39:28.9845858Z ##[endgroup]
+2025-01-14T10:39:29.0396767Z  Container wedding_mariadb  Stopping
+2025-01-14T10:39:29.3848662Z  Container wedding_mariadb  Stopped
+2025-01-14T10:39:29.3849196Z  Container wedding_mariadb  Removing
+2025-01-14T10:39:29.3897971Z  Container wedding_mariadb  Removed
+2025-01-14T10:39:29.3901125Z  Volume wedding_mariadb_data  Removing
+2025-01-14T10:39:29.3907074Z  Network wedding_network  Removing
+2025-01-14T10:39:29.4031787Z  Volume wedding_mariadb_data  Removed
+2025-01-14T10:39:29.4897669Z  Network wedding_network  Removed
+2025-01-14T10:39:29.5000684Z Post job cleanup.
+2025-01-14T10:39:29.5946627Z [command]/usr/bin/git version
+2025-01-14T10:39:29.5983391Z git version 2.47.1
+2025-01-14T10:39:29.6034724Z Temporarily overriding HOME='/home/runner/work/_temp/69c4ecac-3c00-4fff-a3cb-cb37d635dee8' before making global git config changes
+2025-01-14T10:39:29.6036045Z Adding repository directory to the temporary git global config as a safe directory
+2025-01-14T10:39:29.6048245Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/wedding-site/wedding-site
+2025-01-14T10:39:29.6081789Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-01-14T10:39:29.6114195Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-01-14T10:39:29.6343107Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-01-14T10:39:29.6364644Z http.https://github.com/.extraheader
+2025-01-14T10:39:29.6377056Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2025-01-14T10:39:29.6408091Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-01-14T10:39:29.6734443Z Cleaning up orphan processes

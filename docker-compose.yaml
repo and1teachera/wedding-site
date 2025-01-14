@@ -60,6 +60,31 @@ services:
       - --innodb-buffer-pool-size=128M
       - --expire-logs-days=0
 
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://mariadb:3306/wedding_site
+      - SPRING_DATASOURCE_USERNAME=${DB_WEDDING_SITE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${DB_WEDDING_SITE_PASSWORD}
+    depends_on:
+      mariadb:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - wedding_network
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 40s
+
 volumes:
   rabbitmq_data:
     name: wedding_rabbitmq_data

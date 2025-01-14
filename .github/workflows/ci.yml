@@ -60,7 +60,7 @@ jobs:
 
       - name: Test RabbitMQ
         run: |
-          python3 test_rabbitmq.py
+          python3 tests/test_rabbitmq.py
         env:
           RABBITMQ_USER: ${{ secrets.RABBITMQ_USER }}
           RABBITMQ_PASSWORD: ${{ secrets.RABBITMQ_PASSWORD }}

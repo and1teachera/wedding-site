@@ -1,0 +1,37 @@
+services:
+  mariadb:
+    image: mariadb:10.6
+    container_name: wedding_mariadb
+    restart: unless-stopped
+    environment:
+      MARIADB_USER: "${DB_WEDDING_SITE_USERNAME}"
+      MARIADB_PASSWORD: "${DB_WEDDING_SITE_PASSWORD}"
+      MARIADB_DATABASE: "wedding_site"
+      MARIADB_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
+      TZ: "UTC"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    networks:
+      - wedding_network
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --max-connections=50
+      - --innodb-buffer-pool-size=128M
+
+volumes:
+  mariadb_data:
+    name: wedding_mariadb_data
+
+networks:
+  wedding_network:
+    name: wedding_network

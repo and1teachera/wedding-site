@@ -12,9 +12,15 @@ jobs:
   docker-compose-validation:
     runs-on: ubuntu-latest
 
+    env:
+      DB_WEDDING_SITE_USERNAME: ${{ secrets.DB_WEDDING_SITE_USERNAME }}
+      DB_WEDDING_SITE_PASSWORD: ${{ secrets.DB_WEDDING_SITE_PASSWORD }}
+      DB_ROOT_PASSWORD: ${{ secrets.DB_ROOT_PASSWORD }}
+      MONITORING_PASSWORD: ${{ secrets.MONITORING_PASSWORD }}
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install Docker Compose V2
         run: |
@@ -26,14 +32,9 @@ jobs:
         run: docker compose config
 
       - name: Build Docker images
-        run: docker compose build --quiet-pull
+        run: docker compose build
 
       - name: Start containers
-        env:
-          DB_WEDDING_SITE_USERNAME: ${{ secrets.DB_WEDDING_SITE_USERNAME }}
-          DB_WEDDING_SITE_PASSWORD: ${{ secrets.DB_WEDDING_SITE_PASSWORD }}
-          DB_ROOT_PASSWORD: ${{ secrets.DB_ROOT_PASSWORD }}
-          MONITORING_PASSWORD: ${{ secrets.MONITORING_PASSWORD }}
         run: |
           docker compose up -d
           echo "Waiting for containers to initialize..."
@@ -49,9 +50,6 @@ jobs:
           fi
 
       - name: Test MariaDB
-        env:
-          DB_WEDDING_SITE_USERNAME: ${{ secrets.DB_WEDDING_SITE_USERNAME }}
-          DB_WEDDING_SITE_PASSWORD: ${{ secrets.DB_WEDDING_SITE_PASSWORD }}
         run: |
           docker exec wedding_mariadb mysql -u${DB_WEDDING_SITE_USERNAME} -p${DB_WEDDING_SITE_PASSWORD} -e "SHOW DATABASES;"
 

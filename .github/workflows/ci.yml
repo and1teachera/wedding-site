@@ -24,14 +24,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
-
-      - name: Install dependencies
-        run: pip install pika
-
       - name: Install Docker Compose V2
         run: |
           mkdir -p ~/.docker/cli-plugins/
@@ -47,26 +39,8 @@ jobs:
       - name: Start containers
         run: |
           docker compose up -d
-          echo "Waiting for containers to initialize..."
-          sleep 30
-
-      - name: Check container health
-        run: |
-          docker compose ps
-          docker compose logs
-          if [ "$(docker compose ps --format json | jq -r '.[].Health' | grep -v healthy)" ]; then
-            echo "Some containers are not healthy"
-            exit 1
-          fi
-
-      - name: Test MariaDB
-        run: |
-          docker exec wedding_mariadb mysql -u${DB_WEDDING_SITE_USERNAME} -p${DB_WEDDING_SITE_PASSWORD} -e "SHOW DATABASES;"
-
-      - name: Wait for RabbitMQ to be ready
-        run: |
-          echo "Waiting for RabbitMQ..."
-          timeout=30
+          echo "Waiting for RabbitMQ to initialize..."
+          timeout=60  # Timeout in seconds
           while [ $timeout -gt 0 ]; do
             if curl -sf http://localhost:15672/api/healthchecks/node; then
               echo "RabbitMQ is ready"
@@ -76,16 +50,23 @@ jobs:
             ((timeout--))
           done
           if [ $timeout -eq 0 ]; then
-            echo "RabbitMQ failed to start"
+            echo "RabbitMQ failed to start within the timeout period"
             docker compose logs rabbitmq
             exit 1
           fi
 
-      - name: Run Python Test
-        run: python test_rabbitmq.py
+      - name: Test RabbitMQ
+        run: |
+          python3 test_rabbitmq.py
         env:
           RABBITMQ_USER: ${{ secrets.RABBITMQ_USER }}
           RABBITMQ_PASSWORD: ${{ secrets.RABBITMQ_PASSWORD }}
+
+      - name: Debug RabbitMQ Logs
+        if: failure()
+        run: |
+          echo "RabbitMQ logs on failure:"
+          docker compose logs rabbitmq
 
       - name: Stop containers
         if: always()

@@ -1,457 +1,997 @@
-2025-01-14T10:38:49.7040581Z Current runner version: '2.321.0'
-2025-01-14T10:38:49.7067181Z ##[group]Operating System
-2025-01-14T10:38:49.7068052Z Ubuntu
-2025-01-14T10:38:49.7068573Z 24.04.1
-2025-01-14T10:38:49.7069118Z LTS
-2025-01-14T10:38:49.7069622Z ##[endgroup]
-2025-01-14T10:38:49.7070141Z ##[group]Runner Image
-2025-01-14T10:38:49.7070768Z Image: ubuntu-24.04
-2025-01-14T10:38:49.7071322Z Version: 20250105.1.0
-2025-01-14T10:38:49.7072541Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20250105.1/images/ubuntu/Ubuntu2404-Readme.md
-2025-01-14T10:38:49.7073994Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20250105.1
-2025-01-14T10:38:49.7074930Z ##[endgroup]
-2025-01-14T10:38:49.7075460Z ##[group]Runner Image Provisioner
-2025-01-14T10:38:49.7076130Z 2.0.404.1
-2025-01-14T10:38:49.7076649Z ##[endgroup]
-2025-01-14T10:38:49.7077796Z ##[group]GITHUB_TOKEN Permissions
-2025-01-14T10:38:49.7079666Z Contents: read
-2025-01-14T10:38:49.7080199Z Metadata: read
-2025-01-14T10:38:49.7081101Z Packages: read
-2025-01-14T10:38:49.7081797Z ##[endgroup]
-2025-01-14T10:38:49.7085003Z Secret source: Actions
-2025-01-14T10:38:49.7085720Z Prepare workflow directory
-2025-01-14T10:38:49.7576935Z Prepare all required actions
-2025-01-14T10:38:49.7612894Z Getting action download info
-2025-01-14T10:38:49.9424579Z Download action repository 'actions/checkout@v4' (SHA:11bd71901bbe5b1630ceea73d27597364c9af683)
-2025-01-14T10:38:50.1199844Z Complete job name: docker-compose-validation
-2025-01-14T10:38:50.1873618Z ##[group]Run actions/checkout@v4
-2025-01-14T10:38:50.1874474Z with:
-2025-01-14T10:38:50.1874963Z   repository: and1teachera/wedding-site
-2025-01-14T10:38:50.1875678Z   token: ***
-2025-01-14T10:38:50.1876088Z   ssh-strict: true
-2025-01-14T10:38:50.1876508Z   ssh-user: git
-2025-01-14T10:38:50.1876947Z   persist-credentials: true
-2025-01-14T10:38:50.1877454Z   clean: true
-2025-01-14T10:38:50.1877903Z   sparse-checkout-cone-mode: true
-2025-01-14T10:38:50.1878418Z   fetch-depth: 1
-2025-01-14T10:38:50.1878836Z   fetch-tags: false
-2025-01-14T10:38:50.1879304Z   show-progress: true
-2025-01-14T10:38:50.1879782Z   lfs: false
-2025-01-14T10:38:50.1880238Z   submodules: false
-2025-01-14T10:38:50.1880730Z   set-safe-directory: true
-2025-01-14T10:38:50.1881445Z env:
-2025-01-14T10:38:50.1881899Z   DB_WEDDING_SITE_USERNAME: ***
-2025-01-14T10:38:50.1882599Z   DB_WEDDING_SITE_PASSWORD: ***
-2025-01-14T10:38:50.1883160Z   DB_ROOT_PASSWORD: ***
-2025-01-14T10:38:50.1883650Z   MONITORING_PASSWORD: ***
-2025-01-14T10:38:50.1884163Z ##[endgroup]
-2025-01-14T10:38:50.4783372Z Syncing repository: and1teachera/wedding-site
-2025-01-14T10:38:50.4785638Z ##[group]Getting Git version info
-2025-01-14T10:38:50.4786911Z Working directory is '/home/runner/work/wedding-site/wedding-site'
-2025-01-14T10:38:50.4788131Z [command]/usr/bin/git version
-2025-01-14T10:38:50.4891310Z git version 2.47.1
-2025-01-14T10:38:50.4921769Z ##[endgroup]
-2025-01-14T10:38:50.4937951Z Temporarily overriding HOME='/home/runner/work/_temp/46acd456-7678-4c15-b1e6-9ef40b8afec6' before making global git config changes
-2025-01-14T10:38:50.4940418Z Adding repository directory to the temporary git global config as a safe directory
-2025-01-14T10:38:50.4944660Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/wedding-site/wedding-site
-2025-01-14T10:38:50.4982097Z Deleting the contents of '/home/runner/work/wedding-site/wedding-site'
-2025-01-14T10:38:50.4986378Z ##[group]Initializing the repository
-2025-01-14T10:38:50.4991074Z [command]/usr/bin/git init /home/runner/work/wedding-site/wedding-site
-2025-01-14T10:38:50.5091699Z hint: Using 'master' as the name for the initial branch. This default branch name
-2025-01-14T10:38:50.5093326Z hint: is subject to change. To configure the initial branch name to use in all
-2025-01-14T10:38:50.5094261Z hint: of your new repositories, which will suppress this warning, call:
-2025-01-14T10:38:50.5094949Z hint:
-2025-01-14T10:38:50.5095459Z hint: 	git config --global init.defaultBranch <name>
-2025-01-14T10:38:50.5096160Z hint:
-2025-01-14T10:38:50.5097028Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
-2025-01-14T10:38:50.5098166Z hint: 'development'. The just-created branch can be renamed via this command:
-2025-01-14T10:38:50.5099328Z hint:
-2025-01-14T10:38:50.5099759Z hint: 	git branch -m <name>
-2025-01-14T10:38:50.5101046Z Initialized empty Git repository in /home/runner/work/wedding-site/wedding-site/.git/
-2025-01-14T10:38:50.5112507Z [command]/usr/bin/git remote add origin https://github.com/and1teachera/wedding-site
-2025-01-14T10:38:50.5158250Z ##[endgroup]
-2025-01-14T10:38:50.5159544Z ##[group]Disabling automatic garbage collection
-2025-01-14T10:38:50.5163097Z [command]/usr/bin/git config --local gc.auto 0
-2025-01-14T10:38:50.5193057Z ##[endgroup]
-2025-01-14T10:38:50.5194374Z ##[group]Setting up auth
-2025-01-14T10:38:50.5200666Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
-2025-01-14T10:38:50.5231860Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
-2025-01-14T10:38:50.5625005Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
-2025-01-14T10:38:50.5656838Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
-2025-01-14T10:38:50.5883331Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
-2025-01-14T10:38:50.5921968Z ##[endgroup]
-2025-01-14T10:38:50.5931460Z ##[group]Fetching the repository
-2025-01-14T10:38:50.5933239Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +447fc0c339883204072ff17808f216b43935f7ca:refs/remotes/pull/19/merge
-2025-01-14T10:38:50.9911316Z From https://github.com/and1teachera/wedding-site
-2025-01-14T10:38:50.9913119Z  * [new ref]         447fc0c339883204072ff17808f216b43935f7ca -> pull/19/merge
-2025-01-14T10:38:50.9940245Z ##[endgroup]
-2025-01-14T10:38:50.9940983Z ##[group]Determining the checkout info
-2025-01-14T10:38:50.9942584Z ##[endgroup]
-2025-01-14T10:38:50.9947547Z [command]/usr/bin/git sparse-checkout disable
-2025-01-14T10:38:50.9989409Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
-2025-01-14T10:38:51.0015813Z ##[group]Checking out the ref
-2025-01-14T10:38:51.0020519Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/19/merge
-2025-01-14T10:38:51.0061787Z Note: switching to 'refs/remotes/pull/19/merge'.
-2025-01-14T10:38:51.0062540Z 
-2025-01-14T10:38:51.0062944Z You are in 'detached HEAD' state. You can look around, make experimental
-2025-01-14T10:38:51.0063824Z changes and commit them, and you can discard any commits you make in this
-2025-01-14T10:38:51.0064691Z state without impacting any branches by switching back to a branch.
-2025-01-14T10:38:51.0065214Z 
-2025-01-14T10:38:51.0065549Z If you want to create a new branch to retain commits you create, you may
-2025-01-14T10:38:51.0066857Z do so (now or later) by using -c with the switch command. Example:
-2025-01-14T10:38:51.0067749Z 
-2025-01-14T10:38:51.0068151Z   git switch -c <new-branch-name>
-2025-01-14T10:38:51.0068817Z 
-2025-01-14T10:38:51.0069215Z Or undo this operation with:
-2025-01-14T10:38:51.0069809Z 
-2025-01-14T10:38:51.0070167Z   git switch -
-2025-01-14T10:38:51.0070605Z 
-2025-01-14T10:38:51.0071271Z Turn off this advice by setting config variable advice.detachedHead to false
-2025-01-14T10:38:51.0072440Z 
-2025-01-14T10:38:51.0073555Z HEAD is now at 447fc0c Merge 3334126b9683b7d9bf5784297858a4abf1f040d5 into fa6dff406187f291a93c61092aa5842a215cd76b
-2025-01-14T10:38:51.0076809Z ##[endgroup]
-2025-01-14T10:38:51.0111174Z [command]/usr/bin/git log -1 --format=%H
-2025-01-14T10:38:51.0133053Z 447fc0c339883204072ff17808f216b43935f7ca
-2025-01-14T10:38:51.0329740Z ##[group]Run echo "Debugging secrets..."
-2025-01-14T10:38:51.0330598Z [36;1mecho "Debugging secrets..."[0m
-2025-01-14T10:38:51.0331351Z [36;1mecho "MONITORING_PASSWORD starts with: ${MONITORING_PASSWORD:0:3}***"[0m
-2025-01-14T10:38:51.0362884Z shell: /usr/bin/bash -e {0}
-2025-01-14T10:38:51.0363380Z env:
-2025-01-14T10:38:51.0363871Z   DB_WEDDING_SITE_USERNAME: ***
-2025-01-14T10:38:51.0364395Z   DB_WEDDING_SITE_PASSWORD: ***
-2025-01-14T10:38:51.0364898Z   DB_ROOT_PASSWORD: ***
-2025-01-14T10:38:51.0365376Z   MONITORING_PASSWORD: ***
-2025-01-14T10:38:51.0365822Z ##[endgroup]
-2025-01-14T10:38:51.0508072Z Debugging secrets...
-2025-01-14T10:38:51.0509062Z MONITORING_PASSWORD starts with: mon***
-2025-01-14T10:38:51.0551952Z ##[group]Run mkdir -p ~/.docker/cli-plugins/
-2025-01-14T10:38:51.0552847Z [36;1mmkdir -p ~/.docker/cli-plugins/[0m
-2025-01-14T10:38:51.0554023Z [36;1mcurl -SL https://github.com/docker/compose/releases/download/v2.31.0/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose[0m
-2025-01-14T10:38:51.0555251Z [36;1mchmod +x ~/.docker/cli-plugins/docker-compose[0m
-2025-01-14T10:38:51.0581498Z shell: /usr/bin/bash -e {0}
-2025-01-14T10:38:51.0581966Z env:
-2025-01-14T10:38:51.0582565Z   DB_WEDDING_SITE_USERNAME: ***
-2025-01-14T10:38:51.0583090Z   DB_WEDDING_SITE_PASSWORD: ***
-2025-01-14T10:38:51.0583584Z   DB_ROOT_PASSWORD: ***
-2025-01-14T10:38:51.0584050Z   MONITORING_PASSWORD: ***
-2025-01-14T10:38:51.0584493Z ##[endgroup]
-2025-01-14T10:38:51.0710934Z   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-2025-01-14T10:38:51.0712447Z                                  Dload  Upload   Total   Spent    Left  Speed
-2025-01-14T10:38:51.0713214Z 
-2025-01-14T10:38:51.2582930Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
-2025-01-14T10:38:51.2583920Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
-2025-01-14T10:38:52.0489631Z 
-2025-01-14T10:38:52.2380640Z  65 61.2M   65 40.0M    0     0  40.9M      0  0:00:01 --:--:--  0:00:01 40.9M
-2025-01-14T10:38:52.2431108Z 100 61.2M  100 61.2M    0     0  52.4M      0  0:00:01  0:00:01 --:--:--  112M
-2025-01-14T10:38:52.2501205Z ##[group]Run docker compose config
-2025-01-14T10:38:52.2502628Z [36;1mdocker compose config[0m
-2025-01-14T10:38:52.2530918Z shell: /usr/bin/bash -e {0}
-2025-01-14T10:38:52.2531972Z env:
-2025-01-14T10:38:52.2533395Z   DB_WEDDING_SITE_USERNAME: ***
-2025-01-14T10:38:52.2534601Z   DB_WEDDING_SITE_PASSWORD: ***
-2025-01-14T10:38:52.2535737Z   DB_ROOT_PASSWORD: ***
-2025-01-14T10:38:52.2536808Z   MONITORING_PASSWORD: ***
-2025-01-14T10:38:52.2537836Z ##[endgroup]
-2025-01-14T10:38:52.3823827Z name: wedding-site
-2025-01-14T10:38:52.3825308Z services:
-2025-01-14T10:38:52.3826465Z   mariadb:
-2025-01-14T10:38:52.3827642Z     command:
-2025-01-14T10:38:52.3828977Z       - --character-set-server=utf8mb4
-2025-01-14T10:38:52.3830811Z       - --collation-server=utf8mb4_unicode_ci
-2025-01-14T10:38:52.3832809Z       - --max-connections=50
-2025-01-14T10:38:52.3834450Z       - --innodb-buffer-pool-size=128M
-2025-01-14T10:38:52.3836270Z       - --expire-logs-days=0
-2025-01-14T10:38:52.3837901Z     container_name: wedding_mariadb
-2025-01-14T10:38:52.3839508Z     environment:
-2025-01-14T10:38:52.3840997Z       MARIADB_DATABASE: wedding_site
-2025-01-14T10:38:52.3843128Z       MARIADB_PASSWORD: ***
-2025-01-14T10:38:52.3844734Z       MARIADB_ROOT_PASSWORD: ***
-2025-01-14T10:38:52.3845832Z       MARIADB_USER: ***
-2025-01-14T10:38:52.3846828Z       MONITORING_PASSWORD: ***
-2025-01-14T10:38:52.3847805Z       TZ: UTC
-2025-01-14T10:38:52.3848610Z     healthcheck:
-2025-01-14T10:38:52.3849433Z       test:
-2025-01-14T10:38:52.3850219Z         - CMD
-2025-01-14T10:38:52.3851019Z         - mysqladmin
-2025-01-14T10:38:52.3851864Z         - ping
-2025-01-14T10:38:52.3852897Z         - -h
-2025-01-14T10:38:52.3853703Z         - localhost
-2025-01-14T10:38:52.3854526Z         - -u
-2025-01-14T10:38:52.3855328Z         - monitoring
-2025-01-14T10:38:52.3856381Z         - -p***
-2025-01-14T10:38:52.3857587Z       timeout: 5s
-2025-01-14T10:38:52.3859169Z       interval: 10s
-2025-01-14T10:38:52.3861122Z       retries: 3
-2025-01-14T10:38:52.3862562Z       start_period: 30s
-2025-01-14T10:38:52.3863507Z     image: mariadb:10.6
-2025-01-14T10:38:52.3864373Z     networks:
-2025-01-14T10:38:52.3865163Z       wedding_network: null
-2025-01-14T10:38:52.3866066Z     ports:
-2025-01-14T10:38:52.3866814Z       - mode: ingress
-2025-01-14T10:38:52.3867650Z         target: 3306
-2025-01-14T10:38:52.3868488Z         published: "3307"
-2025-01-14T10:38:52.3869401Z         protocol: tcp
-2025-01-14T10:38:52.3870269Z     restart: unless-stopped
-2025-01-14T10:38:52.3871202Z     volumes:
-2025-01-14T10:38:52.3871958Z       - type: volume
-2025-01-14T10:38:52.3873062Z         source: mariadb_data
-2025-01-14T10:38:52.3874003Z         target: /var/lib/mysql
-2025-01-14T10:38:52.3874935Z         volume: {}
-2025-01-14T10:38:52.3875710Z       - type: bind
-2025-01-14T10:38:52.3876901Z         source: /home/runner/work/wedding-site/wedding-site/init-scripts
-2025-01-14T10:38:52.3878456Z         target: /docker-entrypoint-initdb.d
-2025-01-14T10:38:52.3879535Z         bind:
-2025-01-14T10:38:52.3880316Z           create_host_path: true
-2025-01-14T10:38:52.3881269Z networks:
-2025-01-14T10:38:52.3881994Z   wedding_network:
-2025-01-14T10:38:52.3883016Z     name: wedding_network
-2025-01-14T10:38:52.3883894Z volumes:
-2025-01-14T10:38:52.3884612Z   mariadb_data:
-2025-01-14T10:38:52.3885415Z     name: wedding_mariadb_data
-2025-01-14T10:38:52.3946809Z ##[group]Run docker compose build
-2025-01-14T10:38:52.3947921Z [36;1mdocker compose build[0m
-2025-01-14T10:38:52.3976075Z shell: /usr/bin/bash -e {0}
-2025-01-14T10:38:52.3976988Z env:
-2025-01-14T10:38:52.3977863Z   DB_WEDDING_SITE_USERNAME: ***
-2025-01-14T10:38:52.3978903Z   DB_WEDDING_SITE_PASSWORD: ***
-2025-01-14T10:38:52.3979916Z   DB_ROOT_PASSWORD: ***
-2025-01-14T10:38:52.3980890Z   MONITORING_PASSWORD: ***
-2025-01-14T10:38:52.3981795Z ##[endgroup]
-2025-01-14T10:38:52.4659760Z ##[group]Run docker compose up -d
-2025-01-14T10:38:52.4661122Z [36;1mdocker compose up -d[0m
-2025-01-14T10:38:52.4662611Z [36;1mecho "Waiting for containers to initialize..."[0m
-2025-01-14T10:38:52.4663989Z [36;1msleep 30[0m
-2025-01-14T10:38:52.4692418Z shell: /usr/bin/bash -e {0}
-2025-01-14T10:38:52.4693474Z env:
-2025-01-14T10:38:52.4694472Z   DB_WEDDING_SITE_USERNAME: ***
-2025-01-14T10:38:52.4695640Z   DB_WEDDING_SITE_PASSWORD: ***
-2025-01-14T10:38:52.4696766Z   DB_ROOT_PASSWORD: ***
-2025-01-14T10:38:52.4697834Z   MONITORING_PASSWORD: ***
-2025-01-14T10:38:52.4698860Z ##[endgroup]
-2025-01-14T10:38:52.5251529Z  mariadb Pulling 
-2025-01-14T10:38:53.7804293Z  d9802f032d67 Pulling fs layer 
-2025-01-14T10:38:53.7805037Z  873038ceda5e Pulling fs layer 
-2025-01-14T10:38:53.7805410Z  e87af840c300 Pulling fs layer 
-2025-01-14T10:38:53.7805759Z  6c99d11262b2 Pulling fs layer 
-2025-01-14T10:38:53.7806117Z  38069d6a121a Pulling fs layer 
-2025-01-14T10:38:53.7806530Z  87679c50d17a Pulling fs layer 
-2025-01-14T10:38:53.7806840Z  0e7283181181 Pulling fs layer 
-2025-01-14T10:38:53.7807171Z  b0b462da5821 Pulling fs layer 
-2025-01-14T10:38:53.7807499Z  6c99d11262b2 Waiting 
-2025-01-14T10:38:53.7807812Z  87679c50d17a Waiting 
-2025-01-14T10:38:53.7808104Z  0e7283181181 Waiting 
-2025-01-14T10:38:53.7808396Z  38069d6a121a Waiting 
-2025-01-14T10:38:53.7808678Z  b0b462da5821 Waiting 
-2025-01-14T10:38:54.0366250Z  d9802f032d67 Downloading [>                                                  ]  276.7kB/27.51MB
-2025-01-14T10:38:54.0418251Z  873038ceda5e Downloading [=======================================>           ]  1.369kB/1.722kB
-2025-01-14T10:38:54.0419329Z  873038ceda5e Download complete 
-2025-01-14T10:38:54.0430396Z  e87af840c300 Downloading [>                                                  ]  73.99kB/7.193MB
-2025-01-14T10:38:54.0745715Z  e87af840c300 Download complete 
-2025-01-14T10:38:54.1364722Z  d9802f032d67 Download complete 
-2025-01-14T10:38:54.1762435Z  d9802f032d67 Extracting [>                                                  ]  294.9kB/27.51MB
-2025-01-14T10:38:54.2784430Z  d9802f032d67 Extracting [===========>                                       ]  6.193MB/27.51MB
-2025-01-14T10:38:54.3022877Z  6c99d11262b2 Downloading [==================================================>]     116B/116B
-2025-01-14T10:38:54.3023775Z  6c99d11262b2 Verifying Checksum 
-2025-01-14T10:38:54.3024182Z  6c99d11262b2 Download complete 
-2025-01-14T10:38:54.3329499Z  38069d6a121a Downloading [==================================================>]     332B/332B
-2025-01-14T10:38:54.3330373Z  38069d6a121a Verifying Checksum 
-2025-01-14T10:38:54.3331330Z  38069d6a121a Download complete 
-2025-01-14T10:38:54.3837568Z  87679c50d17a Downloading [>                                                  ]  540.7kB/86.31MB
-2025-01-14T10:38:54.3911321Z  d9802f032d67 Extracting [=================>                                 ]  9.732MB/27.51MB
-2025-01-14T10:38:54.4850246Z  87679c50d17a Downloading [=================>                                 ]  30.99MB/86.31MB
-2025-01-14T10:38:54.4927816Z  d9802f032d67 Extracting [========================>                          ]  13.27MB/27.51MB
-2025-01-14T10:38:54.5528971Z  0e7283181181 Downloading [========>                                          ]     720B/4.02kB
-2025-01-14T10:38:54.5530360Z  0e7283181181 Downloading [==================================================>]   4.02kB/4.02kB
-2025-01-14T10:38:54.5531373Z  0e7283181181 Verifying Checksum 
-2025-01-14T10:38:54.5531989Z  0e7283181181 Download complete 
-2025-01-14T10:38:54.5828528Z  b0b462da5821 Downloading [====>                                              ]     720B/8.229kB
-2025-01-14T10:38:54.5829620Z  b0b462da5821 Downloading [==================================================>]  8.229kB/8.229kB
-2025-01-14T10:38:54.5835059Z  b0b462da5821 Download complete 
-2025-01-14T10:38:54.5863803Z  87679c50d17a Downloading [==============================>                    ]  52.41MB/86.31MB
-2025-01-14T10:38:54.5942885Z  d9802f032d67 Extracting [===================================>               ]  19.46MB/27.51MB
-2025-01-14T10:38:54.6867301Z  87679c50d17a Downloading [===============================================>   ]  82.48MB/86.31MB
-2025-01-14T10:38:54.6959402Z  d9802f032d67 Extracting [=========================================>         ]     23MB/27.51MB
-2025-01-14T10:38:54.6977953Z  87679c50d17a Verifying Checksum 
-2025-01-14T10:38:54.6978626Z  87679c50d17a Download complete 
-2025-01-14T10:38:54.8184614Z  d9802f032d67 Extracting [==========================================>        ]   23.3MB/27.51MB
-2025-01-14T10:38:54.9349900Z  d9802f032d67 Extracting [===============================================>   ]  26.25MB/27.51MB
-2025-01-14T10:38:55.0388000Z  d9802f032d67 Extracting [=================================================> ]  27.13MB/27.51MB
-2025-01-14T10:38:55.1149774Z  d9802f032d67 Extracting [==================================================>]  27.51MB/27.51MB
-2025-01-14T10:38:55.1552442Z  d9802f032d67 Pull complete 
-2025-01-14T10:38:55.1568133Z  873038ceda5e Extracting [==================================================>]  1.722kB/1.722kB
-2025-01-14T10:38:55.1572626Z  873038ceda5e Extracting [==================================================>]  1.722kB/1.722kB
-2025-01-14T10:38:55.5106030Z  873038ceda5e Pull complete 
-2025-01-14T10:38:55.5122667Z  e87af840c300 Extracting [>                                                  ]   98.3kB/7.193MB
-2025-01-14T10:38:55.6124446Z  e87af840c300 Extracting [===================================>               ]  5.112MB/7.193MB
-2025-01-14T10:38:55.7277342Z  e87af840c300 Extracting [==========================================>        ]  6.095MB/7.193MB
-2025-01-14T10:38:55.8759098Z  e87af840c300 Extracting [===========================================>       ]  6.291MB/7.193MB
-2025-01-14T10:38:56.0098833Z  e87af840c300 Extracting [=============================================>     ]  6.488MB/7.193MB
-2025-01-14T10:38:56.0402274Z  e87af840c300 Extracting [==================================================>]  7.193MB/7.193MB
-2025-01-14T10:38:56.1185675Z  e87af840c300 Pull complete 
-2025-01-14T10:38:56.1198030Z  6c99d11262b2 Extracting [==================================================>]     116B/116B
-2025-01-14T10:38:56.1201839Z  6c99d11262b2 Extracting [==================================================>]     116B/116B
-2025-01-14T10:38:56.1294523Z  6c99d11262b2 Pull complete 
-2025-01-14T10:38:56.1307955Z  38069d6a121a Extracting [==================================================>]     332B/332B
-2025-01-14T10:38:56.1311504Z  38069d6a121a Extracting [==================================================>]     332B/332B
-2025-01-14T10:38:56.1400245Z  38069d6a121a Pull complete 
-2025-01-14T10:38:56.1634463Z  87679c50d17a Extracting [>                                                  ]  557.1kB/86.31MB
-2025-01-14T10:38:56.2682842Z  87679c50d17a Extracting [====>                                              ]  8.356MB/86.31MB
-2025-01-14T10:38:56.3709261Z  87679c50d17a Extracting [=========>                                         ]  16.71MB/86.31MB
-2025-01-14T10:38:56.4737777Z  87679c50d17a Extracting [==============>                                    ]  24.51MB/86.31MB
-2025-01-14T10:38:56.5791344Z  87679c50d17a Extracting [==================>                                ]  32.31MB/86.31MB
-2025-01-14T10:38:56.6796432Z  87679c50d17a Extracting [======================>                            ]  39.55MB/86.31MB
-2025-01-14T10:38:56.7833335Z  87679c50d17a Extracting [===========================>                       ]  47.91MB/86.31MB
-2025-01-14T10:38:56.8883491Z  87679c50d17a Extracting [=================================>                 ]  57.93MB/86.31MB
-2025-01-14T10:38:56.9936418Z  87679c50d17a Extracting [====================================>              ]  62.39MB/86.31MB
-2025-01-14T10:38:57.0960029Z  87679c50d17a Extracting [======================================>            ]  66.29MB/86.31MB
-2025-01-14T10:38:57.2128072Z  87679c50d17a Extracting [========================================>          ]  70.19MB/86.31MB
-2025-01-14T10:38:57.3178953Z  87679c50d17a Extracting [============================================>      ]  76.32MB/86.31MB
-2025-01-14T10:38:57.4247250Z  87679c50d17a Extracting [===============================================>   ]  81.33MB/86.31MB
-2025-01-14T10:38:57.5406956Z  87679c50d17a Extracting [================================================>  ]  83.56MB/86.31MB
-2025-01-14T10:38:57.7617297Z  87679c50d17a Extracting [=================================================> ]  85.79MB/86.31MB
-2025-01-14T10:38:57.8043346Z  87679c50d17a Extracting [==================================================>]  86.31MB/86.31MB
-2025-01-14T10:38:58.3200572Z  87679c50d17a Pull complete 
-2025-01-14T10:38:58.3213788Z  0e7283181181 Extracting [==================================================>]   4.02kB/4.02kB
-2025-01-14T10:38:58.3218514Z  0e7283181181 Extracting [==================================================>]   4.02kB/4.02kB
-2025-01-14T10:38:58.3354013Z  0e7283181181 Pull complete 
-2025-01-14T10:38:58.3368537Z  b0b462da5821 Extracting [==================================================>]  8.229kB/8.229kB
-2025-01-14T10:38:58.3371515Z  b0b462da5821 Extracting [==================================================>]  8.229kB/8.229kB
-2025-01-14T10:38:58.3486736Z  b0b462da5821 Pull complete 
-2025-01-14T10:38:58.3553436Z  mariadb Pulled 
-2025-01-14T10:38:58.3582729Z  Network wedding_network  Creating
-2025-01-14T10:38:58.4210000Z  Network wedding_network  Created
-2025-01-14T10:38:58.4214491Z  Volume "wedding_mariadb_data"  Creating
-2025-01-14T10:38:58.4228377Z  Volume "wedding_mariadb_data"  Created
-2025-01-14T10:38:58.4233515Z  Container wedding_mariadb  Creating
-2025-01-14T10:38:58.4499419Z  Container wedding_mariadb  Created
-2025-01-14T10:38:58.4507594Z  Container wedding_mariadb  Starting
-2025-01-14T10:38:58.7053604Z  Container wedding_mariadb  Started
-2025-01-14T10:38:58.7083280Z Waiting for containers to initialize...
-2025-01-14T10:39:28.7146471Z ##[group]Run docker compose ps
-2025-01-14T10:39:28.7146791Z [36;1mdocker compose ps[0m
-2025-01-14T10:39:28.7147028Z [36;1mdocker compose logs[0m
-2025-01-14T10:39:28.7147597Z [36;1mif [ "$(docker compose ps --format json | jq -r '.[].Health' | grep -v healthy)" ]; then[0m
-2025-01-14T10:39:28.7148031Z [36;1m  echo "Some containers are not healthy"[0m
-2025-01-14T10:39:28.7148298Z [36;1m  exit 1[0m
-2025-01-14T10:39:28.7148478Z [36;1mfi[0m
-2025-01-14T10:39:28.7176059Z shell: /usr/bin/bash -e {0}
-2025-01-14T10:39:28.7176296Z env:
-2025-01-14T10:39:28.7176627Z   DB_WEDDING_SITE_USERNAME: ***
-2025-01-14T10:39:28.7176892Z   DB_WEDDING_SITE_PASSWORD: ***
-2025-01-14T10:39:28.7177141Z   DB_ROOT_PASSWORD: ***
-2025-01-14T10:39:28.7177378Z   MONITORING_PASSWORD: ***
-2025-01-14T10:39:28.7177597Z ##[endgroup]
-2025-01-14T10:39:28.7738881Z NAME              IMAGE          COMMAND                  SERVICE   CREATED          STATUS                    PORTS
-2025-01-14T10:39:28.7746102Z wedding_mariadb   mariadb:10.6   "docker-entrypoint.s…"   mariadb   30 seconds ago   Up 30 seconds (healthy)   0.0.0.0:3307->3306/tcp, [::]:3307->3306/tcp
-2025-01-14T10:39:28.8442465Z wedding_mariadb  | 2025-01-14 10:38:58+00:00 [Note] [Entrypoint]: Entrypoint script for MariaDB Server 1:10.6.20+maria~ubu2004 started.
-2025-01-14T10:39:28.8443973Z wedding_mariadb  | 2025-01-14 10:38:58+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'
-2025-01-14T10:39:28.8445098Z wedding_mariadb  | 2025-01-14 10:38:58+00:00 [Note] [Entrypoint]: Entrypoint script for MariaDB Server 1:10.6.20+maria~ubu2004 started.
-2025-01-14T10:39:28.8446186Z wedding_mariadb  | 2025-01-14 10:38:58+00:00 [Note] [Entrypoint]: Initializing database files
-2025-01-14T10:39:28.8447150Z wedding_mariadb  | 2025-01-14 10:38:59+00:00 [Note] [Entrypoint]: Database files initialized
-2025-01-14T10:39:28.8448125Z wedding_mariadb  | 2025-01-14 10:38:59+00:00 [Note] [Entrypoint]: Starting temporary server
-2025-01-14T10:39:28.8449203Z wedding_mariadb  | 2025-01-14 10:38:59+00:00 [Note] [Entrypoint]: Waiting for server startup
-2025-01-14T10:39:28.8478288Z wedding_mariadb  | 2025-01-14 10:38:59 0 [Note] Starting MariaDB 10.6.20-MariaDB-ubu2004 source revision f00711bba2cd383825d0be1867f7d7d7f641c9e4 server_uid 72+4ASMvYxproTQgRqIDplDA1XA= as process 100
-2025-01-14T10:39:28.8479728Z wedding_mariadb  | 2025-01-14 10:38:59 0 [Note] InnoDB: Compressed tables use zlib 1.2.11
-2025-01-14T10:39:28.8480510Z wedding_mariadb  | 2025-01-14 10:38:59 0 [Note] InnoDB: Number of pools: 1
-2025-01-14T10:39:28.8481286Z wedding_mariadb  | 2025-01-14 10:38:59 0 [Note] InnoDB: Using crc32 + pclmulqdq instructions
-2025-01-14T10:39:28.8482389Z wedding_mariadb  | 2025-01-14 10:38:59 0 [Note] mariadbd: O_TMPFILE is not supported on /tmp (disabling future attempts)
-2025-01-14T10:39:28.8483327Z wedding_mariadb  | 2025-01-14 10:38:59 0 [Note] InnoDB: Using Linux native AIO
-2025-01-14T10:39:28.8484294Z wedding_mariadb  | 2025-01-14 10:38:59 0 [Note] InnoDB: Initializing buffer pool, total size = 134217728, chunk size = 134217728
-2025-01-14T10:39:28.8485382Z wedding_mariadb  | 2025-01-14 10:38:59 0 [Note] InnoDB: Completed initialization of buffer pool
-2025-01-14T10:39:28.8486281Z wedding_mariadb  | 2025-01-14 10:38:59 0 [Note] InnoDB: 128 rollback segments are active.
-2025-01-14T10:39:28.8487506Z wedding_mariadb  | 2025-01-14 10:38:59 0 [Note] InnoDB: Creating shared tablespace for temporary tables
-2025-01-14T10:39:28.8488675Z wedding_mariadb  | 2025-01-14 10:38:59 0 [Note] InnoDB: Setting file './ibtmp1' size to 12 MB. Physically writing the file full; Please wait ...
-2025-01-14T10:39:28.8489768Z wedding_mariadb  | 2025-01-14 10:38:59 0 [Note] InnoDB: File './ibtmp1' size is now 12 MB.
-2025-01-14T10:39:28.8490721Z wedding_mariadb  | 2025-01-14 10:38:59 0 [Note] InnoDB: 10.6.20 started; log sequence number 41342; transaction id 14
-2025-01-14T10:39:28.8491650Z wedding_mariadb  | 2025-01-14 10:38:59 0 [Note] Plugin 'FEEDBACK' is disabled.
-2025-01-14T10:39:28.8492964Z wedding_mariadb  | 2025-01-14 10:38:59 0 [Note] mariadbd: ready for connections.
-2025-01-14T10:39:28.8494080Z wedding_mariadb  | Version: '10.6.20-MariaDB-ubu2004'  socket: '/run/mysqld/mysqld.sock'  port: 0  mariadb.org binary distribution
-2025-01-14T10:39:28.8495517Z wedding_mariadb  | 2025-01-14 10:39:00+00:00 [Note] [Entrypoint]: Temporary server started.
-2025-01-14T10:39:28.8496466Z wedding_mariadb  | 2025-01-14 10:39:01+00:00 [Note] [Entrypoint]: Creating database wedding_site
-2025-01-14T10:39:28.8497583Z wedding_mariadb  | 2025-01-14 10:39:02+00:00 [Note] [Entrypoint]: Creating user ***
-2025-01-14T10:39:28.8498623Z wedding_mariadb  | 2025-01-14 10:39:02+00:00 [Note] [Entrypoint]: Giving user *** access to schema wedding_site
-2025-01-14T10:39:28.8499846Z wedding_mariadb  | 2025-01-14 10:39:02+00:00 [Note] [Entrypoint]: Securing system users (equivalent to running mysql_secure_installation)
-2025-01-14T10:39:28.8500787Z wedding_mariadb  | 
-2025-01-14T10:39:28.8501671Z wedding_mariadb  | 2025-01-14 10:39:02+00:00 [Note] [Entrypoint]: /usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/01-init.sql
-2025-01-14T10:39:28.8502861Z wedding_mariadb  | 
-2025-01-14T10:39:28.8503200Z wedding_mariadb  | 
-2025-01-14T10:39:28.8503771Z wedding_mariadb  | 2025-01-14 10:39:02+00:00 [Note] [Entrypoint]: Stopping temporary server
-2025-01-14T10:39:28.8504525Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] mariadbd (initiated by: unknown): Normal shutdown
-2025-01-14T10:39:28.8505033Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: FTS optimize thread exiting.
-2025-01-14T10:39:28.8505479Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: Starting shutdown...
-2025-01-14T10:39:28.8505992Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: Dumping buffer pool(s) to /var/lib/mysql/ib_buffer_pool
-2025-01-14T10:39:28.8506737Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: Buffer pool(s) dump completed at 250114 10:39:02
-2025-01-14T10:39:28.8507853Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: Removed temporary tablespace data file: "./ibtmp1"
-2025-01-14T10:39:28.8508917Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: Shutdown completed; log sequence number 42652; transaction id 15
-2025-01-14T10:39:28.8509477Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] mariadbd: Shutdown complete
-2025-01-14T10:39:28.8509820Z wedding_mariadb  | 
-2025-01-14T10:39:28.8510142Z wedding_mariadb  | 2025-01-14 10:39:02+00:00 [Note] [Entrypoint]: Temporary server stopped
-2025-01-14T10:39:28.8510498Z wedding_mariadb  | 
-2025-01-14T10:39:28.8510868Z wedding_mariadb  | 2025-01-14 10:39:02+00:00 [Note] [Entrypoint]: MariaDB init process done. Ready for start up.
-2025-01-14T10:39:28.8511512Z wedding_mariadb  | 
-2025-01-14T10:39:28.8512636Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] Starting MariaDB 10.6.20-MariaDB-ubu2004 source revision f00711bba2cd383825d0be1867f7d7d7f641c9e4 server_uid 72+4ASMvYxproTQgRqIDplDA1XA= as process 1
-2025-01-14T10:39:28.8513480Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: Compressed tables use zlib 1.2.11
-2025-01-14T10:39:28.8513932Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: Number of pools: 1
-2025-01-14T10:39:28.8514382Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: Using crc32 + pclmulqdq instructions
-2025-01-14T10:39:28.8515200Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] mariadbd: O_TMPFILE is not supported on /tmp (disabling future attempts)
-2025-01-14T10:39:28.8516150Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: Using Linux native AIO
-2025-01-14T10:39:28.8517134Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: Initializing buffer pool, total size = 134217728, chunk size = 134217728
-2025-01-14T10:39:28.8518188Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: Completed initialization of buffer pool
-2025-01-14T10:39:28.8519048Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: 128 rollback segments are active.
-2025-01-14T10:39:28.8519766Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: Creating shared tablespace for temporary tables
-2025-01-14T10:39:28.8520434Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: Setting file './ibtmp1' size to 12 MB. Physically writing the file full; Please wait ...
-2025-01-14T10:39:28.8521161Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: File './ibtmp1' size is now 12 MB.
-2025-01-14T10:39:28.8521692Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: 10.6.20 started; log sequence number 42652; transaction id 15
-2025-01-14T10:39:28.8522444Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] Plugin 'FEEDBACK' is disabled.
-2025-01-14T10:39:28.8523339Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: Loading buffer pool(s) from /var/lib/mysql/ib_buffer_pool
-2025-01-14T10:39:28.8524327Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] InnoDB: Buffer pool(s) load completed at 250114 10:39:02
-2025-01-14T10:39:28.8525234Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] Server socket created on IP: '0.0.0.0'.
-2025-01-14T10:39:28.8526110Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] Server socket created on IP: '::'.
-2025-01-14T10:39:28.8526903Z wedding_mariadb  | 2025-01-14 10:39:02 0 [Note] mariadbd: ready for connections.
-2025-01-14T10:39:28.8527954Z wedding_mariadb  | Version: '10.6.20-MariaDB-ubu2004'  socket: '/run/mysqld/mysqld.sock'  port: 3306  mariadb.org binary distribution
-2025-01-14T10:39:28.8529216Z wedding_mariadb  | 2025-01-14 10:39:08 3 [Warning] Access denied for user 'monitoring'@'localhost' (using password: YES)
-2025-01-14T10:39:28.8530371Z wedding_mariadb  | 2025-01-14 10:39:18 4 [Warning] Access denied for user 'monitoring'@'localhost' (using password: YES)
-2025-01-14T10:39:28.8531516Z wedding_mariadb  | 2025-01-14 10:39:28 5 [Warning] Access denied for user 'monitoring'@'localhost' (using password: YES)
-2025-01-14T10:39:28.9028101Z jq: error (at <stdin>:1): Cannot index string with string "Health"
-2025-01-14T10:39:28.9094560Z ##[group]Run docker exec wedding_mariadb mysql -u${DB_WEDDING_SITE_USERNAME} -p${DB_WEDDING_SITE_PASSWORD} -e "SHOW DATABASES;"
-2025-01-14T10:39:28.9095366Z [36;1mdocker exec wedding_mariadb mysql -u${DB_WEDDING_SITE_USERNAME} -p${DB_WEDDING_SITE_PASSWORD} -e "SHOW DATABASES;"[0m
-2025-01-14T10:39:28.9123468Z shell: /usr/bin/bash -e {0}
-2025-01-14T10:39:28.9123729Z env:
-2025-01-14T10:39:28.9124010Z   DB_WEDDING_SITE_USERNAME: ***
-2025-01-14T10:39:28.9124280Z   DB_WEDDING_SITE_PASSWORD: ***
-2025-01-14T10:39:28.9124536Z   DB_ROOT_PASSWORD: ***
-2025-01-14T10:39:28.9124786Z   MONITORING_PASSWORD: ***
-2025-01-14T10:39:28.9125014Z ##[endgroup]
-2025-01-14T10:39:28.9750957Z Database
-2025-01-14T10:39:28.9751330Z information_schema
-2025-01-14T10:39:28.9751580Z wedding_site
-2025-01-14T10:39:28.9816146Z ##[group]Run docker compose down -v
-2025-01-14T10:39:28.9816466Z [36;1mdocker compose down -v[0m
-2025-01-14T10:39:28.9844297Z shell: /usr/bin/bash -e {0}
-2025-01-14T10:39:28.9844540Z env:
-2025-01-14T10:39:28.9844826Z   DB_WEDDING_SITE_USERNAME: ***
-2025-01-14T10:39:28.9845101Z   DB_WEDDING_SITE_PASSWORD: ***
-2025-01-14T10:39:28.9845400Z   DB_ROOT_PASSWORD: ***
-2025-01-14T10:39:28.9845643Z   MONITORING_PASSWORD: ***
-2025-01-14T10:39:28.9845858Z ##[endgroup]
-2025-01-14T10:39:29.0396767Z  Container wedding_mariadb  Stopping
-2025-01-14T10:39:29.3848662Z  Container wedding_mariadb  Stopped
-2025-01-14T10:39:29.3849196Z  Container wedding_mariadb  Removing
-2025-01-14T10:39:29.3897971Z  Container wedding_mariadb  Removed
-2025-01-14T10:39:29.3901125Z  Volume wedding_mariadb_data  Removing
-2025-01-14T10:39:29.3907074Z  Network wedding_network  Removing
-2025-01-14T10:39:29.4031787Z  Volume wedding_mariadb_data  Removed
-2025-01-14T10:39:29.4897669Z  Network wedding_network  Removed
-2025-01-14T10:39:29.5000684Z Post job cleanup.
-2025-01-14T10:39:29.5946627Z [command]/usr/bin/git version
-2025-01-14T10:39:29.5983391Z git version 2.47.1
-2025-01-14T10:39:29.6034724Z Temporarily overriding HOME='/home/runner/work/_temp/69c4ecac-3c00-4fff-a3cb-cb37d635dee8' before making global git config changes
-2025-01-14T10:39:29.6036045Z Adding repository directory to the temporary git global config as a safe directory
-2025-01-14T10:39:29.6048245Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/wedding-site/wedding-site
-2025-01-14T10:39:29.6081789Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
-2025-01-14T10:39:29.6114195Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
-2025-01-14T10:39:29.6343107Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
-2025-01-14T10:39:29.6364644Z http.https://github.com/.extraheader
-2025-01-14T10:39:29.6377056Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
-2025-01-14T10:39:29.6408091Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
-2025-01-14T10:39:29.6734443Z Cleaning up orphan processes
+2025-01-14T14:23:21.0811123Z Current runner version: '2.321.0'
+2025-01-14T14:23:21.0840116Z ##[group]Operating System
+2025-01-14T14:23:21.0840912Z Ubuntu
+2025-01-14T14:23:21.0841507Z 24.04.1
+2025-01-14T14:23:21.0842025Z LTS
+2025-01-14T14:23:21.0842517Z ##[endgroup]
+2025-01-14T14:23:21.0843120Z ##[group]Runner Image
+2025-01-14T14:23:21.0843737Z Image: ubuntu-24.04
+2025-01-14T14:23:21.0844456Z Version: 20250105.1.0
+2025-01-14T14:23:21.0845611Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20250105.1/images/ubuntu/Ubuntu2404-Readme.md
+2025-01-14T14:23:21.0847058Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20250105.1
+2025-01-14T14:23:21.0848066Z ##[endgroup]
+2025-01-14T14:23:21.0848640Z ##[group]Runner Image Provisioner
+2025-01-14T14:23:21.0849298Z 2.0.414.1
+2025-01-14T14:23:21.0849854Z ##[endgroup]
+2025-01-14T14:23:21.0851025Z ##[group]GITHUB_TOKEN Permissions
+2025-01-14T14:23:21.0852903Z Contents: read
+2025-01-14T14:23:21.0853521Z Metadata: read
+2025-01-14T14:23:21.0854615Z Packages: read
+2025-01-14T14:23:21.0855353Z ##[endgroup]
+2025-01-14T14:23:21.0858436Z Secret source: Actions
+2025-01-14T14:23:21.0859223Z Prepare workflow directory
+2025-01-14T14:23:21.1377549Z Prepare all required actions
+2025-01-14T14:23:21.1434963Z Getting action download info
+2025-01-14T14:23:21.3408893Z Download action repository 'actions/checkout@v4' (SHA:11bd71901bbe5b1630ceea73d27597364c9af683)
+2025-01-14T14:23:21.4928370Z Complete job name: docker-compose-validation
+2025-01-14T14:23:21.5640769Z ##[group]Run actions/checkout@v4
+2025-01-14T14:23:21.5642223Z with:
+2025-01-14T14:23:21.5643068Z   repository: and1teachera/wedding-site
+2025-01-14T14:23:21.5644630Z   token: ***
+2025-01-14T14:23:21.5645462Z   ssh-strict: true
+2025-01-14T14:23:21.5646200Z   ssh-user: git
+2025-01-14T14:23:21.5646996Z   persist-credentials: true
+2025-01-14T14:23:21.5647839Z   clean: true
+2025-01-14T14:23:21.5648617Z   sparse-checkout-cone-mode: true
+2025-01-14T14:23:21.5649639Z   fetch-depth: 1
+2025-01-14T14:23:21.5650440Z   fetch-tags: false
+2025-01-14T14:23:21.5651293Z   show-progress: true
+2025-01-14T14:23:21.5652101Z   lfs: false
+2025-01-14T14:23:21.5652847Z   submodules: false
+2025-01-14T14:23:21.5653678Z   set-safe-directory: true
+2025-01-14T14:23:21.5655230Z env:
+2025-01-14T14:23:21.5656078Z   DB_WEDDING_SITE_USERNAME: ***
+2025-01-14T14:23:21.5657073Z   DB_WEDDING_SITE_PASSWORD: ***
+2025-01-14T14:23:21.5658055Z   DB_ROOT_PASSWORD: ***
+2025-01-14T14:23:21.5658979Z   MONITORING_PASSWORD: ***
+2025-01-14T14:23:21.5659958Z   RABBITMQ_USER: ***
+2025-01-14T14:23:21.5660881Z   RABBITMQ_PASSWORD: ***
+2025-01-14T14:23:21.5661732Z ##[endgroup]
+2025-01-14T14:23:21.7800680Z Syncing repository: and1teachera/wedding-site
+2025-01-14T14:23:21.7803314Z ##[group]Getting Git version info
+2025-01-14T14:23:21.7804094Z Working directory is '/home/runner/work/wedding-site/wedding-site'
+2025-01-14T14:23:21.7805473Z [command]/usr/bin/git version
+2025-01-14T14:23:21.7863361Z git version 2.47.1
+2025-01-14T14:23:21.7904900Z ##[endgroup]
+2025-01-14T14:23:21.7924042Z Temporarily overriding HOME='/home/runner/work/_temp/425ee992-c8aa-4233-ab54-939f44781c89' before making global git config changes
+2025-01-14T14:23:21.7925947Z Adding repository directory to the temporary git global config as a safe directory
+2025-01-14T14:23:21.7932673Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/wedding-site/wedding-site
+2025-01-14T14:23:21.7978589Z Deleting the contents of '/home/runner/work/wedding-site/wedding-site'
+2025-01-14T14:23:21.7983053Z ##[group]Initializing the repository
+2025-01-14T14:23:21.7989447Z [command]/usr/bin/git init /home/runner/work/wedding-site/wedding-site
+2025-01-14T14:23:21.8091515Z hint: Using 'master' as the name for the initial branch. This default branch name
+2025-01-14T14:23:21.8092819Z hint: is subject to change. To configure the initial branch name to use in all
+2025-01-14T14:23:21.8094620Z hint: of your new repositories, which will suppress this warning, call:
+2025-01-14T14:23:21.8095890Z hint:
+2025-01-14T14:23:21.8097006Z hint: 	git config --global init.defaultBranch <name>
+2025-01-14T14:23:21.8097972Z hint:
+2025-01-14T14:23:21.8098830Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2025-01-14T14:23:21.8099750Z hint: 'development'. The just-created branch can be renamed via this command:
+2025-01-14T14:23:21.8100479Z hint:
+2025-01-14T14:23:21.8100891Z hint: 	git branch -m <name>
+2025-01-14T14:23:21.8101708Z Initialized empty Git repository in /home/runner/work/wedding-site/wedding-site/.git/
+2025-01-14T14:23:21.8110164Z [command]/usr/bin/git remote add origin https://github.com/and1teachera/wedding-site
+2025-01-14T14:23:21.8146989Z ##[endgroup]
+2025-01-14T14:23:21.8147772Z ##[group]Disabling automatic garbage collection
+2025-01-14T14:23:21.8150928Z [command]/usr/bin/git config --local gc.auto 0
+2025-01-14T14:23:21.8180083Z ##[endgroup]
+2025-01-14T14:23:21.8180809Z ##[group]Setting up auth
+2025-01-14T14:23:21.8186916Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-01-14T14:23:21.8216966Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-01-14T14:23:21.8524864Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-01-14T14:23:21.8554945Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-01-14T14:23:21.8785814Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2025-01-14T14:23:21.8827484Z ##[endgroup]
+2025-01-14T14:23:21.8828906Z ##[group]Fetching the repository
+2025-01-14T14:23:21.8838465Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +a565c835012639286243d6a4bee88341a2377f5e:refs/remotes/pull/21/merge
+2025-01-14T14:23:22.2856537Z From https://github.com/and1teachera/wedding-site
+2025-01-14T14:23:22.2857959Z  * [new ref]         a565c835012639286243d6a4bee88341a2377f5e -> pull/21/merge
+2025-01-14T14:23:22.2882957Z ##[endgroup]
+2025-01-14T14:23:22.2884505Z ##[group]Determining the checkout info
+2025-01-14T14:23:22.2886128Z ##[endgroup]
+2025-01-14T14:23:22.2891264Z [command]/usr/bin/git sparse-checkout disable
+2025-01-14T14:23:22.2933770Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2025-01-14T14:23:22.2961657Z ##[group]Checking out the ref
+2025-01-14T14:23:22.2964847Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/21/merge
+2025-01-14T14:23:22.3015420Z Note: switching to 'refs/remotes/pull/21/merge'.
+2025-01-14T14:23:22.3016250Z 
+2025-01-14T14:23:22.3016884Z You are in 'detached HEAD' state. You can look around, make experimental
+2025-01-14T14:23:22.3018393Z changes and commit them, and you can discard any commits you make in this
+2025-01-14T14:23:22.3019993Z state without impacting any branches by switching back to a branch.
+2025-01-14T14:23:22.3020551Z 
+2025-01-14T14:23:22.3020917Z If you want to create a new branch to retain commits you create, you may
+2025-01-14T14:23:22.3021762Z do so (now or later) by using -c with the switch command. Example:
+2025-01-14T14:23:22.3022335Z 
+2025-01-14T14:23:22.3022712Z   git switch -c <new-branch-name>
+2025-01-14T14:23:22.3023287Z 
+2025-01-14T14:23:22.3023657Z Or undo this operation with:
+2025-01-14T14:23:22.3024045Z 
+2025-01-14T14:23:22.3024449Z   git switch -
+2025-01-14T14:23:22.3024728Z 
+2025-01-14T14:23:22.3025140Z Turn off this advice by setting config variable advice.detachedHead to false
+2025-01-14T14:23:22.3025700Z 
+2025-01-14T14:23:22.3026332Z HEAD is now at a565c83 Merge d37e37cf36f833cf54c74d78e30d36967ed86ba0 into 5f25ba89bba2bcf2c6e4fc5a7a41525bd3d44bb9
+2025-01-14T14:23:22.3028483Z ##[endgroup]
+2025-01-14T14:23:22.3058808Z [command]/usr/bin/git log -1 --format=%H
+2025-01-14T14:23:22.3081669Z a565c835012639286243d6a4bee88341a2377f5e
+2025-01-14T14:23:22.3270993Z ##[group]Run mkdir -p ~/.docker/cli-plugins/
+2025-01-14T14:23:22.3271713Z [36;1mmkdir -p ~/.docker/cli-plugins/[0m
+2025-01-14T14:23:22.3272941Z [36;1mcurl -SL https://github.com/docker/compose/releases/download/v2.31.0/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose[0m
+2025-01-14T14:23:22.3274175Z [36;1mchmod +x ~/.docker/cli-plugins/docker-compose[0m
+2025-01-14T14:23:22.3304663Z shell: /usr/bin/bash -e {0}
+2025-01-14T14:23:22.3305173Z env:
+2025-01-14T14:23:22.3305689Z   DB_WEDDING_SITE_USERNAME: ***
+2025-01-14T14:23:22.3306234Z   DB_WEDDING_SITE_PASSWORD: ***
+2025-01-14T14:23:22.3386214Z   DB_ROOT_PASSWORD: ***
+2025-01-14T14:23:22.3386768Z   MONITORING_PASSWORD: ***
+2025-01-14T14:23:22.3387349Z   RABBITMQ_USER: ***
+2025-01-14T14:23:22.3387880Z   RABBITMQ_PASSWORD: ***
+2025-01-14T14:23:22.3388337Z ##[endgroup]
+2025-01-14T14:23:22.3548294Z   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+2025-01-14T14:23:22.3549780Z                                  Dload  Upload   Total   Spent    Left  Speed
+2025-01-14T14:23:22.3550568Z 
+2025-01-14T14:23:22.5495883Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+2025-01-14T14:23:22.5496904Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+2025-01-14T14:23:22.5497931Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+2025-01-14T14:23:23.0353336Z 
+2025-01-14T14:23:23.0354986Z 100 61.2M  100 61.2M    0     0  89.9M      0 --:--:-- --:--:-- --:--:-- 89.9M
+2025-01-14T14:23:23.0485946Z ##[group]Run docker compose config
+2025-01-14T14:23:23.0486731Z [36;1mdocker compose config[0m
+2025-01-14T14:23:23.0515311Z shell: /usr/bin/bash -e {0}
+2025-01-14T14:23:23.0515908Z env:
+2025-01-14T14:23:23.0516495Z   DB_WEDDING_SITE_USERNAME: ***
+2025-01-14T14:23:23.0517154Z   DB_WEDDING_SITE_PASSWORD: ***
+2025-01-14T14:23:23.0517773Z   DB_ROOT_PASSWORD: ***
+2025-01-14T14:23:23.0518350Z   MONITORING_PASSWORD: ***
+2025-01-14T14:23:23.0518963Z   RABBITMQ_USER: ***
+2025-01-14T14:23:23.0519506Z   RABBITMQ_PASSWORD: ***
+2025-01-14T14:23:23.0520035Z ##[endgroup]
+2025-01-14T14:23:23.1854007Z name: wedding-site
+2025-01-14T14:23:23.1855165Z services:
+2025-01-14T14:23:23.1855882Z   mariadb:
+2025-01-14T14:23:23.1856561Z     command:
+2025-01-14T14:23:23.1857366Z       - --character-set-server=utf8mb4
+2025-01-14T14:23:23.1858515Z       - --collation-server=utf8mb4_unicode_ci
+2025-01-14T14:23:23.1859661Z       - --max-connections=50
+2025-01-14T14:23:23.1860749Z       - --innodb-buffer-pool-size=128M
+2025-01-14T14:23:23.1861837Z       - --expire-logs-days=0
+2025-01-14T14:23:23.1862805Z     container_name: wedding_mariadb
+2025-01-14T14:23:23.1863821Z     environment:
+2025-01-14T14:23:23.1864763Z       MARIADB_DATABASE: wedding_site
+2025-01-14T14:23:23.1866022Z       MARIADB_PASSWORD: ***
+2025-01-14T14:23:23.1867073Z       MARIADB_ROOT_PASSWORD: ***
+2025-01-14T14:23:23.1868123Z       MARIADB_USER: ***
+2025-01-14T14:23:23.1869090Z       MONITORING_PASSWORD: ***
+2025-01-14T14:23:23.1870205Z       TZ: UTC
+2025-01-14T14:23:23.1870943Z     healthcheck:
+2025-01-14T14:23:23.1871623Z       test:
+2025-01-14T14:23:23.1872329Z         - CMD
+2025-01-14T14:23:23.1872833Z         - mysqladmin
+2025-01-14T14:23:23.1873332Z         - ping
+2025-01-14T14:23:23.1873789Z         - -h
+2025-01-14T14:23:23.1874458Z         - localhost
+2025-01-14T14:23:23.1874957Z         - -u
+2025-01-14T14:23:23.1875405Z         - monitoring
+2025-01-14T14:23:23.1875981Z         - -p***
+2025-01-14T14:23:23.1876497Z       timeout: 5s
+2025-01-14T14:23:23.1876992Z       interval: 10s
+2025-01-14T14:23:23.1877470Z       retries: 3
+2025-01-14T14:23:23.1877950Z       start_period: 30s
+2025-01-14T14:23:23.1878479Z     image: mariadb:10.6
+2025-01-14T14:23:23.1878982Z     networks:
+2025-01-14T14:23:23.1879440Z       wedding_network: null
+2025-01-14T14:23:23.1879990Z     ports:
+2025-01-14T14:23:23.1880414Z       - mode: ingress
+2025-01-14T14:23:23.1880908Z         target: 3306
+2025-01-14T14:23:23.1881731Z         published: "3307"
+2025-01-14T14:23:23.1882284Z         protocol: tcp
+2025-01-14T14:23:23.1882813Z     restart: unless-stopped
+2025-01-14T14:23:23.1883367Z     volumes:
+2025-01-14T14:23:23.1883805Z       - type: volume
+2025-01-14T14:23:23.1884524Z         source: mariadb_data
+2025-01-14T14:23:23.1885132Z         target: /var/lib/mysql
+2025-01-14T14:23:23.1886136Z         volume: {}
+2025-01-14T14:23:23.1886987Z       - type: bind
+2025-01-14T14:23:23.1887994Z         source: /home/runner/work/wedding-site/wedding-site/init-scripts
+2025-01-14T14:23:23.1888972Z         target: /docker-entrypoint-initdb.d
+2025-01-14T14:23:23.1889633Z         bind:
+2025-01-14T14:23:23.1890084Z           create_host_path: true
+2025-01-14T14:23:23.1890655Z   rabbitmq:
+2025-01-14T14:23:23.1891104Z     container_name: wedding_rabbitmq
+2025-01-14T14:23:23.1891716Z     depends_on:
+2025-01-14T14:23:23.1892154Z       mariadb:
+2025-01-14T14:23:23.1892610Z         condition: service_healthy
+2025-01-14T14:23:23.1893223Z         required: true
+2025-01-14T14:23:23.1893709Z     deploy:
+2025-01-14T14:23:23.1894124Z       resources:
+2025-01-14T14:23:23.1894851Z         limits:
+2025-01-14T14:23:23.1895327Z           memory: "536870912"
+2025-01-14T14:23:23.1895897Z     environment:
+2025-01-14T14:23:23.1896480Z       RABBITMQ_DEFAULT_PASS: ***
+2025-01-14T14:23:23.1897127Z       RABBITMQ_DEFAULT_USER: ***
+2025-01-14T14:23:23.1897727Z     healthcheck:
+2025-01-14T14:23:23.1898175Z       test:
+2025-01-14T14:23:23.1898595Z         - CMD
+2025-01-14T14:23:23.1899051Z         - rabbitmq-diagnostics
+2025-01-14T14:23:23.1899919Z         - check_port_connectivity
+2025-01-14T14:23:23.1900546Z       timeout: 10s
+2025-01-14T14:23:23.1901015Z       interval: 30s
+2025-01-14T14:23:23.1901481Z       retries: 3
+2025-01-14T14:23:23.1901951Z     image: rabbitmq:3-management
+2025-01-14T14:23:23.1902523Z     networks:
+2025-01-14T14:23:23.1902969Z       wedding_network: null
+2025-01-14T14:23:23.1903501Z     ports:
+2025-01-14T14:23:23.1903929Z       - mode: ingress
+2025-01-14T14:23:23.1904660Z         target: 5672
+2025-01-14T14:23:23.1905163Z         published: "5672"
+2025-01-14T14:23:23.1905695Z         protocol: tcp
+2025-01-14T14:23:23.1906189Z       - mode: ingress
+2025-01-14T14:23:23.1906678Z         target: 15672
+2025-01-14T14:23:23.1907172Z         published: "15672"
+2025-01-14T14:23:23.1907723Z         protocol: tcp
+2025-01-14T14:23:23.1908233Z     restart: unless-stopped
+2025-01-14T14:23:23.1908778Z     volumes:
+2025-01-14T14:23:23.1909206Z       - type: bind
+2025-01-14T14:23:23.1910032Z         source: /home/runner/work/wedding-site/wedding-site/rabbitmq/enabled_plugins
+2025-01-14T14:23:23.1911074Z         target: /etc/rabbitmq/enabled_plugins
+2025-01-14T14:23:23.1911727Z         bind:
+2025-01-14T14:23:23.1912178Z           create_host_path: true
+2025-01-14T14:23:23.1912758Z       - type: volume
+2025-01-14T14:23:23.1913256Z         source: rabbitmq_data
+2025-01-14T14:23:23.1913834Z         target: /var/lib/rabbitmq
+2025-01-14T14:23:23.1914958Z         volume: {}
+2025-01-14T14:23:23.1915469Z       - type: volume
+2025-01-14T14:23:23.1915982Z         source: rabbitmq_logs
+2025-01-14T14:23:23.1916567Z         target: /var/log/rabbitmq
+2025-01-14T14:23:23.1917157Z         volume: {}
+2025-01-14T14:23:23.1917610Z networks:
+2025-01-14T14:23:23.1918024Z   wedding_network:
+2025-01-14T14:23:23.1918505Z     name: wedding_network
+2025-01-14T14:23:23.1919039Z     driver: bridge
+2025-01-14T14:23:23.1919504Z volumes:
+2025-01-14T14:23:23.1919922Z   mariadb_data:
+2025-01-14T14:23:23.1920404Z     name: wedding_mariadb_data
+2025-01-14T14:23:23.1921014Z   rabbitmq_data:
+2025-01-14T14:23:23.1921505Z     name: wedding_rabbitmq_data
+2025-01-14T14:23:23.1922082Z   rabbitmq_logs:
+2025-01-14T14:23:23.1922565Z     name: wedding_rabbitmq_logs
+2025-01-14T14:23:23.1969887Z ##[group]Run docker compose build
+2025-01-14T14:23:23.1970611Z [36;1mdocker compose build[0m
+2025-01-14T14:23:23.1997664Z shell: /usr/bin/bash -e {0}
+2025-01-14T14:23:23.1998269Z env:
+2025-01-14T14:23:23.1999045Z   DB_WEDDING_SITE_USERNAME: ***
+2025-01-14T14:23:23.1999740Z   DB_WEDDING_SITE_PASSWORD: ***
+2025-01-14T14:23:23.2000366Z   DB_ROOT_PASSWORD: ***
+2025-01-14T14:23:23.2000938Z   MONITORING_PASSWORD: ***
+2025-01-14T14:23:23.2001522Z   RABBITMQ_USER: ***
+2025-01-14T14:23:23.2002054Z   RABBITMQ_PASSWORD: ***
+2025-01-14T14:23:23.2002571Z ##[endgroup]
+2025-01-14T14:23:23.2700448Z ##[group]Run docker compose up -d
+2025-01-14T14:23:23.2701676Z [36;1mdocker compose up -d[0m
+2025-01-14T14:23:23.2702890Z [36;1mecho "Waiting for RabbitMQ to initialize..."[0m
+2025-01-14T14:23:23.2704574Z [36;1mtimeout=60  # Timeout in seconds[0m
+2025-01-14T14:23:23.2705941Z [36;1mwhile [ $timeout -gt 0 ]; do[0m
+2025-01-14T14:23:23.2707572Z [36;1m  if curl -sf http://localhost:15672/api/healthchecks/node; then[0m
+2025-01-14T14:23:23.2709238Z [36;1m    echo "RabbitMQ is ready"[0m
+2025-01-14T14:23:23.2710430Z [36;1m    break[0m
+2025-01-14T14:23:23.2711324Z [36;1m  fi[0m
+2025-01-14T14:23:23.2712181Z [36;1m  sleep 1[0m
+2025-01-14T14:23:23.2713138Z [36;1m  ((timeout--))[0m
+2025-01-14T14:23:23.2714119Z [36;1mdone[0m
+2025-01-14T14:23:23.2715232Z [36;1mif [ $timeout -eq 0 ]; then[0m
+2025-01-14T14:23:23.2716771Z [36;1m  echo "RabbitMQ failed to start within the timeout period"[0m
+2025-01-14T14:23:23.2718420Z [36;1m  docker compose logs rabbitmq[0m
+2025-01-14T14:23:23.2719657Z [36;1m  exit 1[0m
+2025-01-14T14:23:23.2720541Z [36;1mfi[0m
+2025-01-14T14:23:23.2748743Z shell: /usr/bin/bash -e {0}
+2025-01-14T14:23:23.2749727Z env:
+2025-01-14T14:23:23.2750788Z   DB_WEDDING_SITE_USERNAME: ***
+2025-01-14T14:23:23.2751905Z   DB_WEDDING_SITE_PASSWORD: ***
+2025-01-14T14:23:23.2752968Z   DB_ROOT_PASSWORD: ***
+2025-01-14T14:23:23.2753964Z   MONITORING_PASSWORD: ***
+2025-01-14T14:23:23.2755178Z   RABBITMQ_USER: ***
+2025-01-14T14:23:23.2756120Z   RABBITMQ_PASSWORD: ***
+2025-01-14T14:23:23.2757030Z ##[endgroup]
+2025-01-14T14:23:23.3347799Z  rabbitmq Pulling 
+2025-01-14T14:23:23.3349160Z  mariadb Pulling 
+2025-01-14T14:23:24.6394672Z  de44b265507a Pulling fs layer 
+2025-01-14T14:23:24.6396043Z  609d1f44794c Pulling fs layer 
+2025-01-14T14:23:24.6397239Z  93bc35f205f7 Pulling fs layer 
+2025-01-14T14:23:24.6398299Z  ae78677340ad Pulling fs layer 
+2025-01-14T14:23:24.6399073Z  f4546f4074da Pulling fs layer 
+2025-01-14T14:23:24.6399927Z  25a4431bdb90 Pulling fs layer 
+2025-01-14T14:23:24.6400718Z  d18e4e86d7da Pulling fs layer 
+2025-01-14T14:23:24.6401432Z  fb48d524e912 Pulling fs layer 
+2025-01-14T14:23:24.6402156Z  e7dfc1785660 Pulling fs layer 
+2025-01-14T14:23:24.6402881Z  eb2c807d46cb Pulling fs layer 
+2025-01-14T14:23:24.6403595Z  d18e4e86d7da Waiting 
+2025-01-14T14:23:24.6404548Z  fb48d524e912 Waiting 
+2025-01-14T14:23:24.6405229Z  e7dfc1785660 Waiting 
+2025-01-14T14:23:24.6405940Z  eb2c807d46cb Waiting 
+2025-01-14T14:23:24.6406633Z  ae78677340ad Waiting 
+2025-01-14T14:23:24.6407306Z  f4546f4074da Waiting 
+2025-01-14T14:23:24.6407968Z  25a4431bdb90 Waiting 
+2025-01-14T14:23:24.6490525Z  d9802f032d67 Pulling fs layer 
+2025-01-14T14:23:24.6491702Z  873038ceda5e Pulling fs layer 
+2025-01-14T14:23:24.6492865Z  e87af840c300 Pulling fs layer 
+2025-01-14T14:23:24.6494016Z  6c99d11262b2 Pulling fs layer 
+2025-01-14T14:23:24.6495124Z  d9802f032d67 Waiting 
+2025-01-14T14:23:24.6495893Z  38069d6a121a Pulling fs layer 
+2025-01-14T14:23:24.6496677Z  87679c50d17a Pulling fs layer 
+2025-01-14T14:23:24.6497503Z  873038ceda5e Waiting 
+2025-01-14T14:23:24.6498132Z  0e7283181181 Pulling fs layer 
+2025-01-14T14:23:24.6498772Z  b0b462da5821 Pulling fs layer 
+2025-01-14T14:23:24.6499422Z  e87af840c300 Waiting 
+2025-01-14T14:23:24.6500018Z  87679c50d17a Waiting 
+2025-01-14T14:23:24.6500683Z  6c99d11262b2 Waiting 
+2025-01-14T14:23:24.6501325Z  0e7283181181 Waiting 
+2025-01-14T14:23:24.6501911Z  38069d6a121a Waiting 
+2025-01-14T14:23:24.9098073Z  93bc35f205f7 Downloading [>                                                  ]  77.31kB/7.465MB
+2025-01-14T14:23:24.9111579Z  609d1f44794c Downloading [>                                                  ]  462.1kB/45.47MB
+2025-01-14T14:23:24.9191706Z  de44b265507a Downloading [>                                                  ]  311.3kB/29.75MB
+2025-01-14T14:23:24.9596042Z  93bc35f205f7 Downloading [==================================================>]  7.465MB/7.465MB
+2025-01-14T14:23:24.9597138Z  93bc35f205f7 Download complete 
+2025-01-14T14:23:25.0128395Z  609d1f44794c Downloading [======================>                            ]   20.7MB/45.47MB
+2025-01-14T14:23:25.0196516Z  de44b265507a Downloading [=======================================>           ]  23.35MB/29.75MB
+2025-01-14T14:23:25.0428280Z  de44b265507a Verifying Checksum 
+2025-01-14T14:23:25.0429247Z  de44b265507a Download complete 
+2025-01-14T14:23:25.0922889Z  de44b265507a Extracting [>                                                  ]  327.7kB/29.75MB
+2025-01-14T14:23:25.1156236Z  609d1f44794c Downloading [=============================================>     ]  41.39MB/45.47MB
+2025-01-14T14:23:25.1285147Z  609d1f44794c Verifying Checksum 
+2025-01-14T14:23:25.1290456Z  609d1f44794c Download complete 
+2025-01-14T14:23:25.1998187Z  de44b265507a Extracting [=========>                                         ]  5.571MB/29.75MB
+2025-01-14T14:23:25.2321977Z  ae78677340ad Downloading [===>                                               ]     719B/9.462kB
+2025-01-14T14:23:25.2325979Z  ae78677340ad Downloading [==================================================>]  9.462kB/9.462kB
+2025-01-14T14:23:25.2328191Z  ae78677340ad Verifying Checksum 
+2025-01-14T14:23:25.2328686Z  ae78677340ad Download complete 
+2025-01-14T14:23:25.3043195Z  de44b265507a Extracting [==============>                                    ]  8.847MB/29.75MB
+2025-01-14T14:23:25.3135904Z  f4546f4074da Downloading [>                                                  ]  216.8kB/21.31MB
+2025-01-14T14:23:25.4049255Z  25a4431bdb90 Downloading [==================================================>]     187B/187B
+2025-01-14T14:23:25.4050774Z  de44b265507a Extracting [======================>                            ]  13.43MB/29.75MB
+2025-01-14T14:23:25.4052378Z  25a4431bdb90 Verifying Checksum 
+2025-01-14T14:23:25.4055330Z  25a4431bdb90 Download complete 
+2025-01-14T14:23:25.4155399Z  f4546f4074da Downloading [============================================>      ]  19.02MB/21.31MB
+2025-01-14T14:23:25.4227932Z  f4546f4074da Verifying Checksum 
+2025-01-14T14:23:25.4229990Z  f4546f4074da Download complete 
+2025-01-14T14:23:25.5049068Z  de44b265507a Extracting [===================================>               ]   21.3MB/29.75MB
+2025-01-14T14:23:25.5063764Z  d18e4e86d7da Downloading [==================================================>]     107B/107B
+2025-01-14T14:23:25.5067114Z  d18e4e86d7da Verifying Checksum 
+2025-01-14T14:23:25.5067602Z  d18e4e86d7da Download complete 
+2025-01-14T14:23:25.6682092Z  fb48d524e912 Downloading [==================================================>]     620B/620B
+2025-01-14T14:23:25.6683068Z  fb48d524e912 Verifying Checksum 
+2025-01-14T14:23:25.6683768Z  fb48d524e912 Download complete 
+2025-01-14T14:23:25.7099510Z  e7dfc1785660 Downloading [===========================================>       ]     721B/832B
+2025-01-14T14:23:25.7103654Z  e7dfc1785660 Downloading [==================================================>]     832B/832B
+2025-01-14T14:23:25.7104589Z  e7dfc1785660 Verifying Checksum 
+2025-01-14T14:23:25.7105215Z  e7dfc1785660 Download complete 
+2025-01-14T14:23:25.7237949Z  de44b265507a Extracting [==========================================>        ]  25.56MB/29.75MB
+2025-01-14T14:23:25.7823391Z  eb2c807d46cb Downloading [>                                                  ]  127.9kB/12.46MB
+2025-01-14T14:23:25.8477432Z  de44b265507a Extracting [===============================================>   ]  28.18MB/29.75MB
+2025-01-14T14:23:25.8712510Z  eb2c807d46cb Verifying Checksum 
+2025-01-14T14:23:25.8713029Z  eb2c807d46cb Download complete 
+2025-01-14T14:23:25.9327033Z  d9802f032d67 Downloading [>                                                  ]  278.5kB/27.51MB
+2025-01-14T14:23:25.9690160Z  873038ceda5e Downloading [====================>                              ]     719B/1.722kB
+2025-01-14T14:23:25.9691180Z  873038ceda5e Downloading [==================================================>]  1.722kB/1.722kB
+2025-01-14T14:23:25.9693904Z  873038ceda5e Verifying Checksum 
+2025-01-14T14:23:25.9694898Z  873038ceda5e Download complete 
+2025-01-14T14:23:25.9933815Z  de44b265507a Extracting [=================================================> ]  29.49MB/29.75MB
+2025-01-14T14:23:26.0303760Z  d9802f032d67 Verifying Checksum 
+2025-01-14T14:23:26.0304655Z  d9802f032d67 Download complete 
+2025-01-14T14:23:26.0730495Z  d9802f032d67 Extracting [>                                                  ]  294.9kB/27.51MB
+2025-01-14T14:23:26.0748982Z  de44b265507a Extracting [==================================================>]  29.75MB/29.75MB
+2025-01-14T14:23:26.1240495Z  de44b265507a Pull complete 
+2025-01-14T14:23:26.1388496Z  609d1f44794c Extracting [>                                                  ]  458.8kB/45.47MB
+2025-01-14T14:23:26.1422412Z  e87af840c300 Downloading [>                                                  ]  73.08kB/7.193MB
+2025-01-14T14:23:26.1778494Z  d9802f032d67 Extracting [=========>                                         ]  5.308MB/27.51MB
+2025-01-14T14:23:26.1916016Z  e87af840c300 Verifying Checksum 
+2025-01-14T14:23:26.1916536Z  e87af840c300 Download complete 
+2025-01-14T14:23:26.2319348Z  6c99d11262b2 Downloading [==================================================>]     116B/116B
+2025-01-14T14:23:26.2321299Z  6c99d11262b2 Verifying Checksum 
+2025-01-14T14:23:26.2322150Z  6c99d11262b2 Download complete 
+2025-01-14T14:23:26.2451171Z  609d1f44794c Extracting [========>                                          ]  7.799MB/45.47MB
+2025-01-14T14:23:26.2924956Z  38069d6a121a Downloading [==================================================>]     332B/332B
+2025-01-14T14:23:26.2926425Z  38069d6a121a Verifying Checksum 
+2025-01-14T14:23:26.2926871Z  38069d6a121a Download complete 
+2025-01-14T14:23:26.3034663Z  d9802f032d67 Extracting [================>                                  ]  8.847MB/27.51MB
+2025-01-14T14:23:26.3479088Z  609d1f44794c Extracting [=================>                                 ]   15.6MB/45.47MB
+2025-01-14T14:23:26.4055892Z  d9802f032d67 Extracting [====================>                              ]   11.5MB/27.51MB
+2025-01-14T14:23:26.4511570Z  609d1f44794c Extracting [=========================>                         ]   23.4MB/45.47MB
+2025-01-14T14:23:26.4594128Z  87679c50d17a Downloading [>                                                  ]  539.9kB/86.31MB
+2025-01-14T14:23:26.5044436Z  0e7283181181 Downloading [========>                                          ]     720B/4.02kB
+2025-01-14T14:23:26.5045344Z  0e7283181181 Downloading [==================================================>]   4.02kB/4.02kB
+2025-01-14T14:23:26.5046007Z  0e7283181181 Verifying Checksum 
+2025-01-14T14:23:26.5048132Z  0e7283181181 Download complete 
+2025-01-14T14:23:26.5087831Z  d9802f032d67 Extracting [===============================>                   ]   17.1MB/27.51MB
+2025-01-14T14:23:26.5546649Z  609d1f44794c Extracting [===============================>                   ]  28.44MB/45.47MB
+2025-01-14T14:23:26.5572031Z  b0b462da5821 Downloading [====>                                              ]     720B/8.229kB
+2025-01-14T14:23:26.5573257Z  b0b462da5821 Downloading [==================================================>]  8.229kB/8.229kB
+2025-01-14T14:23:26.5575483Z  b0b462da5821 Verifying Checksum 
+2025-01-14T14:23:26.5575918Z  b0b462da5821 Download complete 
+2025-01-14T14:23:26.5712355Z  87679c50d17a Downloading [=============>                                     ]  22.52MB/86.31MB
+2025-01-14T14:23:26.6162205Z  d9802f032d67 Extracting [=======================================>           ]  21.53MB/27.51MB
+2025-01-14T14:23:26.6641992Z  609d1f44794c Extracting [===================================>               ]  32.57MB/45.47MB
+2025-01-14T14:23:26.6712633Z  87679c50d17a Downloading [========================>                          ]  42.38MB/86.31MB
+2025-01-14T14:23:26.7667160Z  609d1f44794c Extracting [========================================>          ]   36.7MB/45.47MB
+2025-01-14T14:23:26.7719284Z  87679c50d17a Downloading [=======================================>           ]  67.64MB/86.31MB
+2025-01-14T14:23:26.8155727Z  d9802f032d67 Extracting [==========================================>        ]   23.3MB/27.51MB
+2025-01-14T14:23:26.8516495Z  87679c50d17a Verifying Checksum 
+2025-01-14T14:23:26.8517110Z  87679c50d17a Download complete 
+2025-01-14T14:23:26.8743413Z  609d1f44794c Extracting [===============================================>   ]  43.58MB/45.47MB
+2025-01-14T14:23:26.8949179Z  609d1f44794c Extracting [==================================================>]  45.47MB/45.47MB
+2025-01-14T14:23:26.9430137Z  d9802f032d67 Extracting [===============================================>   ]  26.25MB/27.51MB
+2025-01-14T14:23:27.0504699Z  d9802f032d67 Extracting [=================================================> ]  27.13MB/27.51MB
+2025-01-14T14:23:27.1276956Z  d9802f032d67 Extracting [==================================================>]  27.51MB/27.51MB
+2025-01-14T14:23:27.6578998Z  d9802f032d67 Pull complete 
+2025-01-14T14:23:27.7273776Z  873038ceda5e Extracting [==================================================>]  1.722kB/1.722kB
+2025-01-14T14:23:27.7280087Z  873038ceda5e Extracting [==================================================>]  1.722kB/1.722kB
+2025-01-14T14:23:27.8608342Z  873038ceda5e Pull complete 
+2025-01-14T14:23:27.8614778Z  609d1f44794c Pull complete 
+2025-01-14T14:23:27.8629520Z  e87af840c300 Extracting [>                                                  ]   98.3kB/7.193MB
+2025-01-14T14:23:27.8650843Z  93bc35f205f7 Extracting [>                                                  ]   98.3kB/7.465MB
+2025-01-14T14:23:27.9642594Z  e87af840c300 Extracting [===================>                               ]  2.851MB/7.193MB
+2025-01-14T14:23:27.9664037Z  93bc35f205f7 Extracting [======================>                            ]  3.342MB/7.465MB
+2025-01-14T14:23:28.0287935Z  93bc35f205f7 Extracting [==================================================>]  7.465MB/7.465MB
+2025-01-14T14:23:28.0290675Z  93bc35f205f7 Extracting [==================================================>]  7.465MB/7.465MB
+2025-01-14T14:23:28.0959120Z  e87af840c300 Extracting [=========================================>         ]  5.997MB/7.193MB
+2025-01-14T14:23:28.0961379Z  93bc35f205f7 Pull complete 
+2025-01-14T14:23:28.0979562Z  ae78677340ad Extracting [==================================================>]  9.462kB/9.462kB
+2025-01-14T14:23:28.0984779Z  ae78677340ad Extracting [==================================================>]  9.462kB/9.462kB
+2025-01-14T14:23:28.1246902Z  ae78677340ad Pull complete 
+2025-01-14T14:23:28.1539041Z  f4546f4074da Extracting [>                                                  ]  229.4kB/21.31MB
+2025-01-14T14:23:28.2539121Z  f4546f4074da Extracting [==========>                                        ]  4.358MB/21.31MB
+2025-01-14T14:23:28.2854150Z  e87af840c300 Extracting [===========================================>       ]  6.193MB/7.193MB
+2025-01-14T14:23:28.3555325Z  f4546f4074da Extracting [=====================>                             ]  9.175MB/21.31MB
+2025-01-14T14:23:28.4559682Z  f4546f4074da Extracting [==============================>                    ]  13.07MB/21.31MB
+2025-01-14T14:23:28.4663574Z  e87af840c300 Extracting [============================================>      ]   6.39MB/7.193MB
+2025-01-14T14:23:28.5742733Z  f4546f4074da Extracting [=====================================>             ]  15.83MB/21.31MB
+2025-01-14T14:23:28.5777595Z  e87af840c300 Extracting [=================================================> ]  7.176MB/7.193MB
+2025-01-14T14:23:28.5846194Z  e87af840c300 Extracting [==================================================>]  7.193MB/7.193MB
+2025-01-14T14:23:28.6683445Z  e87af840c300 Pull complete 
+2025-01-14T14:23:28.6698545Z  6c99d11262b2 Extracting [==================================================>]     116B/116B
+2025-01-14T14:23:28.6703230Z  6c99d11262b2 Extracting [==================================================>]     116B/116B
+2025-01-14T14:23:28.6778089Z  f4546f4074da Extracting [=========================================>         ]  17.66MB/21.31MB
+2025-01-14T14:23:28.6813440Z  6c99d11262b2 Pull complete 
+2025-01-14T14:23:28.6829946Z  38069d6a121a Extracting [==================================================>]     332B/332B
+2025-01-14T14:23:28.6835305Z  38069d6a121a Extracting [==================================================>]     332B/332B
+2025-01-14T14:23:28.6958649Z  38069d6a121a Pull complete 
+2025-01-14T14:23:28.7229569Z  87679c50d17a Extracting [>                                                  ]  557.1kB/86.31MB
+2025-01-14T14:23:28.7799846Z  f4546f4074da Extracting [==============================================>    ]  19.96MB/21.31MB
+2025-01-14T14:23:28.8281966Z  87679c50d17a Extracting [====>                                              ]  7.242MB/86.31MB
+2025-01-14T14:23:28.9284170Z  87679c50d17a Extracting [========>                                          ]  13.93MB/86.31MB
+2025-01-14T14:23:28.9593033Z  f4546f4074da Extracting [================================================>  ]  20.87MB/21.31MB
+2025-01-14T14:23:28.9923019Z  f4546f4074da Extracting [==================================================>]  21.31MB/21.31MB
+2025-01-14T14:23:29.0363408Z  87679c50d17a Extracting [============>                                      ]  21.17MB/86.31MB
+2025-01-14T14:23:29.1116341Z  f4546f4074da Pull complete 
+2025-01-14T14:23:29.1142899Z  25a4431bdb90 Extracting [==================================================>]     187B/187B
+2025-01-14T14:23:29.1146084Z  25a4431bdb90 Extracting [==================================================>]     187B/187B
+2025-01-14T14:23:29.1377786Z  25a4431bdb90 Pull complete 
+2025-01-14T14:23:29.1379368Z  87679c50d17a Extracting [===============>                                   ]  26.74MB/86.31MB
+2025-01-14T14:23:29.1399327Z  d18e4e86d7da Extracting [==================================================>]     107B/107B
+2025-01-14T14:23:29.1405855Z  d18e4e86d7da Extracting [==================================================>]     107B/107B
+2025-01-14T14:23:29.1570510Z  d18e4e86d7da Pull complete 
+2025-01-14T14:23:29.1588602Z  fb48d524e912 Extracting [==================================================>]     620B/620B
+2025-01-14T14:23:29.1596162Z  fb48d524e912 Extracting [==================================================>]     620B/620B
+2025-01-14T14:23:29.1727617Z  fb48d524e912 Pull complete 
+2025-01-14T14:23:29.1740513Z  e7dfc1785660 Extracting [==================================================>]     832B/832B
+2025-01-14T14:23:29.1748042Z  e7dfc1785660 Extracting [==================================================>]     832B/832B
+2025-01-14T14:23:29.1863469Z  e7dfc1785660 Pull complete 
+2025-01-14T14:23:29.1888470Z  eb2c807d46cb Extracting [>                                                  ]  131.1kB/12.46MB
+2025-01-14T14:23:29.2445035Z  87679c50d17a Extracting [==================>                                ]  31.75MB/86.31MB
+2025-01-14T14:23:29.2894106Z  eb2c807d46cb Extracting [=================>                                 ]  4.325MB/12.46MB
+2025-01-14T14:23:29.3497239Z  87679c50d17a Extracting [=====================>                             ]  37.88MB/86.31MB
+2025-01-14T14:23:29.4135682Z  eb2c807d46cb Extracting [==========================>                        ]  6.554MB/12.46MB
+2025-01-14T14:23:29.4528406Z  87679c50d17a Extracting [=========================>                         ]  43.45MB/86.31MB
+2025-01-14T14:23:29.5157887Z  eb2c807d46cb Extracting [===============================>                   ]  7.733MB/12.46MB
+2025-01-14T14:23:29.5579010Z  87679c50d17a Extracting [==============================>                    ]  52.36MB/86.31MB
+2025-01-14T14:23:29.6180938Z  eb2c807d46cb Extracting [=========================================>         ]  10.22MB/12.46MB
+2025-01-14T14:23:29.6690563Z  87679c50d17a Extracting [==================================>                ]   59.6MB/86.31MB
+2025-01-14T14:23:29.7211149Z  eb2c807d46cb Extracting [=================================================> ]  12.45MB/12.46MB
+2025-01-14T14:23:29.7318924Z  eb2c807d46cb Extracting [==================================================>]  12.46MB/12.46MB
+2025-01-14T14:23:29.7790768Z  87679c50d17a Extracting [====================================>              ]  62.95MB/86.31MB
+2025-01-14T14:23:29.9132409Z  87679c50d17a Extracting [======================================>            ]  66.85MB/86.31MB
+2025-01-14T14:23:29.9407309Z  eb2c807d46cb Pull complete 
+2025-01-14T14:23:29.9519489Z  rabbitmq Pulled 
+2025-01-14T14:23:30.0306755Z  87679c50d17a Extracting [========================================>          ]  70.75MB/86.31MB
+2025-01-14T14:23:30.1410163Z  87679c50d17a Extracting [==============================================>    ]  79.66MB/86.31MB
+2025-01-14T14:23:30.2641725Z  87679c50d17a Extracting [===============================================>   ]  82.44MB/86.31MB
+2025-01-14T14:23:30.3698075Z  87679c50d17a Extracting [================================================>  ]  84.12MB/86.31MB
+2025-01-14T14:23:30.5453276Z  87679c50d17a Extracting [=================================================> ]  85.79MB/86.31MB
+2025-01-14T14:23:30.5929160Z  87679c50d17a Extracting [==================================================>]  86.31MB/86.31MB
+2025-01-14T14:23:30.7142656Z  87679c50d17a Pull complete 
+2025-01-14T14:23:30.7154194Z  0e7283181181 Extracting [==================================================>]   4.02kB/4.02kB
+2025-01-14T14:23:30.7159923Z  0e7283181181 Extracting [==================================================>]   4.02kB/4.02kB
+2025-01-14T14:23:30.7266017Z  0e7283181181 Pull complete 
+2025-01-14T14:23:30.7282735Z  b0b462da5821 Extracting [==================================================>]  8.229kB/8.229kB
+2025-01-14T14:23:30.7286286Z  b0b462da5821 Extracting [==================================================>]  8.229kB/8.229kB
+2025-01-14T14:23:30.7379310Z  b0b462da5821 Pull complete 
+2025-01-14T14:23:30.7445810Z  mariadb Pulled 
+2025-01-14T14:23:30.7465388Z  Network wedding_network  Creating
+2025-01-14T14:23:30.8082894Z  Network wedding_network  Created
+2025-01-14T14:23:30.8087097Z  Volume "wedding_mariadb_data"  Creating
+2025-01-14T14:23:30.8100545Z  Volume "wedding_mariadb_data"  Created
+2025-01-14T14:23:30.8103741Z  Volume "wedding_rabbitmq_data"  Creating
+2025-01-14T14:23:30.8112509Z  Volume "wedding_rabbitmq_data"  Created
+2025-01-14T14:23:30.8115291Z  Volume "wedding_rabbitmq_logs"  Creating
+2025-01-14T14:23:30.8122833Z  Volume "wedding_rabbitmq_logs"  Created
+2025-01-14T14:23:30.8127758Z  Container wedding_mariadb  Creating
+2025-01-14T14:23:30.8386039Z  Container wedding_mariadb  Created
+2025-01-14T14:23:30.8386907Z  Container wedding_rabbitmq  Creating
+2025-01-14T14:23:30.8515005Z  Container wedding_rabbitmq  Created
+2025-01-14T14:23:30.8523276Z  Container wedding_mariadb  Starting
+2025-01-14T14:23:31.0917696Z  Container wedding_mariadb  Started
+2025-01-14T14:23:31.0918213Z  Container wedding_mariadb  Waiting
+2025-01-14T14:23:41.5929110Z  Container wedding_mariadb  Healthy
+2025-01-14T14:23:41.5929623Z  Container wedding_rabbitmq  Starting
+2025-01-14T14:23:41.8226743Z  Container wedding_rabbitmq  Started
+2025-01-14T14:23:41.8265671Z Waiting for RabbitMQ to initialize...
+2025-01-14T14:24:42.3258267Z RabbitMQ failed to start within the timeout period
+2025-01-14T14:24:42.3939030Z wedding_rabbitmq  | 2025-01-14 14:23:44.377895+00:00 [notice] <0.44.0> Application syslog exited with reason: stopped
+2025-01-14T14:24:42.3940730Z wedding_rabbitmq  | 2025-01-14 14:23:44.382117+00:00 [notice] <0.254.0> Logging: switching to configured handler(s); following messages may not be visible in this log output
+2025-01-14T14:24:42.3942622Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:44.382716+00:00 [notice] <0.254.0> Logging: configured log handlers are now ACTIVE[0m
+2025-01-14T14:24:42.3943936Z wedding_rabbitmq  | 2025-01-14 14:23:44.388306+00:00 [info] <0.254.0> ra: starting system quorum_queues[0m
+2025-01-14T14:24:42.3958541Z wedding_rabbitmq  | 2025-01-14 14:23:44.388363+00:00 [info] <0.254.0> starting Ra system: quorum_queues in directory: /var/lib/rabbitmq/mnesia/rabbit@4de8675e68fc/quorum/rabbit@4de8675e68fc[0m
+2025-01-14T14:24:42.3960931Z wedding_rabbitmq  | 2025-01-14 14:23:44.430791+00:00 [info] <0.268.0> ra system 'quorum_queues' running pre init for 0 registered servers[0m
+2025-01-14T14:24:42.3962799Z wedding_rabbitmq  | 2025-01-14 14:23:44.438326+00:00 [info] <0.269.0> ra: meta data store initialised for system quorum_queues. 0 record(s) recovered[0m
+2025-01-14T14:24:42.3964937Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:44.447927+00:00 [notice] <0.274.0> WAL: ra_log_wal init, open tbls: ra_log_open_mem_tables, closed tbls: ra_log_closed_mem_tables[0m
+2025-01-14T14:24:42.3966639Z wedding_rabbitmq  | 2025-01-14 14:23:44.457553+00:00 [info] <0.254.0> ra: starting system coordination[0m
+2025-01-14T14:24:42.3968632Z wedding_rabbitmq  | 2025-01-14 14:23:44.457598+00:00 [info] <0.254.0> starting Ra system: coordination in directory: /var/lib/rabbitmq/mnesia/rabbit@4de8675e68fc/coordination/rabbit@4de8675e68fc[0m
+2025-01-14T14:24:42.3970692Z wedding_rabbitmq  | 2025-01-14 14:23:44.458555+00:00 [info] <0.282.0> ra system 'coordination' running pre init for 0 registered servers[0m
+2025-01-14T14:24:42.3972445Z wedding_rabbitmq  | 2025-01-14 14:23:44.459133+00:00 [info] <0.283.0> ra: meta data store initialised for system coordination. 0 record(s) recovered[0m
+2025-01-14T14:24:42.3974893Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:44.459296+00:00 [notice] <0.288.0> WAL: ra_coordination_log_wal init, open tbls: ra_coordination_log_open_mem_tables, closed tbls: ra_coordination_log_closed_mem_tables[0m
+2025-01-14T14:24:42.3976835Z wedding_rabbitmq  | 2025-01-14 14:23:44.460738+00:00 [info] <0.254.0> ra: starting system coordination[0m
+2025-01-14T14:24:42.3978813Z wedding_rabbitmq  | 2025-01-14 14:23:44.460776+00:00 [info] <0.254.0> starting Ra system: coordination in directory: /var/lib/rabbitmq/mnesia/rabbit@4de8675e68fc/coordination/rabbit@4de8675e68fc[0m
+2025-01-14T14:24:42.3980775Z wedding_rabbitmq  | 2025-01-14 14:23:44.521905+00:00 [info] <0.254.0> Waiting for Khepri leader for 30000 ms, 9 retries left[0m
+2025-01-14T14:24:42.3982470Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:44.524172+00:00 [notice] <0.292.0> RabbitMQ metadata store: candidate -> leader in term: 1 machine version: 1[0m
+2025-01-14T14:24:42.3984010Z wedding_rabbitmq  | 2025-01-14 14:23:44.532984+00:00 [info] <0.254.0> Khepri leader elected[0m
+2025-01-14T14:24:42.3985641Z wedding_rabbitmq  | 2025-01-14 14:23:44.533029+00:00 [info] <0.254.0> Waiting for Khepri projections for 30000 ms, 9 retries left[0m
+2025-01-14T14:24:42.3986943Z wedding_rabbitmq  | 2025-01-14 14:23:44.722754+00:00 [info] <0.254.0> [0m
+2025-01-14T14:24:42.3988106Z wedding_rabbitmq  | 2025-01-14 14:23:44.722754+00:00 [info] <0.254.0>  Starting RabbitMQ 3.13.7 on Erlang 26.2.5.6 [jit][0m
+2025-01-14T14:24:42.4010308Z wedding_rabbitmq  | 2025-01-14 14:23:44.722754+00:00 [info] <0.254.0>  Copyright (c) 2007-2024 Broadcom Inc and/or its subsidiaries[0m
+2025-01-14T14:24:42.4011823Z wedding_rabbitmq  | 2025-01-14 14:23:44.722754+00:00 [info] <0.254.0>  Licensed under the MPL 2.0. Website: https://rabbitmq.com[0m
+2025-01-14T14:24:42.4012762Z wedding_rabbitmq  | 
+2025-01-14T14:24:42.4013195Z wedding_rabbitmq  |   ##  ##      RabbitMQ 3.13.7
+2025-01-14T14:24:42.4013686Z wedding_rabbitmq  |   ##  ##
+2025-01-14T14:24:42.4014452Z wedding_rabbitmq  |   ##########  Copyright (c) 2007-2024 Broadcom Inc and/or its subsidiaries
+2025-01-14T14:24:42.4015131Z wedding_rabbitmq  |   ######  ##
+2025-01-14T14:24:42.4015819Z wedding_rabbitmq  |   ##########  Licensed under the MPL 2.0. Website: https://rabbitmq.com
+2025-01-14T14:24:42.4016490Z wedding_rabbitmq  | 
+2025-01-14T14:24:42.4016893Z wedding_rabbitmq  |   Erlang:      26.2.5.6 [jit]
+2025-01-14T14:24:42.4017535Z wedding_rabbitmq  |   TLS Library: OpenSSL - OpenSSL 3.1.7 3 Sep 2024
+2025-01-14T14:24:42.4018750Z wedding_rabbitmq  |   Release series support status: see https://www.rabbitmq.com/release-information
+2025-01-14T14:24:42.4019542Z wedding_rabbitmq  | 
+2025-01-14T14:24:42.4020027Z wedding_rabbitmq  |   Doc guides:  https://www.rabbitmq.com/docs
+2025-01-14T14:24:42.4020976Z wedding_rabbitmq  |   Support:     https://www.rabbitmq.com/docs/contact
+2025-01-14T14:24:42.4021737Z wedding_rabbitmq  |   Tutorials:   https://www.rabbitmq.com/tutorials
+2025-01-14T14:24:42.4022500Z wedding_rabbitmq  |   Monitoring:  https://www.rabbitmq.com/docs/monitoring
+2025-01-14T14:24:42.4023275Z wedding_rabbitmq  |   Upgrading:   https://www.rabbitmq.com/docs/upgrade
+2025-01-14T14:24:42.4023887Z wedding_rabbitmq  | 
+2025-01-14T14:24:42.4024469Z wedding_rabbitmq  |   Logs: <stdout>
+2025-01-14T14:24:42.4024909Z wedding_rabbitmq  | 
+2025-01-14T14:24:42.4025431Z wedding_rabbitmq  |   Config file(s): /etc/rabbitmq/conf.d/10-defaults.conf
+2025-01-14T14:24:42.4026045Z wedding_rabbitmq  | 
+2025-01-14T14:24:42.4027180Z wedding_rabbitmq  |   Starting broker...2025-01-14 14:23:44.723725+00:00 [info] <0.254.0> [0m
+2025-01-14T14:24:42.4028375Z wedding_rabbitmq  | 2025-01-14 14:23:44.723725+00:00 [info] <0.254.0>  node           : rabbit@4de8675e68fc[0m
+2025-01-14T14:24:42.4029580Z wedding_rabbitmq  | 2025-01-14 14:23:44.723725+00:00 [info] <0.254.0>  home dir       : /var/lib/rabbitmq[0m
+2025-01-14T14:24:42.4030861Z wedding_rabbitmq  | 2025-01-14 14:23:44.723725+00:00 [info] <0.254.0>  config file(s) : /etc/rabbitmq/conf.d/10-defaults.conf[0m
+2025-01-14T14:24:42.4032175Z wedding_rabbitmq  | 2025-01-14 14:23:44.723725+00:00 [info] <0.254.0>  cookie hash    : vxvpaAId/aNmgc4vL4fn1A==[0m
+2025-01-14T14:24:42.4033359Z wedding_rabbitmq  | 2025-01-14 14:23:44.723725+00:00 [info] <0.254.0>  log(s)         : <stdout>[0m
+2025-01-14T14:24:42.4034812Z wedding_rabbitmq  | 2025-01-14 14:23:44.723725+00:00 [info] <0.254.0>  data dir       : /var/lib/rabbitmq/mnesia/rabbit@4de8675e68fc[0m
+2025-01-14T14:24:42.4036199Z wedding_rabbitmq  | 2025-01-14 14:23:44.993876+00:00 [info] <0.254.0> Running boot step pre_boot defined by app rabbit[0m
+2025-01-14T14:24:42.4037613Z wedding_rabbitmq  | 2025-01-14 14:23:44.993933+00:00 [info] <0.254.0> Running boot step rabbit_global_counters defined by app rabbit[0m
+2025-01-14T14:24:42.4039100Z wedding_rabbitmq  | 2025-01-14 14:23:44.994198+00:00 [info] <0.254.0> Running boot step rabbit_osiris_metrics defined by app rabbit[0m
+2025-01-14T14:24:42.4040564Z wedding_rabbitmq  | 2025-01-14 14:23:44.994303+00:00 [info] <0.254.0> Running boot step rabbit_core_metrics defined by app rabbit[0m
+2025-01-14T14:24:42.4041993Z wedding_rabbitmq  | 2025-01-14 14:23:44.994679+00:00 [info] <0.254.0> Running boot step rabbit_alarm defined by app rabbit[0m
+2025-01-14T14:24:42.4043604Z wedding_rabbitmq  | 2025-01-14 14:23:45.003056+00:00 [info] <0.329.0> Memory high watermark set to 6396 MiB (6706711756 bytes) of 15990 MiB (16766779392 bytes) total[0m
+2025-01-14T14:24:42.4045790Z wedding_rabbitmq  | 2025-01-14 14:23:45.005367+00:00 [info] <0.331.0> Enabling free disk space monitoring (disk free space: 28561915904, total memory: 16766779392)[0m
+2025-01-14T14:24:42.4047165Z wedding_rabbitmq  | 2025-01-14 14:23:45.005410+00:00 [info] <0.331.0> Disk free limit set to 50MB[0m
+2025-01-14T14:24:42.4048507Z wedding_rabbitmq  | 2025-01-14 14:23:45.006876+00:00 [info] <0.254.0> Running boot step code_server_cache defined by app rabbit[0m
+2025-01-14T14:24:42.4049924Z wedding_rabbitmq  | 2025-01-14 14:23:45.006945+00:00 [info] <0.254.0> Running boot step file_handle_cache defined by app rabbit[0m
+2025-01-14T14:24:42.4051326Z wedding_rabbitmq  | 2025-01-14 14:23:45.011161+00:00 [info] <0.334.0> Limiting to approx 1048479 file handles (943629 sockets)[0m
+2025-01-14T14:24:42.4052528Z wedding_rabbitmq  | 2025-01-14 14:23:45.011299+00:00 [info] <0.335.0> FHC read buffering: OFF[0m
+2025-01-14T14:24:42.4053601Z wedding_rabbitmq  | 2025-01-14 14:23:45.011343+00:00 [info] <0.335.0> FHC write buffering: ON[0m
+2025-01-14T14:24:42.4055262Z wedding_rabbitmq  | 2025-01-14 14:23:45.011680+00:00 [info] <0.254.0> Running boot step worker_pool defined by app rabbit[0m
+2025-01-14T14:24:42.4056585Z wedding_rabbitmq  | 2025-01-14 14:23:45.011743+00:00 [info] <0.315.0> Will use 4 processes for default worker pool[0m
+2025-01-14T14:24:42.4058151Z wedding_rabbitmq  | 2025-01-14 14:23:45.011782+00:00 [info] <0.315.0> Starting worker pool 'worker_pool' with 4 processes in it[0m
+2025-01-14T14:24:42.4059547Z wedding_rabbitmq  | 2025-01-14 14:23:45.012136+00:00 [info] <0.254.0> Running boot step database defined by app rabbit[0m
+2025-01-14T14:24:42.4061024Z wedding_rabbitmq  | 2025-01-14 14:23:45.012454+00:00 [info] <0.254.0> Peer discovery: configured backend: rabbit_peer_discovery_classic_config[0m
+2025-01-14T14:24:42.4062629Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.013293+00:00 [notice] <0.316.0> Feature flags: attempt to enable `detailed_queues_endpoint`...[0m
+2025-01-14T14:24:42.4064135Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.082541+00:00 [notice] <0.316.0> Feature flags: `detailed_queues_endpoint` enabled[0m
+2025-01-14T14:24:42.4065814Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.082698+00:00 [notice] <0.316.0> Feature flags: attempt to enable `quorum_queue_non_voters`...[0m
+2025-01-14T14:24:42.4067303Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.150246+00:00 [notice] <0.316.0> Feature flags: `quorum_queue_non_voters` enabled[0m
+2025-01-14T14:24:42.4068827Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.150440+00:00 [notice] <0.316.0> Feature flags: attempt to enable `stream_update_config_command`...[0m
+2025-01-14T14:24:42.4070358Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.216882+00:00 [notice] <0.316.0> Feature flags: `stream_update_config_command` enabled[0m
+2025-01-14T14:24:42.4071851Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.217040+00:00 [notice] <0.316.0> Feature flags: attempt to enable `stream_filtering`...[0m
+2025-01-14T14:24:42.4073277Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.283461+00:00 [notice] <0.316.0> Feature flags: `stream_filtering` enabled[0m
+2025-01-14T14:24:42.4075103Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.283638+00:00 [notice] <0.316.0> Feature flags: attempt to enable `stream_sac_coordinator_unblock_group`...[0m
+2025-01-14T14:24:42.4076779Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.349972+00:00 [notice] <0.316.0> Feature flags: `stream_sac_coordinator_unblock_group` enabled[0m
+2025-01-14T14:24:42.4078285Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.350122+00:00 [notice] <0.316.0> Feature flags: attempt to enable `restart_streams`...[0m
+2025-01-14T14:24:42.4079681Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.416390+00:00 [notice] <0.316.0> Feature flags: `restart_streams` enabled[0m
+2025-01-14T14:24:42.4081106Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.416657+00:00 [notice] <0.316.0> Feature flags: attempt to enable `message_containers`...[0m
+2025-01-14T14:24:42.4082538Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.483728+00:00 [notice] <0.316.0> Feature flags: `message_containers` enabled[0m
+2025-01-14T14:24:42.4084031Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.483856+00:00 [notice] <0.316.0> Feature flags: attempt to enable `message_containers_deaths_v2`...[0m
+2025-01-14T14:24:42.4085796Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.551695+00:00 [notice] <0.316.0> Feature flags: `message_containers_deaths_v2` enabled[0m
+2025-01-14T14:24:42.4087124Z wedding_rabbitmq  | 2025-01-14 14:23:45.552461+00:00 [info] <0.254.0> DB: virgin node -> run peer discovery[0m
+2025-01-14T14:24:42.4088667Z wedding_rabbitmq  | [38;5;214m2025-01-14 14:23:45.552521+00:00 [warning] <0.254.0> Classic peer discovery backend: list of nodes does not contain the local node [][0m
+2025-01-14T14:24:42.4090264Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.559822+00:00 [notice] <0.44.0> Application mnesia exited with reason: stopped[0m
+2025-01-14T14:24:42.4091650Z wedding_rabbitmq  | 2025-01-14 14:23:45.649649+00:00 [info] <0.254.0> Waiting for Mnesia tables for 30000 ms, 9 retries left[0m
+2025-01-14T14:24:42.4093164Z wedding_rabbitmq  | 2025-01-14 14:23:45.649770+00:00 [info] <0.254.0> Successfully synced tables from a peer[0m
+2025-01-14T14:24:42.4094969Z wedding_rabbitmq  | 2025-01-14 14:23:45.649915+00:00 [info] <0.254.0> Waiting for Mnesia tables for 30000 ms, 9 retries left[0m
+2025-01-14T14:24:42.4096296Z wedding_rabbitmq  | 2025-01-14 14:23:45.650017+00:00 [info] <0.254.0> Successfully synced tables from a peer[0m
+2025-01-14T14:24:42.4097599Z wedding_rabbitmq  | 2025-01-14 14:23:45.655564+00:00 [info] <0.254.0> Waiting for Mnesia tables for 30000 ms, 9 retries left[0m
+2025-01-14T14:24:42.4098884Z wedding_rabbitmq  | 2025-01-14 14:23:45.655687+00:00 [info] <0.254.0> Successfully synced tables from a peer[0m
+2025-01-14T14:24:42.4100256Z wedding_rabbitmq  | 2025-01-14 14:23:45.655860+00:00 [info] <0.254.0> Running boot step tracking_metadata_store defined by app rabbit[0m
+2025-01-14T14:24:42.4101821Z wedding_rabbitmq  | 2025-01-14 14:23:45.656025+00:00 [info] <0.558.0> Setting up a table for connection tracking on this node: tracked_connection[0m
+2025-01-14T14:24:42.4103565Z wedding_rabbitmq  | 2025-01-14 14:23:45.656105+00:00 [info] <0.558.0> Setting up a table for per-vhost connection counting on this node: tracked_connection_per_vhost[0m
+2025-01-14T14:24:42.4105590Z wedding_rabbitmq  | 2025-01-14 14:23:45.656189+00:00 [info] <0.558.0> Setting up a table for per-user connection counting on this node: tracked_connection_per_user[0m
+2025-01-14T14:24:42.4107268Z wedding_rabbitmq  | 2025-01-14 14:23:45.656280+00:00 [info] <0.558.0> Setting up a table for channel tracking on this node: tracked_channel[0m
+2025-01-14T14:24:42.4108848Z wedding_rabbitmq  | 2025-01-14 14:23:45.656351+00:00 [info] <0.558.0> Setting up a table for channel tracking on this node: tracked_channel_per_user[0m
+2025-01-14T14:24:42.4110426Z wedding_rabbitmq  | 2025-01-14 14:23:45.656458+00:00 [info] <0.254.0> Running boot step networking_metadata_store defined by app rabbit[0m
+2025-01-14T14:24:42.4111867Z wedding_rabbitmq  | 2025-01-14 14:23:45.656567+00:00 [info] <0.254.0> Running boot step feature_flags defined by app rabbit[0m
+2025-01-14T14:24:42.4113257Z wedding_rabbitmq  | 2025-01-14 14:23:45.656735+00:00 [info] <0.254.0> Running boot step codec_correctness_check defined by app rabbit[0m
+2025-01-14T14:24:42.4114831Z wedding_rabbitmq  | 2025-01-14 14:23:45.656784+00:00 [info] <0.254.0> Running boot step external_infrastructure defined by app rabbit[0m
+2025-01-14T14:24:42.4116270Z wedding_rabbitmq  | 2025-01-14 14:23:45.656825+00:00 [info] <0.254.0> Running boot step rabbit_event defined by app rabbit[0m
+2025-01-14T14:24:42.4117576Z wedding_rabbitmq  | 2025-01-14 14:23:45.656959+00:00 [info] <0.254.0> Running boot step rabbit_registry defined by app rabbit[0m
+2025-01-14T14:24:42.4119015Z wedding_rabbitmq  | 2025-01-14 14:23:45.657063+00:00 [info] <0.254.0> Running boot step rabbit_auth_mechanism_amqplain defined by app rabbit[0m
+2025-01-14T14:24:42.4120552Z wedding_rabbitmq  | 2025-01-14 14:23:45.657151+00:00 [info] <0.254.0> Running boot step rabbit_auth_mechanism_cr_demo defined by app rabbit[0m
+2025-01-14T14:24:42.4122099Z wedding_rabbitmq  | 2025-01-14 14:23:45.657216+00:00 [info] <0.254.0> Running boot step rabbit_auth_mechanism_plain defined by app rabbit[0m
+2025-01-14T14:24:42.4123668Z wedding_rabbitmq  | 2025-01-14 14:23:45.657289+00:00 [info] <0.254.0> Running boot step rabbit_exchange_type_direct defined by app rabbit[0m
+2025-01-14T14:24:42.4125423Z wedding_rabbitmq  | 2025-01-14 14:23:45.657366+00:00 [info] <0.254.0> Running boot step rabbit_exchange_type_fanout defined by app rabbit[0m
+2025-01-14T14:24:42.4126986Z wedding_rabbitmq  | 2025-01-14 14:23:45.657459+00:00 [info] <0.254.0> Running boot step rabbit_exchange_type_headers defined by app rabbit[0m
+2025-01-14T14:24:42.4128539Z wedding_rabbitmq  | 2025-01-14 14:23:45.657537+00:00 [info] <0.254.0> Running boot step rabbit_exchange_type_topic defined by app rabbit[0m
+2025-01-14T14:24:42.4130333Z wedding_rabbitmq  | 2025-01-14 14:23:45.657610+00:00 [info] <0.254.0> Running boot step rabbit_mirror_queue_mode_all defined by app rabbit[0m
+2025-01-14T14:24:42.4132139Z wedding_rabbitmq  | 2025-01-14 14:23:45.657716+00:00 [info] <0.254.0> Running boot step rabbit_mirror_queue_mode_exactly defined by app rabbit[0m
+2025-01-14T14:24:42.4133779Z wedding_rabbitmq  | 2025-01-14 14:23:45.657791+00:00 [info] <0.254.0> Running boot step rabbit_mirror_queue_mode_nodes defined by app rabbit[0m
+2025-01-14T14:24:42.4135508Z wedding_rabbitmq  | 2025-01-14 14:23:45.657861+00:00 [info] <0.254.0> Running boot step rabbit_priority_queue defined by app rabbit[0m
+2025-01-14T14:24:42.4136980Z wedding_rabbitmq  | 2025-01-14 14:23:45.657907+00:00 [info] <0.254.0> Priority queues enabled, real BQ is rabbit_variable_queue[0m
+2025-01-14T14:24:42.4138487Z wedding_rabbitmq  | 2025-01-14 14:23:45.658006+00:00 [info] <0.254.0> Running boot step rabbit_queue_location_client_local defined by app rabbit[0m
+2025-01-14T14:24:42.4140044Z wedding_rabbitmq  | 2025-01-14 14:23:45.658078+00:00 [info] <0.254.0> Running boot step rabbit_queue_location_min_masters defined by app rabbit[0m
+2025-01-14T14:24:42.4141540Z wedding_rabbitmq  | 2025-01-14 14:23:45.658170+00:00 [info] <0.254.0> Running boot step rabbit_queue_location_random defined by app rabbit[0m
+2025-01-14T14:24:42.4142794Z wedding_rabbitmq  | 2025-01-14 14:23:45.658249+00:00 [info] <0.254.0> Running boot step kernel_ready defined by app rabbit[0m
+2025-01-14T14:24:42.4144130Z wedding_rabbitmq  | 2025-01-14 14:23:45.658290+00:00 [info] <0.254.0> Running boot step rabbit_sysmon_minder defined by app rabbit[0m
+2025-01-14T14:24:42.4145759Z wedding_rabbitmq  | 2025-01-14 14:23:45.658457+00:00 [info] <0.254.0> Running boot step rabbit_epmd_monitor defined by app rabbit[0m
+2025-01-14T14:24:42.4147290Z wedding_rabbitmq  | 2025-01-14 14:23:45.659124+00:00 [info] <0.566.0> epmd monitor knows us, inter-node communication (distribution) port: 25672[0m
+2025-01-14T14:24:42.4148813Z wedding_rabbitmq  | 2025-01-14 14:23:45.659216+00:00 [info] <0.254.0> Running boot step guid_generator defined by app rabbit[0m
+2025-01-14T14:24:42.4150231Z wedding_rabbitmq  | 2025-01-14 14:23:45.660480+00:00 [info] <0.254.0> Running boot step rabbit_node_monitor defined by app rabbit[0m
+2025-01-14T14:24:42.4151607Z wedding_rabbitmq  | 2025-01-14 14:23:45.660738+00:00 [info] <0.570.0> Starting rabbit_node_monitor (in ignore mode)[0m
+2025-01-14T14:24:42.4152980Z wedding_rabbitmq  | 2025-01-14 14:23:45.660855+00:00 [info] <0.254.0> Running boot step delegate_sup defined by app rabbit[0m
+2025-01-14T14:24:42.4154676Z wedding_rabbitmq  | 2025-01-14 14:23:45.661276+00:00 [info] <0.254.0> Running boot step rabbit_memory_monitor defined by app rabbit[0m
+2025-01-14T14:24:42.4156144Z wedding_rabbitmq  | 2025-01-14 14:23:45.661498+00:00 [info] <0.254.0> Running boot step rabbit_fifo_dlx_sup defined by app rabbit[0m
+2025-01-14T14:24:42.4157569Z wedding_rabbitmq  | 2025-01-14 14:23:45.661605+00:00 [info] <0.254.0> Running boot step core_initialized defined by app rabbit[0m
+2025-01-14T14:24:42.4159101Z wedding_rabbitmq  | 2025-01-14 14:23:45.661652+00:00 [info] <0.254.0> Running boot step rabbit_channel_tracking_handler defined by app rabbit[0m
+2025-01-14T14:24:42.4160708Z wedding_rabbitmq  | 2025-01-14 14:23:45.661729+00:00 [info] <0.254.0> Running boot step rabbit_connection_tracking_handler defined by app rabbit[0m
+2025-01-14T14:24:42.4162278Z wedding_rabbitmq  | 2025-01-14 14:23:45.661799+00:00 [info] <0.254.0> Running boot step rabbit_definitions_hashing defined by app rabbit[0m
+2025-01-14T14:24:42.4163799Z wedding_rabbitmq  | 2025-01-14 14:23:45.661879+00:00 [info] <0.254.0> Running boot step rabbit_exchange_parameters defined by app rabbit[0m
+2025-01-14T14:24:42.4165469Z wedding_rabbitmq  | 2025-01-14 14:23:45.682239+00:00 [info] <0.254.0> Running boot step rabbit_mirror_queue_misc defined by app rabbit[0m
+2025-01-14T14:24:42.4166900Z wedding_rabbitmq  | 2025-01-14 14:23:45.682706+00:00 [info] <0.254.0> Running boot step rabbit_policies defined by app rabbit[0m
+2025-01-14T14:24:42.4168502Z wedding_rabbitmq  | 2025-01-14 14:23:45.682992+00:00 [info] <0.254.0> Running boot step rabbit_policy defined by app rabbit[0m
+2025-01-14T14:24:42.4170170Z wedding_rabbitmq  | 2025-01-14 14:23:45.683052+00:00 [info] <0.254.0> Running boot step rabbit_queue_location_validator defined by app rabbit[0m
+2025-01-14T14:24:42.4171737Z wedding_rabbitmq  | 2025-01-14 14:23:45.683125+00:00 [info] <0.254.0> Running boot step rabbit_quorum_memory_manager defined by app rabbit[0m
+2025-01-14T14:24:42.4173214Z wedding_rabbitmq  | 2025-01-14 14:23:45.683198+00:00 [info] <0.254.0> Running boot step rabbit_quorum_queue defined by app rabbit[0m
+2025-01-14T14:24:42.4174860Z wedding_rabbitmq  | 2025-01-14 14:23:45.683320+00:00 [info] <0.254.0> Running boot step rabbit_stream_coordinator defined by app rabbit[0m
+2025-01-14T14:24:42.4176477Z wedding_rabbitmq  | 2025-01-14 14:23:45.683481+00:00 [info] <0.254.0> Running boot step rabbit_vhost_limit defined by app rabbit[0m
+2025-01-14T14:24:42.4178091Z wedding_rabbitmq  | 2025-01-14 14:23:45.683575+00:00 [info] <0.254.0> Running boot step rabbit_federation_parameters defined by app rabbitmq_federation[0m
+2025-01-14T14:24:42.4179802Z wedding_rabbitmq  | 2025-01-14 14:23:45.683710+00:00 [info] <0.254.0> Running boot step rabbit_federation_supervisor defined by app rabbitmq_federation[0m
+2025-01-14T14:24:42.4181476Z wedding_rabbitmq  | 2025-01-14 14:23:45.688891+00:00 [info] <0.254.0> Running boot step rabbit_federation_queue defined by app rabbitmq_federation[0m
+2025-01-14T14:24:42.4183138Z wedding_rabbitmq  | 2025-01-14 14:23:45.689015+00:00 [info] <0.254.0> Running boot step rabbit_federation_upstream_exchange defined by app rabbitmq_federation[0m
+2025-01-14T14:24:42.4184977Z wedding_rabbitmq  | 2025-01-14 14:23:45.689096+00:00 [info] <0.254.0> Running boot step rabbit_mgmt_reset_handler defined by app rabbitmq_management[0m
+2025-01-14T14:24:42.4186589Z wedding_rabbitmq  | 2025-01-14 14:23:45.689173+00:00 [info] <0.254.0> Running boot step rabbit_mgmt_db_handler defined by app rabbitmq_management_agent[0m
+2025-01-14T14:24:42.4187895Z wedding_rabbitmq  | 2025-01-14 14:23:45.689243+00:00 [info] <0.254.0> Management plugin: using rates mode 'basic'[0m
+2025-01-14T14:24:42.4189049Z wedding_rabbitmq  | 2025-01-14 14:23:45.689454+00:00 [info] <0.254.0> Running boot step recovery defined by app rabbit[0m
+2025-01-14T14:24:42.4190030Z wedding_rabbitmq  | 2025-01-14 14:23:45.698917+00:00 [info] <0.254.0> Running boot step empty_db_check defined by app rabbit[0m
+2025-01-14T14:24:42.4190755Z wedding_rabbitmq  | 2025-01-14 14:23:45.698967+00:00 [info] <0.254.0> Will seed default virtual host and user...[0m
+2025-01-14T14:24:42.4191511Z wedding_rabbitmq  | 2025-01-14 14:23:45.699094+00:00 [info] <0.254.0> Adding vhost '/' (description: 'Default virtual host', tags: [])[0m
+2025-01-14T14:24:42.4192636Z wedding_rabbitmq  | 2025-01-14 14:23:45.705898+00:00 [info] <0.630.0> Making sure data directory '/var/lib/rabbitmq/mnesia/rabbit@4de8675e68fc/msg_stores/vhosts/628WB79CIFDYO9LJI6DKMI09L' for vhost '/' exists[0m
+2025-01-14T14:24:42.4193698Z wedding_rabbitmq  | 2025-01-14 14:23:45.706736+00:00 [info] <0.630.0> Setting segment_entry_count for vhost '/' with 0 queues to '2048'[0m
+2025-01-14T14:24:42.4194579Z wedding_rabbitmq  | 2025-01-14 14:23:45.712979+00:00 [info] <0.630.0> Starting message stores for vhost '/'[0m
+2025-01-14T14:24:42.4195522Z wedding_rabbitmq  | 2025-01-14 14:23:45.713141+00:00 [info] <0.639.0> Message store "628WB79CIFDYO9LJI6DKMI09L/msg_store_transient": using rabbit_msg_store_ets_index to provide index[0m
+2025-01-14T14:24:42.4196445Z wedding_rabbitmq  | 2025-01-14 14:23:45.714069+00:00 [info] <0.630.0> Started message store of type transient for vhost '/'[0m
+2025-01-14T14:24:42.4197406Z wedding_rabbitmq  | 2025-01-14 14:23:45.714238+00:00 [info] <0.643.0> Message store "628WB79CIFDYO9LJI6DKMI09L/msg_store_persistent": using rabbit_msg_store_ets_index to provide index[0m
+2025-01-14T14:24:42.4198709Z wedding_rabbitmq  | [38;5;214m2025-01-14 14:23:45.714710+00:00 [warning] <0.643.0> Message store "628WB79CIFDYO9LJI6DKMI09L/msg_store_persistent": rebuilding indices from scratch[0m
+2025-01-14T14:24:42.4199731Z wedding_rabbitmq  | 2025-01-14 14:23:45.715378+00:00 [info] <0.630.0> Started message store of type persistent for vhost '/'[0m
+2025-01-14T14:24:42.4200485Z wedding_rabbitmq  | 2025-01-14 14:23:45.715502+00:00 [info] <0.630.0> Recovering 0 queues of type rabbit_classic_queue took 8ms[0m
+2025-01-14T14:24:42.4201251Z wedding_rabbitmq  | 2025-01-14 14:23:45.715580+00:00 [info] <0.630.0> Recovering 0 queues of type rabbit_quorum_queue took 0ms[0m
+2025-01-14T14:24:42.4201998Z wedding_rabbitmq  | 2025-01-14 14:23:45.715662+00:00 [info] <0.630.0> Recovering 0 queues of type rabbit_stream_queue took 0ms[0m
+2025-01-14T14:24:42.4203156Z wedding_rabbitmq  | 2025-01-14 14:23:45.717499+00:00 [info] <0.254.0> Created user '***'[0m
+2025-01-14T14:24:42.4203916Z wedding_rabbitmq  | 2025-01-14 14:23:45.718137+00:00 [info] <0.254.0> Successfully set user tags for user '***' to [administrator][0m
+2025-01-14T14:24:42.4204967Z wedding_rabbitmq  | 2025-01-14 14:23:45.718738+00:00 [info] <0.254.0> Successfully set permissions for user '***' in virtual host '/' to '.*', '.*', '.*'[0m
+2025-01-14T14:24:42.4205822Z wedding_rabbitmq  | 2025-01-14 14:23:45.718791+00:00 [info] <0.254.0> Running boot step rabbit_observer_cli defined by app rabbit[0m
+2025-01-14T14:24:42.4206584Z wedding_rabbitmq  | 2025-01-14 14:23:45.718865+00:00 [info] <0.254.0> Running boot step rabbit_looking_glass defined by app rabbit[0m
+2025-01-14T14:24:42.4207360Z wedding_rabbitmq  | 2025-01-14 14:23:45.718947+00:00 [info] <0.254.0> Running boot step rabbit_core_metrics_gc defined by app rabbit[0m
+2025-01-14T14:24:42.4208115Z wedding_rabbitmq  | 2025-01-14 14:23:45.719112+00:00 [info] <0.254.0> Running boot step background_gc defined by app rabbit[0m
+2025-01-14T14:24:42.4208843Z wedding_rabbitmq  | 2025-01-14 14:23:45.719258+00:00 [info] <0.254.0> Running boot step routing_ready defined by app rabbit[0m
+2025-01-14T14:24:42.4209568Z wedding_rabbitmq  | 2025-01-14 14:23:45.719302+00:00 [info] <0.254.0> Running boot step pre_flight defined by app rabbit[0m
+2025-01-14T14:24:42.4210291Z wedding_rabbitmq  | 2025-01-14 14:23:45.719362+00:00 [info] <0.254.0> Running boot step notify_cluster defined by app rabbit[0m
+2025-01-14T14:24:42.4211003Z wedding_rabbitmq  | 2025-01-14 14:23:45.719450+00:00 [info] <0.254.0> Running boot step networking defined by app rabbit[0m
+2025-01-14T14:24:42.4211860Z wedding_rabbitmq  | 2025-01-14 14:23:45.719550+00:00 [info] <0.254.0> Running boot step rabbit_quorum_queue_periodic_membership_reconciliation defined by app rabbit[0m
+2025-01-14T14:24:42.4212769Z wedding_rabbitmq  | 2025-01-14 14:23:45.719679+00:00 [info] <0.254.0> Running boot step definition_import_worker_pool defined by app rabbit[0m
+2025-01-14T14:24:42.4213602Z wedding_rabbitmq  | 2025-01-14 14:23:45.719743+00:00 [info] <0.315.0> Starting worker pool 'definition_import_pool' with 4 processes in it[0m
+2025-01-14T14:24:42.4214545Z wedding_rabbitmq  | 2025-01-14 14:23:45.720063+00:00 [info] <0.254.0> Running boot step cluster_name defined by app rabbit[0m
+2025-01-14T14:24:42.4215388Z wedding_rabbitmq  | 2025-01-14 14:23:45.720149+00:00 [info] <0.254.0> Initialising internal cluster ID to 'rabbitmq-cluster-id-w15k-mmZ-l_Nph_N5CMtRQ'[0m
+2025-01-14T14:24:42.4216292Z wedding_rabbitmq  | 2025-01-14 14:23:45.720884+00:00 [info] <0.254.0> Running boot step virtual_host_reconciliation defined by app rabbit[0m
+2025-01-14T14:24:42.4217060Z wedding_rabbitmq  | 2025-01-14 14:23:45.721010+00:00 [info] <0.254.0> Running boot step direct_client defined by app rabbit[0m
+2025-01-14T14:24:42.4217878Z wedding_rabbitmq  | 2025-01-14 14:23:45.721097+00:00 [info] <0.254.0> Running boot step rabbit_federation_exchange defined by app rabbitmq_federation[0m
+2025-01-14T14:24:42.4218798Z wedding_rabbitmq  | 2025-01-14 14:23:45.721260+00:00 [info] <0.254.0> Running boot step rabbit_management_load_definitions defined by app rabbitmq_management[0m
+2025-01-14T14:24:42.4219731Z wedding_rabbitmq  | 2025-01-14 14:23:45.721360+00:00 [info] <0.680.0> Resetting node maintenance status[0m
+2025-01-14T14:24:42.4220818Z wedding_rabbitmq  | [38;5;214m2025-01-14 14:23:45.838060+00:00 [warning] <0.709.0> Deprecated features: `management_metrics_collection`: Feature `management_metrics_collection` is deprecated.[0m
+2025-01-14T14:24:42.4221795Z wedding_rabbitmq  | [38;5;214m2025-01-14 14:23:45.838060+00:00 [warning] <0.709.0> By default, this feature can still be used for now.[0m
+2025-01-14T14:24:42.4223007Z wedding_rabbitmq  | [38;5;214m2025-01-14 14:23:45.838060+00:00 [warning] <0.709.0> Its use will not be permitted by default in a future minor RabbitMQ version and the feature will be removed from a future major RabbitMQ version; actual versions to be determined.[0m
+2025-01-14T14:24:42.4224648Z wedding_rabbitmq  | [38;5;214m2025-01-14 14:23:45.838060+00:00 [warning] <0.709.0> To continue using this feature when it is not permitted by default, set the following parameter in your configuration:[0m
+2025-01-14T14:24:42.4225700Z wedding_rabbitmq  | [38;5;214m2025-01-14 14:23:45.838060+00:00 [warning] <0.709.0>     "deprecated_features.permit.management_metrics_collection = true"[0m
+2025-01-14T14:24:42.4226626Z wedding_rabbitmq  | [38;5;214m2025-01-14 14:23:45.838060+00:00 [warning] <0.709.0> To test RabbitMQ as if the feature was removed, set this in your configuration:[0m
+2025-01-14T14:24:42.4227551Z wedding_rabbitmq  | [38;5;214m2025-01-14 14:23:45.838060+00:00 [warning] <0.709.0>     "deprecated_features.permit.management_metrics_collection = false"[0m
+2025-01-14T14:24:42.4228421Z wedding_rabbitmq  | 2025-01-14 14:23:47.988959+00:00 [info] <0.746.0> Management plugin: HTTP (non-TLS) listener started on port 15672[0m
+2025-01-14T14:24:42.4229119Z wedding_rabbitmq  | 2025-01-14 14:23:47.989106+00:00 [info] <0.776.0> Statistics database started.[0m
+2025-01-14T14:24:42.4229864Z wedding_rabbitmq  | 2025-01-14 14:23:47.989205+00:00 [info] <0.775.0> Starting worker pool 'management_worker_pool' with 3 processes in it[0m
+2025-01-14T14:24:42.4230686Z wedding_rabbitmq  | 2025-01-14 14:23:47.996441+00:00 [info] <0.794.0> Prometheus metrics: HTTP (non-TLS) listener started on port 15692[0m
+2025-01-14T14:24:42.4231423Z wedding_rabbitmq  | 2025-01-14 14:23:47.996566+00:00 [info] <0.680.0> Ready to start client connection listeners[0m
+2025-01-14T14:24:42.4235804Z wedding_rabbitmq  | 2025-01-14 14:23:47.997822+00:00 [info] <0.838.0> started TCP listener on [::]:5672[0m
+2025-01-14T14:24:42.4236292Z wedding_rabbitmq  |  completed with 5 plugins.
+2025-01-14T14:24:42.4236875Z wedding_rabbitmq  | 2025-01-14 14:23:48.077418+00:00 [info] <0.680.0> Server startup complete; 5 plugins started.[0m
+2025-01-14T14:24:42.4237516Z wedding_rabbitmq  | 2025-01-14 14:23:48.077418+00:00 [info] <0.680.0>  * rabbitmq_prometheus[0m
+2025-01-14T14:24:42.4238091Z wedding_rabbitmq  | 2025-01-14 14:23:48.077418+00:00 [info] <0.680.0>  * rabbitmq_federation[0m
+2025-01-14T14:24:42.4238671Z wedding_rabbitmq  | 2025-01-14 14:23:48.077418+00:00 [info] <0.680.0>  * rabbitmq_management[0m
+2025-01-14T14:24:42.4239252Z wedding_rabbitmq  | 2025-01-14 14:23:48.077418+00:00 [info] <0.680.0>  * rabbitmq_management_agent[0m
+2025-01-14T14:24:42.4239847Z wedding_rabbitmq  | 2025-01-14 14:23:48.077418+00:00 [info] <0.680.0>  * rabbitmq_web_dispatch[0m
+2025-01-14T14:24:42.4240442Z wedding_rabbitmq  | 2025-01-14 14:23:48.141370+00:00 [info] <0.9.0> Time to start RabbitMQ: 6039 ms[0m
+2025-01-14T14:24:42.4250147Z ##[error]Process completed with exit code 1.
+2025-01-14T14:24:42.4321137Z ##[group]Run echo "RabbitMQ logs on failure:"
+2025-01-14T14:24:42.4321513Z [36;1mecho "RabbitMQ logs on failure:"[0m
+2025-01-14T14:24:42.4321792Z [36;1mdocker compose logs rabbitmq[0m
+2025-01-14T14:24:42.4356644Z shell: /usr/bin/bash -e {0}
+2025-01-14T14:24:42.4357004Z env:
+2025-01-14T14:24:42.4357392Z   DB_WEDDING_SITE_USERNAME: ***
+2025-01-14T14:24:42.4358067Z   DB_WEDDING_SITE_PASSWORD: ***
+2025-01-14T14:24:42.4358453Z   DB_ROOT_PASSWORD: ***
+2025-01-14T14:24:42.4358815Z   MONITORING_PASSWORD: ***
+2025-01-14T14:24:42.4359190Z   RABBITMQ_USER: ***
+2025-01-14T14:24:42.4359528Z   RABBITMQ_PASSWORD: ***
+2025-01-14T14:24:42.4359849Z ##[endgroup]
+2025-01-14T14:24:42.4413960Z RabbitMQ logs on failure:
+2025-01-14T14:24:42.5012638Z wedding_rabbitmq  | 2025-01-14 14:23:44.377895+00:00 [notice] <0.44.0> Application syslog exited with reason: stopped
+2025-01-14T14:24:42.5020946Z wedding_rabbitmq  | 2025-01-14 14:23:44.382117+00:00 [notice] <0.254.0> Logging: switching to configured handler(s); following messages may not be visible in this log output
+2025-01-14T14:24:42.5022837Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:44.382716+00:00 [notice] <0.254.0> Logging: configured log handlers are now ACTIVE[0m
+2025-01-14T14:24:42.5024145Z wedding_rabbitmq  | 2025-01-14 14:23:44.388306+00:00 [info] <0.254.0> ra: starting system quorum_queues[0m
+2025-01-14T14:24:42.5026078Z wedding_rabbitmq  | 2025-01-14 14:23:44.388363+00:00 [info] <0.254.0> starting Ra system: quorum_queues in directory: /var/lib/rabbitmq/mnesia/rabbit@4de8675e68fc/quorum/rabbit@4de8675e68fc[0m
+2025-01-14T14:24:42.5027970Z wedding_rabbitmq  | 2025-01-14 14:23:44.430791+00:00 [info] <0.268.0> ra system 'quorum_queues' running pre init for 0 registered servers[0m
+2025-01-14T14:24:42.5029904Z wedding_rabbitmq  | 2025-01-14 14:23:44.438326+00:00 [info] <0.269.0> ra: meta data store initialised for system quorum_queues. 0 record(s) recovered[0m
+2025-01-14T14:24:42.5031583Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:44.447927+00:00 [notice] <0.274.0> WAL: ra_log_wal init, open tbls: ra_log_open_mem_tables, closed tbls: ra_log_closed_mem_tables[0m
+2025-01-14T14:24:42.5032963Z wedding_rabbitmq  | 2025-01-14 14:23:44.457553+00:00 [info] <0.254.0> ra: starting system coordination[0m
+2025-01-14T14:24:42.5034861Z wedding_rabbitmq  | 2025-01-14 14:23:44.457598+00:00 [info] <0.254.0> starting Ra system: coordination in directory: /var/lib/rabbitmq/mnesia/rabbit@4de8675e68fc/coordination/rabbit@4de8675e68fc[0m
+2025-01-14T14:24:42.5036652Z wedding_rabbitmq  | 2025-01-14 14:23:44.458555+00:00 [info] <0.282.0> ra system 'coordination' running pre init for 0 registered servers[0m
+2025-01-14T14:24:42.5038154Z wedding_rabbitmq  | 2025-01-14 14:23:44.459133+00:00 [info] <0.283.0> ra: meta data store initialised for system coordination. 0 record(s) recovered[0m
+2025-01-14T14:24:42.5040088Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:44.459296+00:00 [notice] <0.288.0> WAL: ra_coordination_log_wal init, open tbls: ra_coordination_log_open_mem_tables, closed tbls: ra_coordination_log_closed_mem_tables[0m
+2025-01-14T14:24:42.5041694Z wedding_rabbitmq  | 2025-01-14 14:23:44.460738+00:00 [info] <0.254.0> ra: starting system coordination[0m
+2025-01-14T14:24:42.5043373Z wedding_rabbitmq  | 2025-01-14 14:23:44.460776+00:00 [info] <0.254.0> starting Ra system: coordination in directory: /var/lib/rabbitmq/mnesia/rabbit@4de8675e68fc/coordination/rabbit@4de8675e68fc[0m
+2025-01-14T14:24:42.5045124Z wedding_rabbitmq  | 2025-01-14 14:23:44.521905+00:00 [info] <0.254.0> Waiting for Khepri leader for 30000 ms, 9 retries left[0m
+2025-01-14T14:24:42.5046573Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:44.524172+00:00 [notice] <0.292.0> RabbitMQ metadata store: candidate -> leader in term: 1 machine version: 1[0m
+2025-01-14T14:24:42.5047882Z wedding_rabbitmq  | 2025-01-14 14:23:44.532984+00:00 [info] <0.254.0> Khepri leader elected[0m
+2025-01-14T14:24:42.5049545Z wedding_rabbitmq  | 2025-01-14 14:23:44.533029+00:00 [info] <0.254.0> Waiting for Khepri projections for 30000 ms, 9 retries left[0m
+2025-01-14T14:24:42.5052016Z wedding_rabbitmq  | 2025-01-14 14:23:44.722754+00:00 [info] <0.254.0> [0m
+2025-01-14T14:24:42.5053099Z wedding_rabbitmq  | 2025-01-14 14:23:44.722754+00:00 [info] <0.254.0>  Starting RabbitMQ 3.13.7 on Erlang 26.2.5.6 [jit][0m
+2025-01-14T14:24:42.5054605Z wedding_rabbitmq  | 2025-01-14 14:23:44.722754+00:00 [info] <0.254.0>  Copyright (c) 2007-2024 Broadcom Inc and/or its subsidiaries[0m
+2025-01-14T14:24:42.5056255Z wedding_rabbitmq  | 2025-01-14 14:23:44.722754+00:00 [info] <0.254.0>  Licensed under the MPL 2.0. Website: https://rabbitmq.com[0m
+2025-01-14T14:24:42.5057048Z wedding_rabbitmq  | 
+2025-01-14T14:24:42.5057424Z wedding_rabbitmq  |   ##  ##      RabbitMQ 3.13.7
+2025-01-14T14:24:42.5057870Z wedding_rabbitmq  |   ##  ##
+2025-01-14T14:24:42.5058471Z wedding_rabbitmq  |   ##########  Copyright (c) 2007-2024 Broadcom Inc and/or its subsidiaries
+2025-01-14T14:24:42.5059123Z wedding_rabbitmq  |   ######  ##
+2025-01-14T14:24:42.5059721Z wedding_rabbitmq  |   ##########  Licensed under the MPL 2.0. Website: https://rabbitmq.com
+2025-01-14T14:24:42.5060342Z wedding_rabbitmq  | 
+2025-01-14T14:24:42.5060728Z wedding_rabbitmq  |   Erlang:      26.2.5.6 [jit]
+2025-01-14T14:24:42.5061325Z wedding_rabbitmq  |   TLS Library: OpenSSL - OpenSSL 3.1.7 3 Sep 2024
+2025-01-14T14:24:42.5062252Z wedding_rabbitmq  |   Release series support status: see https://www.rabbitmq.com/release-information
+2025-01-14T14:24:42.5063053Z wedding_rabbitmq  | 
+2025-01-14T14:24:42.5063528Z wedding_rabbitmq  |   Doc guides:  https://www.rabbitmq.com/docs
+2025-01-14T14:24:42.5064410Z wedding_rabbitmq  |   Support:     https://www.rabbitmq.com/docs/contact
+2025-01-14T14:24:42.5065154Z wedding_rabbitmq  |   Tutorials:   https://www.rabbitmq.com/tutorials
+2025-01-14T14:24:42.5065901Z wedding_rabbitmq  |   Monitoring:  https://www.rabbitmq.com/docs/monitoring
+2025-01-14T14:24:42.5066663Z wedding_rabbitmq  |   Upgrading:   https://www.rabbitmq.com/docs/upgrade
+2025-01-14T14:24:42.5067261Z wedding_rabbitmq  | 
+2025-01-14T14:24:42.5067603Z wedding_rabbitmq  |   Logs: <stdout>
+2025-01-14T14:24:42.5068013Z wedding_rabbitmq  | 
+2025-01-14T14:24:42.5069056Z wedding_rabbitmq  |   Config file(s): /etc/rabbitmq/conf.d/10-defaults.conf
+2025-01-14T14:24:42.5069684Z wedding_rabbitmq  | 
+2025-01-14T14:24:42.5070455Z wedding_rabbitmq  |   Starting broker...2025-01-14 14:23:44.723725+00:00 [info] <0.254.0> [0m
+2025-01-14T14:24:42.5071192Z wedding_rabbitmq  | 2025-01-14 14:23:44.723725+00:00 [info] <0.254.0>  node           : rabbit@4de8675e68fc[0m
+2025-01-14T14:24:42.5071850Z wedding_rabbitmq  | 2025-01-14 14:23:44.723725+00:00 [info] <0.254.0>  home dir       : /var/lib/rabbitmq[0m
+2025-01-14T14:24:42.5072549Z wedding_rabbitmq  | 2025-01-14 14:23:44.723725+00:00 [info] <0.254.0>  config file(s) : /etc/rabbitmq/conf.d/10-defaults.conf[0m
+2025-01-14T14:24:42.5073246Z wedding_rabbitmq  | 2025-01-14 14:23:44.723725+00:00 [info] <0.254.0>  cookie hash    : vxvpaAId/aNmgc4vL4fn1A==[0m
+2025-01-14T14:24:42.5073904Z wedding_rabbitmq  | 2025-01-14 14:23:44.723725+00:00 [info] <0.254.0>  log(s)         : <stdout>[0m
+2025-01-14T14:24:42.5074921Z wedding_rabbitmq  | 2025-01-14 14:23:44.723725+00:00 [info] <0.254.0>  data dir       : /var/lib/rabbitmq/mnesia/rabbit@4de8675e68fc[0m
+2025-01-14T14:24:42.5075673Z wedding_rabbitmq  | 2025-01-14 14:23:44.993876+00:00 [info] <0.254.0> Running boot step pre_boot defined by app rabbit[0m
+2025-01-14T14:24:42.5076427Z wedding_rabbitmq  | 2025-01-14 14:23:44.993933+00:00 [info] <0.254.0> Running boot step rabbit_global_counters defined by app rabbit[0m
+2025-01-14T14:24:42.5077203Z wedding_rabbitmq  | 2025-01-14 14:23:44.994198+00:00 [info] <0.254.0> Running boot step rabbit_osiris_metrics defined by app rabbit[0m
+2025-01-14T14:24:42.5077968Z wedding_rabbitmq  | 2025-01-14 14:23:44.994303+00:00 [info] <0.254.0> Running boot step rabbit_core_metrics defined by app rabbit[0m
+2025-01-14T14:24:42.5078878Z wedding_rabbitmq  | 2025-01-14 14:23:44.994679+00:00 [info] <0.254.0> Running boot step rabbit_alarm defined by app rabbit[0m
+2025-01-14T14:24:42.5079746Z wedding_rabbitmq  | 2025-01-14 14:23:45.003056+00:00 [info] <0.329.0> Memory high watermark set to 6396 MiB (6706711756 bytes) of 15990 MiB (16766779392 bytes) total[0m
+2025-01-14T14:24:42.5080697Z wedding_rabbitmq  | 2025-01-14 14:23:45.005367+00:00 [info] <0.331.0> Enabling free disk space monitoring (disk free space: 28561915904, total memory: 16766779392)[0m
+2025-01-14T14:24:42.5081593Z wedding_rabbitmq  | 2025-01-14 14:23:45.005410+00:00 [info] <0.331.0> Disk free limit set to 50MB[0m
+2025-01-14T14:24:42.5082274Z wedding_rabbitmq  | 2025-01-14 14:23:45.006876+00:00 [info] <0.254.0> Running boot step code_server_cache defined by app rabbit[0m
+2025-01-14T14:24:42.5083015Z wedding_rabbitmq  | 2025-01-14 14:23:45.006945+00:00 [info] <0.254.0> Running boot step file_handle_cache defined by app rabbit[0m
+2025-01-14T14:24:42.5083773Z wedding_rabbitmq  | 2025-01-14 14:23:45.011161+00:00 [info] <0.334.0> Limiting to approx 1048479 file handles (943629 sockets)[0m
+2025-01-14T14:24:42.5084805Z wedding_rabbitmq  | 2025-01-14 14:23:45.011299+00:00 [info] <0.335.0> FHC read buffering: OFF[0m
+2025-01-14T14:24:42.5085412Z wedding_rabbitmq  | 2025-01-14 14:23:45.011343+00:00 [info] <0.335.0> FHC write buffering: ON[0m
+2025-01-14T14:24:42.5086068Z wedding_rabbitmq  | 2025-01-14 14:23:45.011680+00:00 [info] <0.254.0> Running boot step worker_pool defined by app rabbit[0m
+2025-01-14T14:24:42.5086777Z wedding_rabbitmq  | 2025-01-14 14:23:45.011743+00:00 [info] <0.315.0> Will use 4 processes for default worker pool[0m
+2025-01-14T14:24:42.5087520Z wedding_rabbitmq  | 2025-01-14 14:23:45.011782+00:00 [info] <0.315.0> Starting worker pool 'worker_pool' with 4 processes in it[0m
+2025-01-14T14:24:42.5088246Z wedding_rabbitmq  | 2025-01-14 14:23:45.012136+00:00 [info] <0.254.0> Running boot step database defined by app rabbit[0m
+2025-01-14T14:24:42.5089041Z wedding_rabbitmq  | 2025-01-14 14:23:45.012454+00:00 [info] <0.254.0> Peer discovery: configured backend: rabbit_peer_discovery_classic_config[0m
+2025-01-14T14:24:42.5090028Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.013293+00:00 [notice] <0.316.0> Feature flags: attempt to enable `detailed_queues_endpoint`...[0m
+2025-01-14T14:24:42.5091044Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.082541+00:00 [notice] <0.316.0> Feature flags: `detailed_queues_endpoint` enabled[0m
+2025-01-14T14:24:42.5091857Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.082698+00:00 [notice] <0.316.0> Feature flags: attempt to enable `quorum_queue_non_voters`...[0m
+2025-01-14T14:24:42.5092637Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.150246+00:00 [notice] <0.316.0> Feature flags: `quorum_queue_non_voters` enabled[0m
+2025-01-14T14:24:42.5093433Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.150440+00:00 [notice] <0.316.0> Feature flags: attempt to enable `stream_update_config_command`...[0m
+2025-01-14T14:24:42.5094427Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.216882+00:00 [notice] <0.316.0> Feature flags: `stream_update_config_command` enabled[0m
+2025-01-14T14:24:42.5095378Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.217040+00:00 [notice] <0.316.0> Feature flags: attempt to enable `stream_filtering`...[0m
+2025-01-14T14:24:42.5096131Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.283461+00:00 [notice] <0.316.0> Feature flags: `stream_filtering` enabled[0m
+2025-01-14T14:24:42.5096960Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.283638+00:00 [notice] <0.316.0> Feature flags: attempt to enable `stream_sac_coordinator_unblock_group`...[0m
+2025-01-14T14:24:42.5097822Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.349972+00:00 [notice] <0.316.0> Feature flags: `stream_sac_coordinator_unblock_group` enabled[0m
+2025-01-14T14:24:42.5098650Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.350122+00:00 [notice] <0.316.0> Feature flags: attempt to enable `restart_streams`...[0m
+2025-01-14T14:24:42.5099554Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.416390+00:00 [notice] <0.316.0> Feature flags: `restart_streams` enabled[0m
+2025-01-14T14:24:42.5100331Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.416657+00:00 [notice] <0.316.0> Feature flags: attempt to enable `message_containers`...[0m
+2025-01-14T14:24:42.5101088Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.483728+00:00 [notice] <0.316.0> Feature flags: `message_containers` enabled[0m
+2025-01-14T14:24:42.5102000Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.483856+00:00 [notice] <0.316.0> Feature flags: attempt to enable `message_containers_deaths_v2`...[0m
+2025-01-14T14:24:42.5103054Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.551695+00:00 [notice] <0.316.0> Feature flags: `message_containers_deaths_v2` enabled[0m
+2025-01-14T14:24:42.5103863Z wedding_rabbitmq  | 2025-01-14 14:23:45.552461+00:00 [info] <0.254.0> DB: virgin node -> run peer discovery[0m
+2025-01-14T14:24:42.5104933Z wedding_rabbitmq  | [38;5;214m2025-01-14 14:23:45.552521+00:00 [warning] <0.254.0> Classic peer discovery backend: list of nodes does not contain the local node [][0m
+2025-01-14T14:24:42.5105800Z wedding_rabbitmq  | [38;5;87m2025-01-14 14:23:45.559822+00:00 [notice] <0.44.0> Application mnesia exited with reason: stopped[0m
+2025-01-14T14:24:42.5106537Z wedding_rabbitmq  | 2025-01-14 14:23:45.649649+00:00 [info] <0.254.0> Waiting for Mnesia tables for 30000 ms, 9 retries left[0m
+2025-01-14T14:24:42.5107491Z wedding_rabbitmq  | 2025-01-14 14:23:45.649770+00:00 [info] <0.254.0> Successfully synced tables from a peer[0m
+2025-01-14T14:24:42.5108202Z wedding_rabbitmq  | 2025-01-14 14:23:45.649915+00:00 [info] <0.254.0> Waiting for Mnesia tables for 30000 ms, 9 retries left[0m
+2025-01-14T14:24:42.5108872Z wedding_rabbitmq  | 2025-01-14 14:23:45.650017+00:00 [info] <0.254.0> Successfully synced tables from a peer[0m
+2025-01-14T14:24:42.5109551Z wedding_rabbitmq  | 2025-01-14 14:23:45.655564+00:00 [info] <0.254.0> Waiting for Mnesia tables for 30000 ms, 9 retries left[0m
+2025-01-14T14:24:42.5110222Z wedding_rabbitmq  | 2025-01-14 14:23:45.655687+00:00 [info] <0.254.0> Successfully synced tables from a peer[0m
+2025-01-14T14:24:42.5111048Z wedding_rabbitmq  | 2025-01-14 14:23:45.655860+00:00 [info] <0.254.0> Running boot step tracking_metadata_store defined by app rabbit[0m
+2025-01-14T14:24:42.5111885Z wedding_rabbitmq  | 2025-01-14 14:23:45.656025+00:00 [info] <0.558.0> Setting up a table for connection tracking on this node: tracked_connection[0m
+2025-01-14T14:24:42.5112834Z wedding_rabbitmq  | 2025-01-14 14:23:45.656105+00:00 [info] <0.558.0> Setting up a table for per-vhost connection counting on this node: tracked_connection_per_vhost[0m
+2025-01-14T14:24:42.5113817Z wedding_rabbitmq  | 2025-01-14 14:23:45.656189+00:00 [info] <0.558.0> Setting up a table for per-user connection counting on this node: tracked_connection_per_user[0m
+2025-01-14T14:24:42.5115775Z wedding_rabbitmq  | 2025-01-14 14:23:45.656280+00:00 [info] <0.558.0> Setting up a table for channel tracking on this node: tracked_channel[0m
+2025-01-14T14:24:42.5116665Z wedding_rabbitmq  | 2025-01-14 14:23:45.656351+00:00 [info] <0.558.0> Setting up a table for channel tracking on this node: tracked_channel_per_user[0m
+2025-01-14T14:24:42.5117524Z wedding_rabbitmq  | 2025-01-14 14:23:45.656458+00:00 [info] <0.254.0> Running boot step networking_metadata_store defined by app rabbit[0m
+2025-01-14T14:24:42.5118303Z wedding_rabbitmq  | 2025-01-14 14:23:45.656567+00:00 [info] <0.254.0> Running boot step feature_flags defined by app rabbit[0m
+2025-01-14T14:24:42.5119404Z wedding_rabbitmq  | 2025-01-14 14:23:45.656735+00:00 [info] <0.254.0> Running boot step codec_correctness_check defined by app rabbit[0m
+2025-01-14T14:24:42.5120212Z wedding_rabbitmq  | 2025-01-14 14:23:45.656784+00:00 [info] <0.254.0> Running boot step external_infrastructure defined by app rabbit[0m
+2025-01-14T14:24:42.5120969Z wedding_rabbitmq  | 2025-01-14 14:23:45.656825+00:00 [info] <0.254.0> Running boot step rabbit_event defined by app rabbit[0m
+2025-01-14T14:24:42.5121856Z wedding_rabbitmq  | 2025-01-14 14:23:45.656959+00:00 [info] <0.254.0> Running boot step rabbit_registry defined by app rabbit[0m
+2025-01-14T14:24:42.5122658Z wedding_rabbitmq  | 2025-01-14 14:23:45.657063+00:00 [info] <0.254.0> Running boot step rabbit_auth_mechanism_amqplain defined by app rabbit[0m
+2025-01-14T14:24:42.5123488Z wedding_rabbitmq  | 2025-01-14 14:23:45.657151+00:00 [info] <0.254.0> Running boot step rabbit_auth_mechanism_cr_demo defined by app rabbit[0m
+2025-01-14T14:24:42.5124604Z wedding_rabbitmq  | 2025-01-14 14:23:45.657216+00:00 [info] <0.254.0> Running boot step rabbit_auth_mechanism_plain defined by app rabbit[0m
+2025-01-14T14:24:42.5125429Z wedding_rabbitmq  | 2025-01-14 14:23:45.657289+00:00 [info] <0.254.0> Running boot step rabbit_exchange_type_direct defined by app rabbit[0m
+2025-01-14T14:24:42.5126236Z wedding_rabbitmq  | 2025-01-14 14:23:45.657366+00:00 [info] <0.254.0> Running boot step rabbit_exchange_type_fanout defined by app rabbit[0m
+2025-01-14T14:24:42.5127046Z wedding_rabbitmq  | 2025-01-14 14:23:45.657459+00:00 [info] <0.254.0> Running boot step rabbit_exchange_type_headers defined by app rabbit[0m
+2025-01-14T14:24:42.5127855Z wedding_rabbitmq  | 2025-01-14 14:23:45.657537+00:00 [info] <0.254.0> Running boot step rabbit_exchange_type_topic defined by app rabbit[0m
+2025-01-14T14:24:42.5128657Z wedding_rabbitmq  | 2025-01-14 14:23:45.657610+00:00 [info] <0.254.0> Running boot step rabbit_mirror_queue_mode_all defined by app rabbit[0m
+2025-01-14T14:24:42.5129502Z wedding_rabbitmq  | 2025-01-14 14:23:45.657716+00:00 [info] <0.254.0> Running boot step rabbit_mirror_queue_mode_exactly defined by app rabbit[0m
+2025-01-14T14:24:42.5130328Z wedding_rabbitmq  | 2025-01-14 14:23:45.657791+00:00 [info] <0.254.0> Running boot step rabbit_mirror_queue_mode_nodes defined by app rabbit[0m
+2025-01-14T14:24:42.5131118Z wedding_rabbitmq  | 2025-01-14 14:23:45.657861+00:00 [info] <0.254.0> Running boot step rabbit_priority_queue defined by app rabbit[0m
+2025-01-14T14:24:42.5131892Z wedding_rabbitmq  | 2025-01-14 14:23:45.657907+00:00 [info] <0.254.0> Priority queues enabled, real BQ is rabbit_variable_queue[0m
+2025-01-14T14:24:42.5132732Z wedding_rabbitmq  | 2025-01-14 14:23:45.658006+00:00 [info] <0.254.0> Running boot step rabbit_queue_location_client_local defined by app rabbit[0m
+2025-01-14T14:24:42.5133937Z wedding_rabbitmq  | 2025-01-14 14:23:45.658078+00:00 [info] <0.254.0> Running boot step rabbit_queue_location_min_masters defined by app rabbit[0m
+2025-01-14T14:24:42.5135014Z wedding_rabbitmq  | 2025-01-14 14:23:45.658170+00:00 [info] <0.254.0> Running boot step rabbit_queue_location_random defined by app rabbit[0m
+2025-01-14T14:24:42.5135779Z wedding_rabbitmq  | 2025-01-14 14:23:45.658249+00:00 [info] <0.254.0> Running boot step kernel_ready defined by app rabbit[0m
+2025-01-14T14:24:42.5136529Z wedding_rabbitmq  | 2025-01-14 14:23:45.658290+00:00 [info] <0.254.0> Running boot step rabbit_sysmon_minder defined by app rabbit[0m
+2025-01-14T14:24:42.5137526Z wedding_rabbitmq  | 2025-01-14 14:23:45.658457+00:00 [info] <0.254.0> Running boot step rabbit_epmd_monitor defined by app rabbit[0m
+2025-01-14T14:24:42.5138363Z wedding_rabbitmq  | 2025-01-14 14:23:45.659124+00:00 [info] <0.566.0> epmd monitor knows us, inter-node communication (distribution) port: 25672[0m
+2025-01-14T14:24:42.5139152Z wedding_rabbitmq  | 2025-01-14 14:23:45.659216+00:00 [info] <0.254.0> Running boot step guid_generator defined by app rabbit[0m
+2025-01-14T14:24:42.5139896Z wedding_rabbitmq  | 2025-01-14 14:23:45.660480+00:00 [info] <0.254.0> Running boot step rabbit_node_monitor defined by app rabbit[0m
+2025-01-14T14:24:42.5140603Z wedding_rabbitmq  | 2025-01-14 14:23:45.660738+00:00 [info] <0.570.0> Starting rabbit_node_monitor (in ignore mode)[0m
+2025-01-14T14:24:42.5141303Z wedding_rabbitmq  | 2025-01-14 14:23:45.660855+00:00 [info] <0.254.0> Running boot step delegate_sup defined by app rabbit[0m
+2025-01-14T14:24:42.5142186Z wedding_rabbitmq  | 2025-01-14 14:23:45.661276+00:00 [info] <0.254.0> Running boot step rabbit_memory_monitor defined by app rabbit[0m
+2025-01-14T14:24:42.5142970Z wedding_rabbitmq  | 2025-01-14 14:23:45.661498+00:00 [info] <0.254.0> Running boot step rabbit_fifo_dlx_sup defined by app rabbit[0m
+2025-01-14T14:24:42.5143714Z wedding_rabbitmq  | 2025-01-14 14:23:45.661605+00:00 [info] <0.254.0> Running boot step core_initialized defined by app rabbit[0m
+2025-01-14T14:24:42.5144806Z wedding_rabbitmq  | 2025-01-14 14:23:45.661652+00:00 [info] <0.254.0> Running boot step rabbit_channel_tracking_handler defined by app rabbit[0m
+2025-01-14T14:24:42.5145888Z wedding_rabbitmq  | 2025-01-14 14:23:45.661729+00:00 [info] <0.254.0> Running boot step rabbit_connection_tracking_handler defined by app rabbit[0m
+2025-01-14T14:24:42.5146714Z wedding_rabbitmq  | 2025-01-14 14:23:45.661799+00:00 [info] <0.254.0> Running boot step rabbit_definitions_hashing defined by app rabbit[0m
+2025-01-14T14:24:42.5147518Z wedding_rabbitmq  | 2025-01-14 14:23:45.661879+00:00 [info] <0.254.0> Running boot step rabbit_exchange_parameters defined by app rabbit[0m
+2025-01-14T14:24:42.5148311Z wedding_rabbitmq  | 2025-01-14 14:23:45.682239+00:00 [info] <0.254.0> Running boot step rabbit_mirror_queue_misc defined by app rabbit[0m
+2025-01-14T14:24:42.5149064Z wedding_rabbitmq  | 2025-01-14 14:23:45.682706+00:00 [info] <0.254.0> Running boot step rabbit_policies defined by app rabbit[0m
+2025-01-14T14:24:42.5149794Z wedding_rabbitmq  | 2025-01-14 14:23:45.682992+00:00 [info] <0.254.0> Running boot step rabbit_policy defined by app rabbit[0m
+2025-01-14T14:24:42.5150882Z wedding_rabbitmq  | 2025-01-14 14:23:45.683052+00:00 [info] <0.254.0> Running boot step rabbit_queue_location_validator defined by app rabbit[0m
+2025-01-14T14:24:42.5152064Z wedding_rabbitmq  | 2025-01-14 14:23:45.683125+00:00 [info] <0.254.0> Running boot step rabbit_quorum_memory_manager defined by app rabbit[0m
+2025-01-14T14:24:42.5152869Z wedding_rabbitmq  | 2025-01-14 14:23:45.683198+00:00 [info] <0.254.0> Running boot step rabbit_quorum_queue defined by app rabbit[0m
+2025-01-14T14:24:42.5153645Z wedding_rabbitmq  | 2025-01-14 14:23:45.683320+00:00 [info] <0.254.0> Running boot step rabbit_stream_coordinator defined by app rabbit[0m
+2025-01-14T14:24:42.5154593Z wedding_rabbitmq  | 2025-01-14 14:23:45.683481+00:00 [info] <0.254.0> Running boot step rabbit_vhost_limit defined by app rabbit[0m
+2025-01-14T14:24:42.5155457Z wedding_rabbitmq  | 2025-01-14 14:23:45.683575+00:00 [info] <0.254.0> Running boot step rabbit_federation_parameters defined by app rabbitmq_federation[0m
+2025-01-14T14:24:42.5156560Z wedding_rabbitmq  | 2025-01-14 14:23:45.683710+00:00 [info] <0.254.0> Running boot step rabbit_federation_supervisor defined by app rabbitmq_federation[0m
+2025-01-14T14:24:42.5157458Z wedding_rabbitmq  | 2025-01-14 14:23:45.688891+00:00 [info] <0.254.0> Running boot step rabbit_federation_queue defined by app rabbitmq_federation[0m
+2025-01-14T14:24:42.5158719Z wedding_rabbitmq  | 2025-01-14 14:23:45.689015+00:00 [info] <0.254.0> Running boot step rabbit_federation_upstream_exchange defined by app rabbitmq_federation[0m
+2025-01-14T14:24:42.5159703Z wedding_rabbitmq  | 2025-01-14 14:23:45.689096+00:00 [info] <0.254.0> Running boot step rabbit_mgmt_reset_handler defined by app rabbitmq_management[0m
+2025-01-14T14:24:42.5160590Z wedding_rabbitmq  | 2025-01-14 14:23:45.689173+00:00 [info] <0.254.0> Running boot step rabbit_mgmt_db_handler defined by app rabbitmq_management_agent[0m
+2025-01-14T14:24:42.5161369Z wedding_rabbitmq  | 2025-01-14 14:23:45.689243+00:00 [info] <0.254.0> Management plugin: using rates mode 'basic'[0m
+2025-01-14T14:24:42.5162296Z wedding_rabbitmq  | 2025-01-14 14:23:45.689454+00:00 [info] <0.254.0> Running boot step recovery defined by app rabbit[0m
+2025-01-14T14:24:42.5163011Z wedding_rabbitmq  | 2025-01-14 14:23:45.698917+00:00 [info] <0.254.0> Running boot step empty_db_check defined by app rabbit[0m
+2025-01-14T14:24:42.5163866Z wedding_rabbitmq  | 2025-01-14 14:23:45.698967+00:00 [info] <0.254.0> Will seed default virtual host and user...[0m
+2025-01-14T14:24:42.5165100Z wedding_rabbitmq  | 2025-01-14 14:23:45.699094+00:00 [info] <0.254.0> Adding vhost '/' (description: 'Default virtual host', tags: [])[0m
+2025-01-14T14:24:42.5166985Z wedding_rabbitmq  | 2025-01-14 14:23:45.705898+00:00 [info] <0.630.0> Making sure data directory '/var/lib/rabbitmq/mnesia/rabbit@4de8675e68fc/msg_stores/vhosts/628WB79CIFDYO9LJI6DKMI09L' for vhost '/' exists[0m
+2025-01-14T14:24:42.5168961Z wedding_rabbitmq  | 2025-01-14 14:23:45.706736+00:00 [info] <0.630.0> Setting segment_entry_count for vhost '/' with 0 queues to '2048'[0m
+2025-01-14T14:24:42.5170199Z wedding_rabbitmq  | 2025-01-14 14:23:45.712979+00:00 [info] <0.630.0> Starting message stores for vhost '/'[0m
+2025-01-14T14:24:42.5171765Z wedding_rabbitmq  | 2025-01-14 14:23:45.713141+00:00 [info] <0.639.0> Message store "628WB79CIFDYO9LJI6DKMI09L/msg_store_transient": using rabbit_msg_store_ets_index to provide index[0m
+2025-01-14T14:24:42.5173214Z wedding_rabbitmq  | 2025-01-14 14:23:45.714069+00:00 [info] <0.630.0> Started message store of type transient for vhost '/'[0m
+2025-01-14T14:24:42.5174667Z wedding_rabbitmq  | 2025-01-14 14:23:45.714238+00:00 [info] <0.643.0> Message store "628WB79CIFDYO9LJI6DKMI09L/msg_store_persistent": using rabbit_msg_store_ets_index to provide index[0m
+2025-01-14T14:24:42.5175855Z wedding_rabbitmq  | [38;5;214m2025-01-14 14:23:45.714710+00:00 [warning] <0.643.0> Message store "628WB79CIFDYO9LJI6DKMI09L/msg_store_persistent": rebuilding indices from scratch[0m
+2025-01-14T14:24:42.5177296Z wedding_rabbitmq  | 2025-01-14 14:23:45.715378+00:00 [info] <0.630.0> Started message store of type persistent for vhost '/'[0m
+2025-01-14T14:24:42.5178568Z wedding_rabbitmq  | 2025-01-14 14:23:45.715502+00:00 [info] <0.630.0> Recovering 0 queues of type rabbit_classic_queue took 8ms[0m
+2025-01-14T14:24:42.5179825Z wedding_rabbitmq  | 2025-01-14 14:23:45.715580+00:00 [info] <0.630.0> Recovering 0 queues of type rabbit_quorum_queue took 0ms[0m
+2025-01-14T14:24:42.5180956Z wedding_rabbitmq  | 2025-01-14 14:23:45.715662+00:00 [info] <0.630.0> Recovering 0 queues of type rabbit_stream_queue took 0ms[0m
+2025-01-14T14:24:42.5181792Z wedding_rabbitmq  | 2025-01-14 14:23:45.717499+00:00 [info] <0.254.0> Created user '***'[0m
+2025-01-14T14:24:42.5182525Z wedding_rabbitmq  | 2025-01-14 14:23:45.718137+00:00 [info] <0.254.0> Successfully set user tags for user '***' to [administrator][0m
+2025-01-14T14:24:42.5183420Z wedding_rabbitmq  | 2025-01-14 14:23:45.718738+00:00 [info] <0.254.0> Successfully set permissions for user '***' in virtual host '/' to '.*', '.*', '.*'[0m
+2025-01-14T14:24:42.5184485Z wedding_rabbitmq  | 2025-01-14 14:23:45.718791+00:00 [info] <0.254.0> Running boot step rabbit_observer_cli defined by app rabbit[0m
+2025-01-14T14:24:42.5185391Z wedding_rabbitmq  | 2025-01-14 14:23:45.718865+00:00 [info] <0.254.0> Running boot step rabbit_looking_glass defined by app rabbit[0m
+2025-01-14T14:24:42.5186193Z wedding_rabbitmq  | 2025-01-14 14:23:45.718947+00:00 [info] <0.254.0> Running boot step rabbit_core_metrics_gc defined by app rabbit[0m
+2025-01-14T14:24:42.5186957Z wedding_rabbitmq  | 2025-01-14 14:23:45.719112+00:00 [info] <0.254.0> Running boot step background_gc defined by app rabbit[0m
+2025-01-14T14:24:42.5187686Z wedding_rabbitmq  | 2025-01-14 14:23:45.719258+00:00 [info] <0.254.0> Running boot step routing_ready defined by app rabbit[0m
+2025-01-14T14:24:42.5188408Z wedding_rabbitmq  | 2025-01-14 14:23:45.719302+00:00 [info] <0.254.0> Running boot step pre_flight defined by app rabbit[0m
+2025-01-14T14:24:42.5189124Z wedding_rabbitmq  | 2025-01-14 14:23:45.719362+00:00 [info] <0.254.0> Running boot step notify_cluster defined by app rabbit[0m
+2025-01-14T14:24:42.5189837Z wedding_rabbitmq  | 2025-01-14 14:23:45.719450+00:00 [info] <0.254.0> Running boot step networking defined by app rabbit[0m
+2025-01-14T14:24:42.5190881Z wedding_rabbitmq  | 2025-01-14 14:23:45.719550+00:00 [info] <0.254.0> Running boot step rabbit_quorum_queue_periodic_membership_reconciliation defined by app rabbit[0m
+2025-01-14T14:24:42.5192380Z wedding_rabbitmq  | 2025-01-14 14:23:45.719679+00:00 [info] <0.254.0> Running boot step definition_import_worker_pool defined by app rabbit[0m
+2025-01-14T14:24:42.5193821Z wedding_rabbitmq  | 2025-01-14 14:23:45.719743+00:00 [info] <0.315.0> Starting worker pool 'definition_import_pool' with 4 processes in it[0m
+2025-01-14T14:24:42.5195503Z wedding_rabbitmq  | 2025-01-14 14:23:45.720063+00:00 [info] <0.254.0> Running boot step cluster_name defined by app rabbit[0m
+2025-01-14T14:24:42.5196929Z wedding_rabbitmq  | 2025-01-14 14:23:45.720149+00:00 [info] <0.254.0> Initialising internal cluster ID to 'rabbitmq-cluster-id-w15k-mmZ-l_Nph_N5CMtRQ'[0m
+2025-01-14T14:24:42.5198411Z wedding_rabbitmq  | 2025-01-14 14:23:45.720884+00:00 [info] <0.254.0> Running boot step virtual_host_reconciliation defined by app rabbit[0m
+2025-01-14T14:24:42.5199725Z wedding_rabbitmq  | 2025-01-14 14:23:45.721010+00:00 [info] <0.254.0> Running boot step direct_client defined by app rabbit[0m
+2025-01-14T14:24:42.5201127Z wedding_rabbitmq  | 2025-01-14 14:23:45.721097+00:00 [info] <0.254.0> Running boot step rabbit_federation_exchange defined by app rabbitmq_federation[0m
+2025-01-14T14:24:42.5202224Z wedding_rabbitmq  | 2025-01-14 14:23:45.721260+00:00 [info] <0.254.0> Running boot step rabbit_management_load_definitions defined by app rabbitmq_management[0m
+2025-01-14T14:24:42.5203062Z wedding_rabbitmq  | 2025-01-14 14:23:45.721360+00:00 [info] <0.680.0> Resetting node maintenance status[0m
+2025-01-14T14:24:42.5204846Z wedding_rabbitmq  | [38;5;214m2025-01-14 14:23:45.838060+00:00 [warning] <0.709.0> Deprecated features: `management_metrics_collection`: Feature `management_metrics_collection` is deprecated.[0m
+2025-01-14T14:24:42.5206490Z wedding_rabbitmq  | [38;5;214m2025-01-14 14:23:45.838060+00:00 [warning] <0.709.0> By default, this feature can still be used for now.[0m
+2025-01-14T14:24:42.5208175Z wedding_rabbitmq  | [38;5;214m2025-01-14 14:23:45.838060+00:00 [warning] <0.709.0> Its use will not be permitted by default in a future minor RabbitMQ version and the feature will be removed from a future major RabbitMQ version; actual versions to be determined.[0m
+2025-01-14T14:24:42.5209570Z wedding_rabbitmq  | [38;5;214m2025-01-14 14:23:45.838060+00:00 [warning] <0.709.0> To continue using this feature when it is not permitted by default, set the following parameter in your configuration:[0m
+2025-01-14T14:24:42.5210642Z wedding_rabbitmq  | [38;5;214m2025-01-14 14:23:45.838060+00:00 [warning] <0.709.0>     "deprecated_features.permit.management_metrics_collection = true"[0m
+2025-01-14T14:24:42.5211578Z wedding_rabbitmq  | [38;5;214m2025-01-14 14:23:45.838060+00:00 [warning] <0.709.0> To test RabbitMQ as if the feature was removed, set this in your configuration:[0m
+2025-01-14T14:24:42.5212493Z wedding_rabbitmq  | [38;5;214m2025-01-14 14:23:45.838060+00:00 [warning] <0.709.0>     "deprecated_features.permit.management_metrics_collection = false"[0m
+2025-01-14T14:24:42.5213360Z wedding_rabbitmq  | 2025-01-14 14:23:47.988959+00:00 [info] <0.746.0> Management plugin: HTTP (non-TLS) listener started on port 15672[0m
+2025-01-14T14:24:42.5214060Z wedding_rabbitmq  | 2025-01-14 14:23:47.989106+00:00 [info] <0.776.0> Statistics database started.[0m
+2025-01-14T14:24:42.5215033Z wedding_rabbitmq  | 2025-01-14 14:23:47.989205+00:00 [info] <0.775.0> Starting worker pool 'management_worker_pool' with 3 processes in it[0m
+2025-01-14T14:24:42.5215872Z wedding_rabbitmq  | 2025-01-14 14:23:47.996441+00:00 [info] <0.794.0> Prometheus metrics: HTTP (non-TLS) listener started on port 15692[0m
+2025-01-14T14:24:42.5216606Z wedding_rabbitmq  | 2025-01-14 14:23:47.996566+00:00 [info] <0.680.0> Ready to start client connection listeners[0m
+2025-01-14T14:24:42.5217298Z wedding_rabbitmq  | 2025-01-14 14:23:47.997822+00:00 [info] <0.838.0> started TCP listener on [::]:5672[0m
+2025-01-14T14:24:42.5217731Z wedding_rabbitmq  |  completed with 5 plugins.
+2025-01-14T14:24:42.5218420Z wedding_rabbitmq  | 2025-01-14 14:23:48.077418+00:00 [info] <0.680.0> Server startup complete; 5 plugins started.[0m
+2025-01-14T14:24:42.5219091Z wedding_rabbitmq  | 2025-01-14 14:23:48.077418+00:00 [info] <0.680.0>  * rabbitmq_prometheus[0m
+2025-01-14T14:24:42.5219664Z wedding_rabbitmq  | 2025-01-14 14:23:48.077418+00:00 [info] <0.680.0>  * rabbitmq_federation[0m
+2025-01-14T14:24:42.5220338Z wedding_rabbitmq  | 2025-01-14 14:23:48.077418+00:00 [info] <0.680.0>  * rabbitmq_management[0m
+2025-01-14T14:24:42.5220941Z wedding_rabbitmq  | 2025-01-14 14:23:48.077418+00:00 [info] <0.680.0>  * rabbitmq_management_agent[0m
+2025-01-14T14:24:42.5221532Z wedding_rabbitmq  | 2025-01-14 14:23:48.077418+00:00 [info] <0.680.0>  * rabbitmq_web_dispatch[0m
+2025-01-14T14:24:42.5222131Z wedding_rabbitmq  | 2025-01-14 14:23:48.141370+00:00 [info] <0.9.0> Time to start RabbitMQ: 6039 ms[0m
+2025-01-14T14:24:42.5259337Z ##[group]Run docker compose down -v
+2025-01-14T14:24:42.5259802Z [36;1mdocker compose down -v[0m
+2025-01-14T14:24:42.5373001Z shell: /usr/bin/bash -e {0}
+2025-01-14T14:24:42.5373411Z env:
+2025-01-14T14:24:42.5373924Z   DB_WEDDING_SITE_USERNAME: ***
+2025-01-14T14:24:42.5374680Z   DB_WEDDING_SITE_PASSWORD: ***
+2025-01-14T14:24:42.5375159Z   DB_ROOT_PASSWORD: ***
+2025-01-14T14:24:42.5375554Z   MONITORING_PASSWORD: ***
+2025-01-14T14:24:42.5375963Z   RABBITMQ_USER: ***
+2025-01-14T14:24:42.5376384Z   RABBITMQ_PASSWORD: ***
+2025-01-14T14:24:42.5376794Z ##[endgroup]
+2025-01-14T14:24:42.6117334Z  Container wedding_rabbitmq  Stopping
+2025-01-14T14:24:43.8950466Z  Container wedding_rabbitmq  Stopped
+2025-01-14T14:24:43.8951912Z  Container wedding_rabbitmq  Removing
+2025-01-14T14:24:43.9012717Z  Container wedding_rabbitmq  Removed
+2025-01-14T14:24:43.9019939Z  Container wedding_mariadb  Stopping
+2025-01-14T14:24:44.2412176Z  Container wedding_mariadb  Stopped
+2025-01-14T14:24:44.2412942Z  Container wedding_mariadb  Removing
+2025-01-14T14:24:44.2457313Z  Container wedding_mariadb  Removed
+2025-01-14T14:24:44.2458363Z  Volume wedding_mariadb_data  Removing
+2025-01-14T14:24:44.2458850Z  Volume wedding_rabbitmq_data  Removing
+2025-01-14T14:24:44.2459264Z  Volume wedding_rabbitmq_logs  Removing
+2025-01-14T14:24:44.2469849Z  Network wedding_network  Removing
+2025-01-14T14:24:44.2581803Z  Volume wedding_mariadb_data  Removed
+2025-01-14T14:24:44.2586051Z  Volume wedding_rabbitmq_logs  Removed
+2025-01-14T14:24:44.2602880Z  Volume wedding_rabbitmq_data  Removed
+2025-01-14T14:24:44.3573673Z  Network wedding_network  Removed
+2025-01-14T14:24:44.3676305Z Post job cleanup.
+2025-01-14T14:24:44.4619253Z [command]/usr/bin/git version
+2025-01-14T14:24:44.4655490Z git version 2.47.1
+2025-01-14T14:24:44.4699700Z Temporarily overriding HOME='/home/runner/work/_temp/c79553f9-3a0e-4fa2-a27b-a0a601755bbd' before making global git config changes
+2025-01-14T14:24:44.4700994Z Adding repository directory to the temporary git global config as a safe directory
+2025-01-14T14:24:44.4713172Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/wedding-site/wedding-site
+2025-01-14T14:24:44.4749164Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-01-14T14:24:44.4781613Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-01-14T14:24:44.5006450Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-01-14T14:24:44.5025809Z http.https://github.com/.extraheader
+2025-01-14T14:24:44.5037926Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2025-01-14T14:24:44.5067567Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-01-14T14:24:44.5389794Z Cleaning up orphan processes

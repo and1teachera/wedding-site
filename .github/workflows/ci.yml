@@ -17,6 +17,8 @@ jobs:
       DB_WEDDING_SITE_PASSWORD: ${{ secrets.DB_WEDDING_SITE_PASSWORD }}
       DB_ROOT_PASSWORD: ${{ secrets.DB_ROOT_PASSWORD }}
       MONITORING_PASSWORD: ${{ secrets.MONITORING_PASSWORD }}
+      RABBITMQ_USER: ${{ secrets.RABBITMQ_USER }}
+      RABBITMQ_PASSWORD: ${{ secrets.RABBITMQ_PASSWORD }}
 
     steps:
       - name: Checkout code
@@ -31,27 +33,43 @@ jobs:
       - name: Validate Docker Compose configuration
         run: docker compose config
 
-      - name: Build Docker images
-        run: docker compose build
-
       - name: Start containers
         run: |
           docker compose up -d
-          echo "Waiting for containers to initialize..."
-          sleep 30
-
-      - name: Check container health
-        run: |
-          docker compose ps
-          docker compose logs
-          if [ "$(docker compose ps --format json | jq -r '.[].Health' | grep -v healthy)" ]; then
-            echo "Some containers are not healthy"
+          echo "Waiting for RabbitMQ to initialize..."
+          timeout=300
+          while [ $timeout -gt 0 ]; do
+            if curl -sf -u $RABBITMQ_USER:$RABBITMQ_PASSWORD http://localhost:15672/api/health/checks/virtual-hosts; then
+              echo "RabbitMQ is ready"
+              break
+            fi
+            sleep 5
+            ((timeout-=5))
+            echo "Still waiting for RabbitMQ... $(($timeout))s remaining"
+          done
+          if [ $timeout -eq 0 ]; then
+            echo "RabbitMQ failed to start within the timeout period"
+            docker compose logs rabbitmq
             exit 1
           fi
 
-      - name: Test MariaDB
+      - name: Install test dependencies
         run: |
-          docker exec wedding_mariadb mysql -u${DB_WEDDING_SITE_USERNAME} -p${DB_WEDDING_SITE_PASSWORD} -e "SHOW DATABASES;"
+          python3 -m pip install --upgrade pip
+          python3 -m pip install pika
+
+      - name: Test RabbitMQ
+        run: |
+          python3 tests/test_rabbitmq.py
+        env:
+          RABBITMQ_USER: ${{ secrets.RABBITMQ_USER }}
+          RABBITMQ_PASSWORD: ${{ secrets.RABBITMQ_PASSWORD }}
+
+      - name: Debug RabbitMQ Logs
+        if: always()
+        run: |
+          docker compose ps
+          docker compose logs rabbitmq
 
       - name: Stop containers
         if: always()

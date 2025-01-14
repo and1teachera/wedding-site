@@ -17,6 +17,8 @@ jobs:
       DB_WEDDING_SITE_PASSWORD: ${{ secrets.DB_WEDDING_SITE_PASSWORD }}
       DB_ROOT_PASSWORD: ${{ secrets.DB_ROOT_PASSWORD }}
       MONITORING_PASSWORD: ${{ secrets.MONITORING_PASSWORD }}
+      RABBITMQ_USER: ${{ secrets.RABBITMQ_USER }}
+      RABBITMQ_PASSWORD: ${{ secrets.RABBITMQ_PASSWORD }}
 
     steps:
       - name: Checkout code
@@ -56,3 +58,48 @@ jobs:
       - name: Stop containers
         if: always()
         run: docker compose down -v
+
+  rabbitmq-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install pika
+
+      - name: Set up Services
+        run: |
+          docker compose up -d
+          echo "Waiting for services to initialize..."
+          sleep 30
+
+      - name: Wait for RabbitMQ to be ready
+        run: |
+          echo "Waiting for RabbitMQ..."
+          timeout=30
+          while [ $timeout -gt 0 ]; do
+            if curl -sf http://localhost:15672/api/healthchecks/node; then
+              echo "RabbitMQ is ready"
+              break
+            fi
+            sleep 1
+            ((timeout--))
+          done
+          if [ $timeout -eq 0 ]; then
+            echo "RabbitMQ failed to start"
+            docker compose logs rabbitmq
+            exit 1
+          fi
+
+      - name: Run Python Test
+        run: python test_rabbitmq.py
+        env:
+          RABBITMQ_USER: ${{ secrets.RABBITMQ_USER }}
+          RABBITMQ_PASSWORD: ${{ secrets.RABBITMQ_PASSWORD }}
+

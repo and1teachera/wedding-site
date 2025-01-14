@@ -1,4 +1,4 @@
-name: Docker Compose Validation
+name: Service Validation
 
 on:
   push:
@@ -9,9 +9,8 @@ on:
       - main
 
 jobs:
-  docker-compose-validation:
+  infrastructure-validation:
     runs-on: ubuntu-latest
-
     env:
       DB_WEDDING_SITE_USERNAME: ${{ secrets.DB_WEDDING_SITE_USERNAME }}
       DB_WEDDING_SITE_PASSWORD: ${{ secrets.DB_WEDDING_SITE_PASSWORD }}
@@ -33,9 +32,9 @@ jobs:
       - name: Validate Docker Compose configuration
         run: docker compose config
 
-      - name: Start containers
+      - name: Start infrastructure containers
         run: |
-          docker compose up -d
+          docker compose up -d mariadb rabbitmq
           echo "Waiting for RabbitMQ to initialize..."
           timeout=300
           while [ $timeout -gt 0 ]; do
@@ -65,12 +64,67 @@ jobs:
           RABBITMQ_USER: ${{ secrets.RABBITMQ_USER }}
           RABBITMQ_PASSWORD: ${{ secrets.RABBITMQ_PASSWORD }}
 
-      - name: Debug RabbitMQ Logs
+      - name: Debug Infrastructure Logs
         if: always()
         run: |
           docker compose ps
-          docker compose logs rabbitmq
+          docker compose logs rabbitmq mariadb
 
-      - name: Stop containers
+  backend-validation:
+    needs: infrastructure-validation
+    runs-on: ubuntu-latest
+    env:
+      DB_WEDDING_SITE_USERNAME: ${{ secrets.DB_WEDDING_SITE_USERNAME }}
+      DB_WEDDING_SITE_PASSWORD: ${{ secrets.DB_WEDDING_SITE_PASSWORD }}
+      DB_ROOT_PASSWORD: ${{ secrets.DB_ROOT_PASSWORD }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Build backend
+        run: |
+          cd backend
+          ./gradlew build
+
+      - name: Start backend service
+        run: docker compose up -d backend
+
+      - name: Test backend health
+        run: |
+          timeout=60
+          while [ $timeout -gt 0 ]; do
+            if curl -f http://localhost:8080/actuator/health; then
+              echo "Backend is healthy"
+              break
+            fi
+            sleep 5
+            ((timeout-=5))
+            echo "Still waiting for backend... $(($timeout))s remaining"
+          done
+          if [ $timeout -eq 0 ]; then
+            echo "Backend failed to become healthy"
+            docker compose logs backend
+            exit 1
+          fi
+
+      - name: Debug Backend Logs
         if: always()
+        run: |
+          docker compose ps
+          docker compose logs backend
+
+  cleanup:
+    needs: [infrastructure-validation, backend-validation]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Stop all containers
         run: docker compose down -v

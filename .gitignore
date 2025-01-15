@@ -59,3 +59,4 @@ out/
 .vscode/
 
 .env
+/frontend/.angular/

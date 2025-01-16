@@ -2,6 +2,9 @@
 
 This repository contains the code for a wedding website built specifically for an upcoming event. It is designed to share essential wedding information, help guests RSVP, and manage accommodations efficiently. The site also includes a private space for sharing photos, videos, and updates before and after the wedding.
 
+## CI/CD pipeline status
+[![Service Validation](https://github.com/and1teachera/wedding-site/actions/workflows/ci.yml/badge.svg)](https://github.com/and1teachera/wedding-site/actions/workflows/ci.yml)
+
 ## Features
 
 ### Guest-Facing:

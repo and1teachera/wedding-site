@@ -111,7 +111,7 @@ volumes:
   rabbitmq_data:
     name: wedding_rabbitmq_data
   rabbitmq_logs:
-      name: wedding_rabbitmq_logs
+    name: wedding_rabbitmq_logs
   mariadb_data:
     name: wedding_mariadb_data
 

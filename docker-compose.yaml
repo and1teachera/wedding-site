@@ -78,12 +78,12 @@ services:
         condition: service_healthy
     networks:
       - wedding_network
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 40s
+#    healthcheck:
+#      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 3
+#      start_period: 40s
 
   frontend:
     build:
@@ -91,9 +91,9 @@ services:
       dockerfile: Dockerfile
     ports:
       - "4200:4200"
-    depends_on:
-      backend:
-        condition: service_healthy
+#    depends_on:
+#      backend:
+#        condition: service_healthy
     networks:
       - wedding_network
     healthcheck:

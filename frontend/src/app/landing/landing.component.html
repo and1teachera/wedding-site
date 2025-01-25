@@ -1,0 +1,15 @@
+<div class="min-h-screen flex flex-col">
+  <app-navigation></app-navigation>
+
+  <main class="flex-grow">
+    <app-header
+        [title]="pageTitle"
+        [coupleNames]="coupleNames"
+        [daysUntilWedding]="getDaysUntilWedding()"
+    ></app-header>
+
+    <div class="container mx-auto px-4">
+      <!-- Additional sections will be added here -->
+    </div>
+  </main>
+</div>

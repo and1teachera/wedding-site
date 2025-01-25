@@ -1,5 +1,5 @@
 import { Component, HostListener } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, ViewportScroller} from '@angular/common';
 
 @Component({
   selector: 'app-navigation',
@@ -12,6 +12,8 @@ export class NavigationComponent {
   isMenuOpen = false;
   isScrolled = false;
 
+  constructor(private scroller: ViewportScroller) {}
+
   @HostListener('window:scroll', [])
   onWindowScroll() {
     this.isScrolled = window.scrollY > 0;
@@ -20,4 +22,13 @@ export class NavigationComponent {
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }
+
+  scrollToSection(event: Event, sectionId: string): void {
+    event.preventDefault(); // Prevent default anchor link behavior
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
 }

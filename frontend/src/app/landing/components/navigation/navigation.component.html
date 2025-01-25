@@ -14,20 +14,20 @@
 
     <!-- Desktop navigation -->
     <div class="hidden md:flex items-center space-x-8">
-      <a href="#venue" class="text-gray-700 hover:text-gray-900">Venue</a>
-      <a href="#schedule" class="text-gray-700 hover:text-gray-900">Schedule</a>
-      <a href="#dress-code" class="text-gray-700 hover:text-gray-900">Dress Code</a>
-      <a href="#faq" class="text-gray-700 hover:text-gray-900">FAQ</a>
+      <a href="#venue" class="text-gray-700 hover:text-gray-900" (click)="scrollToSection($event, 'venue')">Venue</a>
+      <a href="#schedule" class="text-gray-700 hover:text-gray-900" (click)="scrollToSection($event, 'schedule')">Schedule</a>
+      <a href="#dress-code" class="text-gray-700 hover:text-gray-900" (click)="scrollToSection($event, 'dress-code')">Dress Code</a>
+      <a href="#faq" class="text-gray-700 hover:text-gray-900" (click)="scrollToSection($event, 'faq')">FAQ</a>
       <button class="bg-pink-600 text-white px-4 py-2 rounded-md hover:bg-pink-700">RSVP</button>
     </div>
   </div>
 
   <!-- Mobile menu -->
   <div *ngIf="isMenuOpen" class="md:hidden space-y-1">
-    <a href="#venue" class="block text-gray-700 hover:bg-gray-100 px-3 py-2 rounded-md">Venue</a>
-    <a href="#schedule" class="block text-gray-700 hover:bg-gray-100 px-3 py-2 rounded-md">Schedule</a>
-    <a href="#dress-code" class="block text-gray-700 hover:bg-gray-100 px-3 py-2 rounded-md">Dress Code</a>
-    <a href="#faq" class="block text-gray-700 hover:bg-gray-100 px-3 py-2 rounded-md">FAQ</a>
+    <a href="#venue" class="block text-gray-700 hover:bg-gray-100 px-3 py-2 rounded-md" (click)="scrollToSection($event, 'venue')">Venue</a>
+    <a href="#schedule" class="block text-gray-700 hover:bg-gray-100 px-3 py-2 rounded-md" (click)="scrollToSection($event, 'schedule')">Schedule</a>
+    <a href="#dress-code" class="block text-gray-700 hover:bg-gray-100 px-3 py-2 rounded-md" (click)="scrollToSection($event, 'dress-code')">Dress Code</a>
+    <a href="#faq" class="block text-gray-700 hover:bg-gray-100 px-3 py-2 rounded-md" (click)="scrollToSection($event, 'faq')">FAQ</a>
     <button class="w-full mt-2 bg-pink-600 text-white px-4 py-2 rounded-md hover:bg-pink-700">RSVP</button>
   </div>
 </nav>

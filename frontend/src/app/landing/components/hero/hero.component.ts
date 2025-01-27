@@ -10,8 +10,20 @@ import { ImageSliderComponent } from '../../../shared/components/image-slider/im
 })
 export class HeroComponent {
   heroImages = [
-    { src: '/assets/images/hero/couple-1.jpg', alt: 'Bride and Groom - Image 1' },
-    { src: '/assets/images/hero/couple-2.jpg', alt: 'Bride and Groom - Image 2' },
-    { src: '/assets/images/hero/couple-3.jpg', alt: 'Bride and Groom - Image 3' },
+    {
+      src: '/assets/images/hero/couple-1-lg.jpg',
+      srcset: '/assets/images/hero/couple-1-sm.jpg 640w, /assets/images/hero/couple-1-md.jpg 1024w, /assets/images/hero/couple-1-lg.jpg 1280w',
+      alt: 'Bride and Groom Image 1'
+    },
+    {
+      src: '/assets/images/hero/couple-2-lg.jpg',
+      srcset: '/assets/images/hero/couple-2-sm.jpg 640w, /assets/images/hero/couple-2-md.jpg 1024w, /assets/images/hero/couple-2-lg.jpg 1280w',
+      alt: 'Bride and Groom Image 2'
+    },
+    {
+      src: '/assets/images/hero/couple-3-lg.jpg',
+      srcset: '/assets/images/hero/couple-3-sm.jpg 640w, /assets/images/hero/couple-3-md.jpg 1024w, /assets/images/hero/couple-3-lg.jpg 1280w',
+      alt: 'Bride and Groom Image 3'
+    }
   ];
 }

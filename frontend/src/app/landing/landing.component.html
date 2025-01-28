@@ -1,15 +1,19 @@
 <div class="min-h-screen flex flex-col">
-  <app-navigation></app-navigation>
+  <!-- Fixed navigation -->
+  <app-navigation class="fixed top-0 left-0 right-0 z-50"></app-navigation>
 
-  <main class="flex-grow pt-16">
+  <!-- Header with top padding to account for fixed nav -->
+  <div class="pt-16">
     <app-header
         [title]="pageTitle"
         [coupleNames]="coupleNames"
         [daysUntilWedding]="getDaysUntilWedding()"
     ></app-header>
+  </div>
 
-    <app-hero></app-hero>
-    <app-honor-family id="honor-family"></app-honor-family>
-
+  <!-- Main content -->
+  <main class="flex-grow">
+    <app-hero class="block h-screen"></app-hero>
+    <app-honor-family id="honor-family" class="block h-screen"></app-honor-family>
   </main>
 </div>

@@ -1,3 +1,9 @@
-<section class="flex-grow flex items-center justify-center bg-white">
-  <app-image-slider [images]="heroImages" [intervalTime]="5000"></app-image-slider>
+<section class="h-full flex items-center justify-center bg-white">
+  <div class="w-[1160px] max-w-[1160px]">
+    <app-image-slider
+        [images]="heroImages"
+        [intervalTime]="5000"
+        class="w-full">
+    </app-image-slider>
+  </div>
 </section>

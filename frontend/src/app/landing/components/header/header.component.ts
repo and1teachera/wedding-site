@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 })
 export class HeaderComponent {
   @Input() title = '';
+  @Input() weddingDate = '';
   @Input() coupleNames = '';
   @Input() daysUntilWedding = 0;
 }

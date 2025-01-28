@@ -1,10 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { LandingComponent } from './landing/landing.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppComponent],
+      imports: [AppComponent, LandingComponent],
     }).compileComponents();
   });
 
@@ -20,10 +21,11 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('frontend');
   });
 
-  it('should render title', () => {
+  it('should render title image', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain(' It\'s Just Forever, No Big Deal ');
+    const img = compiled.querySelector('img[alt="It\'s Just Forever, No Big Deal"]');
+    expect(img).toBeTruthy();
   });
 });

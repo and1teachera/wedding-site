@@ -13,6 +13,7 @@ import {HonorFamilyComponent} from "./components/honor-family.component";
 })
 export class LandingComponent {
   pageTitle = "It's Just Forever, No Big Deal";
+  weddingDateString = "9ти Август 2025";
   coupleNames = 'Ангел & Мирена';
   weddingDate = new Date('2025-08-09');
 

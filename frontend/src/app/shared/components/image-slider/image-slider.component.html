@@ -1,20 +1,15 @@
-<section class="relative flex justify-center items-center">
-  <div class="w-1/2 h-auto overflow-hidden relative">
-    <!-- Slider Container -->
+<div class="relative w-full overflow-hidden rounded-lg shadow-lg">
+  <div
+      class="flex transition-transform duration-500 ease-in-out w-full"
+      [style.transform]="'translateX(' + -currentIndex * 100 + '%)'">
     <div
-        class="flex transition-transform duration-500 ease-in-out w-full"
-        [style.transform]="'translateX(' + -currentIndex * 100 + '%)'">
-
-      <div
-          *ngFor="let image of images; let i = index"
-          class="flex-shrink-0 w-full">
-
-        <img
-            [src]="image.src"
-            [alt]="image.alt"
-            class="w-full h-auto object-cover"
-            loading="lazy">
-      </div>
+        *ngFor="let image of images; let i = index"
+        class="flex-shrink-0 w-full">
+      <img
+          [src]="image.src"
+          [alt]="image.alt"
+          class="w-full h-auto object-contain"
+          loading="lazy">
     </div>
   </div>
-</section>
+</div>

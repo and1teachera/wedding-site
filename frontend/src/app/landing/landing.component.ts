@@ -3,11 +3,12 @@ import { HeaderComponent } from './components/header/header.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import {HeroComponent} from "./components/hero/hero.component";
 import {HonorFamilyComponent} from "./components/honor-family.component";
+import {FooterComponent} from "../shared/components/footer/footer.component";
 
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [HeaderComponent, NavigationComponent, HeroComponent, HonorFamilyComponent],
+  imports: [HeaderComponent, NavigationComponent, HeroComponent, HonorFamilyComponent, FooterComponent],
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.css'],
 })

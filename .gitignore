@@ -57,7 +57,7 @@ out/
 
 ### VS Code ###
 .vscode/
+.continue
 
 .env
 /frontend/.angular/
-.continue/prompt/aspect.prompt

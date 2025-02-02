@@ -1,0 +1,25 @@
+<!-- faq.component.html -->
+<div class="space-y-8">
+  <h2 class="text-4xl md:text-5xl font-display text-gray-800 mb-8 text-center">
+    Често Задавани Въпроси
+  </h2>
+
+  <div class="space-y-4">
+    <div *ngFor="let faq of faqs; let i = index"
+         class="bg-white/50 rounded-lg shadow-sm overflow-hidden transition-all duration-300"
+         (click)="toggleFAQ(i)">
+
+      <!-- Question -->
+      <div class="p-4 cursor-pointer flex justify-between items-center hover:bg-white/60 transition-colors">
+        <span class="text-lg font-semibold text-gray-800">{{ faq.question }}</span>
+        <span class="text-gray-600 transition-transform" [class.rotate-180]="faq.isOpen">↓</span>
+      </div>
+
+      <!-- Answer (Collapsible) -->
+      <div *ngIf="faq.isOpen"
+           class="p-4 text-gray-700 border-t border-gray-100 bg-white/30">
+        {{ faq.answer }}
+      </div>
+    </div>
+  </div>
+</div>

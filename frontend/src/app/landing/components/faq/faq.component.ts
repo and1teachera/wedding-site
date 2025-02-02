@@ -23,4 +23,12 @@ export class FaqComponent {
   toggleFAQ(index: number) {
     this.faqs[index].isOpen = !this.faqs[index].isOpen;
   }
+
+  handleKeydown(event: KeyboardEvent, index: number) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this.toggleFAQ(index);
+    }
+  }
+
 }

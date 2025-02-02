@@ -7,9 +7,11 @@
   <div class="space-y-4">
     <div *ngFor="let faq of faqs; let i = index"
          class="bg-white/50 rounded-lg shadow-sm overflow-hidden transition-all duration-300"
-         (click)="toggleFAQ(i)">
+         (click)="toggleFAQ(i)"
+         (keydown)="handleKeydown($event, i)" tabindex="0"
+         role="button" [attr.aria-expanded]="faq.isOpen">
 
-      <!-- Question -->
+    <!-- Question -->
       <div class="p-4 cursor-pointer flex justify-between items-center hover:bg-white/60 transition-colors">
         <span class="text-lg font-semibold text-gray-800">{{ faq.question }}</span>
         <span class="text-gray-600 transition-transform" [class.rotate-180]="faq.isOpen">↓</span>

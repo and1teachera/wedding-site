@@ -4,11 +4,13 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import {HeroComponent} from "./components/hero/hero.component";
 import {HonorFamilyComponent} from "./components/honor-family.component";
 import {FooterComponent} from "../shared/components/footer/footer.component";
+import {VenueComponent} from "./components/venue/venue.component";
 
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [HeaderComponent, NavigationComponent, HeroComponent, HonorFamilyComponent, FooterComponent],
+  imports: [HeaderComponent, NavigationComponent, HeroComponent, HonorFamilyComponent,
+    VenueComponent, FooterComponent],
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.css'],
 })

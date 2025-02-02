@@ -7,12 +7,13 @@ import {FooterComponent} from "../shared/components/footer/footer.component";
 import {VenueComponent} from "./components/venue/venue.component";
 import {AccommodationComponent} from "./components/accommodation/accommodation.component";
 import {ScheduleComponent} from "./components/schedule/schedule.component";
+import {InfoSectionComponent} from "./components/info-section/info-section.component";
 
 @Component({
   selector: 'app-landing',
   standalone: true,
   imports: [HeaderComponent, NavigationComponent, HeroComponent, HonorFamilyComponent,
-    VenueComponent, FooterComponent, AccommodationComponent, ScheduleComponent],
+    VenueComponent, FooterComponent, AccommodationComponent, ScheduleComponent, InfoSectionComponent],
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.css'],
 })

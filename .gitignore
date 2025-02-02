@@ -60,3 +60,4 @@ out/
 
 .env
 /frontend/.angular/
+.continue/prompt/aspect.prompt

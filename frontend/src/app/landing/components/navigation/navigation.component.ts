@@ -24,11 +24,12 @@ export class NavigationComponent {
   }
 
   scrollToSection(event: Event, sectionId: string): void {
-    event.preventDefault(); // Prevent default anchor link behavior
+    event.preventDefault();
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
+    this.isMenuOpen = false;
   }
 
 }

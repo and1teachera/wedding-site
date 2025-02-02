@@ -2,15 +2,16 @@ import { Component } from '@angular/core';
 import { HeaderComponent } from './components/header/header.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import {HeroComponent} from "./components/hero/hero.component";
-import {HonorFamilyComponent} from "./components/honor-family.component";
+import {HonorFamilyComponent} from "./components/honor-family/honor-family.component";
 import {FooterComponent} from "../shared/components/footer/footer.component";
 import {VenueComponent} from "./components/venue/venue.component";
+import {AccommodationComponent} from "./components/accommodation/accommodation.component";
 
 @Component({
   selector: 'app-landing',
   standalone: true,
   imports: [HeaderComponent, NavigationComponent, HeroComponent, HonorFamilyComponent,
-    VenueComponent, FooterComponent],
+    VenueComponent, FooterComponent, AccommodationComponent],
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.css'],
 })

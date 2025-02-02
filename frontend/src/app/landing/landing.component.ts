@@ -6,12 +6,13 @@ import {HonorFamilyComponent} from "./components/honor-family/honor-family.compo
 import {FooterComponent} from "../shared/components/footer/footer.component";
 import {VenueComponent} from "./components/venue/venue.component";
 import {AccommodationComponent} from "./components/accommodation/accommodation.component";
+import {ScheduleComponent} from "./components/schedule/schedule.component";
 
 @Component({
   selector: 'app-landing',
   standalone: true,
   imports: [HeaderComponent, NavigationComponent, HeroComponent, HonorFamilyComponent,
-    VenueComponent, FooterComponent, AccommodationComponent],
+    VenueComponent, FooterComponent, AccommodationComponent, ScheduleComponent],
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.css'],
 })

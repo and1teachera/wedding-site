@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HonorFamilyComponent } from './honor-family.component';
+import { AccommodationComponent } from './accommodation.component';
 
-describe('HonorFamilyComponent', () => {
-  let component: HonorFamilyComponent;
-  let fixture: ComponentFixture<HonorFamilyComponent>;
+describe('AccommodationComponent', () => {
+  let component: AccommodationComponent;
+  let fixture: ComponentFixture<AccommodationComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HonorFamilyComponent]
+      imports: [AccommodationComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(HonorFamilyComponent);
+    fixture = TestBed.createComponent(AccommodationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

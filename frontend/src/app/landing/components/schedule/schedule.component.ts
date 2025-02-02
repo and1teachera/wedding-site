@@ -21,7 +21,7 @@ interface ScheduleEvent {
 export class ScheduleComponent implements OnInit, OnDestroy {
   currentIndex = 0;
   isAutoPlaying = true;
-  private autoPlayInterval: number | null = null;
+  private autoPlayInterval: ReturnType<typeof setInterval> | null = null;
   private readonly transitionDuration = 1200; // 1.2s in milliseconds
   private touchStartX = 0;
 

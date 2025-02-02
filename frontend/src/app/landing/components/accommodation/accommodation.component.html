@@ -20,18 +20,18 @@
       <!-- Accommodation Details Section -->
       <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
         <picture>
-          <source media="(min-width: 1024px)" srcset="assets/images/accommodation/hotel-exterior-lg.jpg">
-          <source media="(min-width: 640px)" srcset="assets/images/accommodation/hotel-exterior-md.jpg">
+          <source media="(min-width: 1024px)" srcset="assets/images/accommodation/accommodation-lg.jpg">
+          <source media="(min-width: 640px)" srcset="assets/images/accommodation/accommodation-md.jpg">
           <img
-              src="assets/images/accommodation/hotel-exterior-sm.jpg"
+              ngSrc="assets/images/accommodation/accommodation-sm.jpg"
               alt="Хотел Юстина"
               class="w-full h-full object-cover"
-          >
+              height="360" width="640">
         </picture>
       </div>
     </div>
 
-    <div class="mt-10 space-y-6 text-center">
+    <div class="mt-10 lg:mt-12 space-y-6 text-center">
       <h2 class="font-display text-5xl lg:text-6xl text-gray-800">{{ accommodationInfo.name }}</h2>
       <p class="font-body text-2xl text-gray-600">{{ accommodationInfo.address }}</p>
       <p class="font-body text-xl lg:text-2xl text-gray-700 leading-relaxed">{{ accommodationInfo.description }}</p>

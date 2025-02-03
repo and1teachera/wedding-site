@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {TitlePictureComponent} from "../../../shared/components/title-picture/title-picture.component";
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TitlePictureComponent],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
 })

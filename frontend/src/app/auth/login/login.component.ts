@@ -39,21 +39,21 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginMethod === 'names') {
-      this.authService.loginWithNames({
+      this.authService.loginWithNames(/*{
         firstName: this.firstName,
         lastName: this.lastName,
         password: this.password,
         rememberMe: this.rememberMe
-      }).subscribe({
+      }*/).subscribe({
         next: () => this.router.navigate(['/home']),
         error: (error) => console.error('Login failed:', error)
       });
     } else {
-      this.authService.loginWithEmail({
+      this.authService.loginWithEmail(/*{
         email: this.email,
         password: this.password,
         rememberMe: this.rememberMe
-      }).subscribe({
+      }*/).subscribe({
         next: () => this.router.navigate(['/home']),
         error: (error) => console.error('Login failed:', error)
       });

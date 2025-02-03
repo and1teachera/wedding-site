@@ -1,10 +1,13 @@
 import { Component, HostListener } from '@angular/core';
 import { CommonModule, ViewportScroller} from '@angular/common';
+import {
+  ContentContainerComponent
+} from "../../../shared/components/layout/content-container/content-container.component";
 
 @Component({
   selector: 'app-navigation',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ContentContainerComponent],
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.css'],
 })

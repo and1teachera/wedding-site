@@ -1,5 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {
+    SectionContainerComponent
+} from "../../../shared/components/layout/section-container/section-container.component";
 
 interface ScheduleEvent {
   time: string;
@@ -15,7 +18,7 @@ interface ScheduleEvent {
 @Component({
   selector: 'app-schedule',
   standalone: true,
-  imports: [CommonModule],
+    imports: [CommonModule, SectionContainerComponent],
   templateUrl: './schedule.component.html'
 })
 export class ScheduleComponent implements OnInit, OnDestroy {

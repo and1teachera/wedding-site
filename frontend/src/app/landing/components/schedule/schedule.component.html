@@ -1,11 +1,7 @@
-<!-- schedule.component.html -->
-<section id="schedule" class="h-screen bg-[#F7F1E1] flex items-center justify-center">
-  <div class="w-full max-w-[1160px] mx-auto px-6 py-12">
-    <h2 class="text-5xl lg:text-6xl font-display text-center text-gray-800 mb-8">Програма</h2>
-
+<app-section-container id="schedule">
+  <div class="space-y-8 sm:space-y-12">
     <!-- Carousel Container -->
-    <div
-        class="relative h-[400px] md:h-[500px] lg:h-[600px] rounded-lg overflow-hidden shadow-xl"
+    <div class="relative aspect-video rounded-lg overflow-hidden shadow-xl">
         (mouseenter)="onMouseEnter()"
         (mouseleave)="onMouseLeave()"
         (touchstart)="onTouchStart($event)"
@@ -80,12 +76,14 @@
         Елате да споделите този специален ден с нас. Моля, пристигнете поне 30 минути преди началото на церемонията.
       </p>
 
-      <ol class="space-y-4">
-        <li *ngFor="let event of events" class="flex items-center space-x-4 text-gray-700">
-          <span class="font-display text-xl">{{ event.time }}</span>
-          <span class="font-body text-xl">{{ event.title }} - {{ event.description }}</span>
-        </li>
-      </ol>
+      <div class="space-y-6">
+        <ol class="space-y-4">
+          <li *ngFor="let event of events" class="flex items-center space-x-4 text-gray-700">
+            <span class="font-display text-xl">{{ event.time }}</span>
+            <span class="font-body text-xl">{{ event.title }} - {{ event.description }}</span>
+          </li>
+        </ol>
+      </div>
     </div>
   </div>
-</section>
+</app-section-container>

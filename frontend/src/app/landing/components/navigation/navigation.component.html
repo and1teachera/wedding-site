@@ -1,40 +1,61 @@
-<nav class="bg-[#F7F1E1] shadow-md border-b border-gray-300">
-  <div class="w-[1160px] max-w-[1160px] mx-auto px-4 flex items-center justify-between h-16">
-    <!-- Mobile menu button -->
-    <button
-        class="md:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100"
-        (click)="toggleMenu()"
-        aria-label="Main menu"
-        [attr.aria-expanded]="isMenuOpen">
-      <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-        <path *ngIf="!isMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-        <path *ngIf="isMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-      </svg>
-    </button>
+<nav class="fixed top-0 left-0 right-0 z-50 bg-[#F7F1E1] shadow-md border-b border-gray-300">
+  <app-content-container>
+    <div class="flex items-center justify-between h-16">
+      <!-- Mobile menu button -->
+      <button
+          (click)="toggleMenu()"
+          [attr.aria-expanded]="isMenuOpen"
+          aria-label="Main menu"
+          class="md:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100">
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path *ngIf="!isMenuOpen" d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round"
+                stroke-width="2"/>
+          <path *ngIf="isMenuOpen" d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"
+                stroke-width="2"/>
+        </svg>
+      </button>
 
-    <!-- Desktop navigation -->
-    <div class="hidden md:flex items-center space-x-8">
-      <a href="#honor-family" class="text-gray-700 hover:text-gray-900" (click)="scrollToSection($event, 'honor-family')">Honor Family</a>
-      <a href="#venue" class="text-gray-700 hover:text-gray-900" (click)="scrollToSection($event, 'venue')">Venue</a>
-      <a href="#schedule" class="text-gray-700 hover:text-gray-900" (click)="scrollToSection($event, 'schedule')">Schedule</a>
-      <a href="#accommodation" class="text-gray-700 hover:text-gray-900" (click)="scrollToSection($event, 'accommodation')">Accommodation</a>
-      <a href="#dress-code" class="text-gray-700 hover:text-gray-900" (click)="scrollToSection($event, 'info-section')">Dress Code</a>
-      <a href="#faq" class="text-gray-700 hover:text-gray-900" (click)="scrollToSection($event, 'info-section')">FAQ</a>
-      <a href="#contacts" class="text-gray-700 hover:text-gray-900" (click)="scrollToSection($event, 'contacts')">Контакти</a>
+      <!-- Desktop navigation -->
+      <div class="hidden md:flex items-center space-x-8">
+        <a (click)="scrollToSection($event, 'honor-family')" class="text-gray-700 hover:text-gray-900"
+           href="#honor-family">Honor Family</a>
+        <a (click)="scrollToSection($event, 'venue')" class="text-gray-700 hover:text-gray-900" href="#venue">Venue</a>
+        <a (click)="scrollToSection($event, 'schedule')" class="text-gray-700 hover:text-gray-900" href="#schedule">Schedule</a>
+        <a (click)="scrollToSection($event, 'accommodation')" class="text-gray-700 hover:text-gray-900"
+           href="#accommodation">Accommodation</a>
+        <a (click)="scrollToSection($event, 'info-section')" class="text-gray-700 hover:text-gray-900"
+           href="#dress-code">Dress Code</a>
+        <a (click)="scrollToSection($event, 'info-section')" class="text-gray-700 hover:text-gray-900"
+           href="#faq">FAQ</a>
+        <a (click)="scrollToSection($event, 'contacts')" class="text-gray-700 hover:text-gray-900" href="#contacts">Контакти</a>
 
-      <button class="bg-pink-600 text-white px-4 py-6 rounded-md hover:bg-pink-700">RSVP</button>
+        <button class="bg-pink-600 text-white px-4 py-6 rounded-md hover:bg-pink-700">RSVP</button>
+      </div>
     </div>
-  </div>
+  </app-content-container>
+
 
   <!-- Mobile menu -->
   <div *ngIf="isMenuOpen" class="md:hidden space-y-1">
-    <a href="#honor-family" class="block text-gray-700 hover:bg-gray-100 px-3 py-6 rounded-md" (click)="scrollToSection($event, 'honor-family')">Honor Family</a>
-    <a href="#venue" class="block text-gray-700 hover:bg-gray-100 px-3 py-6 rounded-md" (click)="scrollToSection($event, 'venue')">Venue</a>
-    <a href="#schedule" class="block text-gray-700 hover:bg-gray-100 px-3 py-6 rounded-md" (click)="scrollToSection($event, 'schedule')">Schedule</a>
-    <a href="#accommodation" class="block text-gray-700 hover:bg-gray-100 px-3 py-6 rounded-md" (click)="scrollToSection($event, 'accommodation')">Accommodation</a>
-    <a href="#dress-code" class="block text-gray-700 hover:bg-gray-100 px-3 py-6 rounded-md" (click)="scrollToSection($event, 'dress-code')">Dress Code</a>
-    <a href="#faq" class="block text-gray-700 hover:bg-gray-100 px-3 py-6 rounded-md" (click)="scrollToSection($event, 'faq')">FAQ</a>
-    <a href="#contacts" class="block text-gray-700 hover:bg-gray-100 px-3 py-6 rounded-md" (click)="scrollToSection($event, 'contacts')">Контакти</a>
-    <button class="w-full mt-2 bg-pink-600 text-white px-4 py-6 rounded-md hover:bg-pink-700">RSVP</button>
+    <app-content-container>
+      <div class="py-2 space-y-1">
+
+        <a (click)="scrollToSection($event, 'honor-family')" class="block text-gray-700 hover:bg-gray-100 px-3 py-6 rounded-md"
+           href="#honor-family">Honor Family</a>
+        <a (click)="scrollToSection($event, 'venue')" class="block text-gray-700 hover:bg-gray-100 px-3 py-6 rounded-md"
+           href="#venue">Venue</a>
+        <a (click)="scrollToSection($event, 'schedule')" class="block text-gray-700 hover:bg-gray-100 px-3 py-6 rounded-md"
+           href="#schedule">Schedule</a>
+        <a (click)="scrollToSection($event, 'accommodation')" class="block text-gray-700 hover:bg-gray-100 px-3 py-6 rounded-md"
+           href="#accommodation">Accommodation</a>
+        <a (click)="scrollToSection($event, 'dress-code')" class="block text-gray-700 hover:bg-gray-100 px-3 py-6 rounded-md"
+           href="#dress-code">Dress Code</a>
+        <a (click)="scrollToSection($event, 'faq')" class="block text-gray-700 hover:bg-gray-100 px-3 py-6 rounded-md"
+           href="#faq">FAQ</a>
+        <a (click)="scrollToSection($event, 'contacts')" class="block text-gray-700 hover:bg-gray-100 px-3 py-6 rounded-md"
+           href="#contacts">Контакти</a>
+        <button class="w-full mt-2 bg-pink-600 text-white px-4 py-6 rounded-md hover:bg-pink-700">RSVP</button>
+      </div>
+    </app-content-container>
   </div>
 </nav>

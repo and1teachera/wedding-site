@@ -1,11 +1,11 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { LandingComponent } from './landing/landing.component';
+import { TitlePictureComponent } from './shared/components/title-picture/title-picture.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppComponent, LandingComponent],
+      imports: [AppComponent, TitlePictureComponent],
     }).compileComponents();
   });
 
@@ -19,13 +19,5 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app.title).toEqual('frontend');
-  });
-
-  it('should render title image', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    const img = compiled.querySelector('img[alt="It\'s Just Forever, No Big Deal"]');
-    expect(img).toBeTruthy();
   });
 });

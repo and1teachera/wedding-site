@@ -17,12 +17,11 @@ type LoginMethod = 'names' | 'email';
 export class LoginComponent {
   pageTitle = "It's Just Forever, No Big Deal";
   loginMethod: LoginMethod = 'names';
-  firstName: string = '';
-  lastName: string = '';
-  email: string = '';
-  password: string = '';
-  rememberMe: boolean = false;
-  coupleInitials = 'A&M';
+  firstName = '';
+  lastName = '';
+  email = '';
+  password = '';
+  rememberMe = false;
 
   constructor(
       private router: Router,

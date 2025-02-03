@@ -1,25 +1,26 @@
 <div class="h-screen bg-[#F7F1E1] flex flex-col">
-  <!-- Simplified Header -->
-  <header class="w-full pt-4 sm:pt-8">
-    <app-title-picture [title]="pageTitle"></app-title-picture>
-  </header>
+  <div class="flex flex-col flex-1">
+    <!-- Title Picture Section -->
+    <header class="w-full pt-4 sm:pt-8 mb-6 sm:mb-8">
+      <app-title-picture [title]="pageTitle"></app-title-picture>
+    </header>
 
-  <!-- Main Content -->
-  <main class="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 min-h-0">
-    <div class="w-full max-w-2xl">
-      <!-- Login Form Container -->
-      <div class="bg-white/50 backdrop-blur-sm rounded-lg shadow-xl p-6 sm:p-8 lg:p-12">
-        <div class="text-center mb-6 sm:mb-8">
-          <h2 class="font-display text-3xl sm:text-4xl text-gray-800">
-            Добре дошли
-          </h2>
-          <p class="mt-2 sm:mt-4 font-body text-lg sm:text-xl text-gray-600">
-            Моля, влезте с вашите данни
-          </p>
-        </div>
+    <!-- Login Form Section -->
+    <div class="w-full px-4 sm:px-6 lg:px-8">
+      <div class="w-full max-w-2xl mx-auto">
+        <!-- Login Form Container -->
+        <div class="bg-white/50 backdrop-blur-sm rounded-lg shadow-xl p-6 sm:p-8 lg:p-12">
+          <!-- Form content remains the same -->
+          <div class="text-center mb-6 sm:mb-8">
+            <h2 class="font-display text-3xl sm:text-4xl text-gray-800">
+              Добре дошли
+            </h2>
+            <p class="mt-2 sm:mt-4 font-body text-lg sm:text-xl text-gray-600">
+              Моля, влезте с вашите данни
+            </p>
+          </div>
 
-        <!-- Login Form -->
-        <form class="space-y-6" (ngSubmit)="onSubmit()">
+          <form class="space-y-6" (ngSubmit)="onSubmit()">
           <!-- Toggle Login Method -->
           <div class="flex justify-center space-x-4">
             <button
@@ -141,15 +142,19 @@
           >
             Вход
           </button>
-        </form>
-      </div>
-
-      <!-- Simplified Footer -->
-      <div class="text-center mt-6 sm:mt-8">
-        <div class="text-4xl sm:text-5xl lg:text-5xl tracking-[0.2em] light text-gray-800">
-          A&M
+          </form>
         </div>
       </div>
     </div>
-  </main>
+
+    <!-- Spacer to push footer down -->
+    <div class="flex-1"></div>
+
+    <!-- Footer Section -->
+    <div class="text-center pb-6 sm:pb-8">
+      <div class="text-4xl sm:text-5xl lg:text-5xl tracking-[0.2em] light text-gray-800">
+        A&M
+      </div>
+    </div>
+  </div>
 </div>

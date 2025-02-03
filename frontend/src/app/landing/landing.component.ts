@@ -8,12 +8,13 @@ import {VenueComponent} from "./components/venue/venue.component";
 import {AccommodationComponent} from "./components/accommodation/accommodation.component";
 import {ScheduleComponent} from "./components/schedule/schedule.component";
 import {InfoSectionComponent} from "./components/info-section/info-section.component";
+import {ContactSectionComponent} from "./components/contact-footer-section/contact-section.component";
 
 @Component({
   selector: 'app-landing',
   standalone: true,
   imports: [HeaderComponent, NavigationComponent, HeroComponent, HonorFamilyComponent,
-    VenueComponent, FooterComponent, AccommodationComponent, ScheduleComponent, InfoSectionComponent],
+    VenueComponent, FooterComponent, AccommodationComponent, ScheduleComponent, InfoSectionComponent, ContactSectionComponent],
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.css'],
 })

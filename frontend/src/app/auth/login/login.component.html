@@ -1,0 +1,158 @@
+<div class="min-h-screen bg-[#F7F1E1] flex flex-col">
+  <!-- Simplified Header -->
+  <header class="w-full pt-8 pb-4">
+    <app-title-picture [title]="pageTitle"></app-title-picture>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow flex items-center justify-center px-4 sm:px-6 lg:px-8">
+    <div class="max-w-2xl w-full">
+      <!-- Login Form Container -->
+      <div class="bg-white/50 backdrop-blur-sm rounded-lg shadow-xl p-12">
+        <div class="text-center mb-10">
+          <h2 class="font-display text-4xl text-gray-800">
+            Добре дошли
+          </h2>
+          <p class="mt-4 font-body text-xl text-gray-600">
+            Моля, влезте с вашите данни
+          </p>
+        </div>
+
+        <!-- Login Form -->
+        <form (ngSubmit)="onSubmit()" class="space-y-8">
+          <!-- Toggle Login Method -->
+          <div class="flex justify-center space-x-4 mb-6">
+            <button
+                (click)="toggleLoginMethod('names')"
+                [class.bg-pink-100]="loginMethod === 'names'"
+                class="px-4 py-2 rounded-md font-body text-gray-700 hover:bg-pink-50"
+                type="button">
+              Име и Фамилия
+            </button>
+            <button
+                (click)="toggleLoginMethod('email')"
+                [class.bg-pink-100]="loginMethod === 'email'"
+                class="px-4 py-2 rounded-md font-body text-gray-700 hover:bg-pink-50"
+                type="button">
+              Имейл
+            </button>
+          </div>
+
+          <!-- Names Login Fields -->
+          <ng-container *ngIf="loginMethod === 'names'">
+            <div class="space-y-6">
+              <div>
+                <label
+                    class="block font-body text-base font-medium text-gray-700"
+                    for="firstName"
+                >
+                  Име
+                </label>
+                <input
+                    [(ngModel)]="firstName"
+                    class="mt-2 block w-full rounded-md border border-gray-300 px-4 py-3 bg-white/70 shadow-sm focus:border-pink-500 focus:ring-pink-500 text-lg"
+                    id="firstName"
+                    name="firstName"
+                    required
+                    type="text"
+                />
+              </div>
+
+              <div>
+                <label
+                    class="block font-body text-base font-medium text-gray-700"
+                    for="lastName"
+                >
+                  Фамилия
+                </label>
+                <input
+                    [(ngModel)]="lastName"
+                    class="mt-2 block w-full rounded-md border border-gray-300 px-4 py-3 bg-white/70 shadow-sm focus:border-pink-500 focus:ring-pink-500 text-lg"
+                    id="lastName"
+                    name="lastName"
+                    required
+                    type="text"
+                />
+              </div>
+            </div>
+          </ng-container>
+
+          <!-- Email Login Field -->
+          <ng-container *ngIf="loginMethod === 'email'">
+            <div>
+              <label
+                  class="block font-body text-base font-medium text-gray-700"
+                  for="email"
+              >
+                Имейл
+              </label>
+              <input
+                  [(ngModel)]="email"
+                  class="mt-2 block w-full rounded-md border border-gray-300 px-4 py-3 bg-white/70 shadow-sm focus:border-pink-500 focus:ring-pink-500 text-lg"
+                  id="email"
+                  name="email"
+                  required
+                  type="email"
+              />
+            </div>
+          </ng-container>
+
+          <div>
+            <label
+                class="block font-body text-base font-medium text-gray-700"
+                for="password"
+            >
+              Парола
+            </label>
+            <input
+                [(ngModel)]="password"
+                class="mt-2 block w-full rounded-md border border-gray-300 px-4 py-3 bg-white/70 shadow-sm focus:border-pink-500 focus:ring-pink-500 text-lg"
+                id="password"
+                name="password"
+                required
+                type="password"
+            />
+          </div>
+
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <input
+                  [(ngModel)]="rememberMe"
+                  class="h-5 w-5 rounded border-gray-300 text-pink-600 focus:ring-pink-500"
+                  id="remember-me"
+                  name="remember-me"
+                  type="checkbox"
+              />
+              <label class="ml-3 block font-body text-base text-gray-700" for="remember-me">
+                Запомни ме
+              </label>
+            </div>
+
+            <div>
+              <a class="font-body text-base text-pink-600 hover:text-pink-500" href="#">
+                Забравена парола?
+              </a>
+            </div>
+          </div>
+
+          <button
+              class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+              type="submit"
+          >
+            Вход
+          </button>
+        </form>
+      </div>
+
+      <footer class="w-full py-20 md:py-24 text-center bg-[#F7F1E1]">
+        <div class="max-w-4xl mx-auto space-y-8 px-4">
+          <!-- Simplified Footer -->
+          <div class="text-6xl md:text-5xl lg:text-5xl tracking-[0.2em] light text-gray-800">
+            {{ coupleInitials }}
+          </div>
+        </div>
+      </footer>
+
+    </div>
+  </main>
+</div>

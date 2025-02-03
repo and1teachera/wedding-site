@@ -19,15 +19,13 @@ export interface EmailLoginCredentials {
 })
 export class AuthService {
 
-  // tslint:disable-next-line
-  loginWithNames(credentials: NameLoginCredentials): Observable<boolean> {
+  loginWithNames(/*credentials: NameLoginCredentials*/): Observable<boolean> {
     // This is a placeholder for actual authentication logic
     // For now, it just returns a successful login
     return of(true);
   }
 
-  // tslint:disable-next-line
-  loginWithEmail(credentials: EmailLoginCredentials): Observable<boolean> {
+  loginWithEmail(/*credentials: EmailLoginCredentials*/): Observable<boolean> {
     // This is a placeholder for actual authentication logic
     // For now, it just returns a successful login
     return of(true);

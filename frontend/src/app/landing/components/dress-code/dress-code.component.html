@@ -5,13 +5,20 @@
   </h2>
 
   <div class="grid md:grid-cols-2 gap-12 items-start">
-    <!-- Image Column -->
-    <div class="w-full aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
-      <img
-          src="assets/images/dress-code.jpg"
-          alt="Dress Code Example"
-          class="w-full h-full object-cover"
-      />
+    <!-- Image Column with Responsive Images -->
+    <div class="w-full aspect-w-4 aspect-h-3 rounded-lg overflow-hidden shadow-lg">
+      <picture>
+        <source media="(min-width: 1024px)" srcset="assets/images/dress-code/dress-code-lg.jpg">
+        <source media="(min-width: 640px)" srcset="assets/images/dress-code/dress-code-md.jpg">
+        <img
+            src="assets/images/dress-code/dress-code-sm.jpg"
+            alt="Dress Code Example"
+            class="w-full h-full object-cover"
+            width="640"
+            height="480"
+            loading="lazy"
+        />
+      </picture>
     </div>
 
     <!-- Guidelines Column -->

@@ -100,17 +100,17 @@
             </div>
 
             <div *ngIf="primaryGuest.isAttending" class="mt-4">
-              <label class="block font-body text-sm text-gray-600 mb-1">
+              <label for="primary-dietary-req" class="block font-body text-sm text-gray-600 mb-1">
                 Специални изисквания за храната
               </label>
-              <input type="text" [(ngModel)]="primaryGuest.dietaryRequirements"
+              <input id="primary-dietary-req" type="text" [(ngModel)]="primaryGuest.dietaryRequirements"
                      class="w-full p-2 border border-gray-300 rounded-md"
                      placeholder="Например: вегетарианец, алергии и др.">
             </div>
           </div>
 
           <!-- Family Members -->
-          <div *ngFor="let member of familyMembers"
+          <div *ngFor="let member of familyMembers; let i = index">
                class="p-6 bg-white rounded-lg border border-gray-200">
             <div class="flex items-center justify-between mb-4">
               <div>
@@ -126,10 +126,11 @@
             </div>
 
             <div *ngIf="member.isAttending" class="mt-4">
-              <label class="block font-body text-sm text-gray-600 mb-1">
+              <label [for]="'family-dietary-' + i" class="block font-body text-sm text-gray-600 mb-1">
                 Специални изисквания за храната
               </label>
-              <input type="text" [(ngModel)]="member.dietaryRequirements"
+              <input [id]="'family-dietary-' + i"
+                     type="text" [(ngModel)]="member.dietaryRequirements"
                      class="w-full p-2 border border-gray-300 rounded-md"
                      placeholder="Например: вегетарианец, алергии и др.">
             </div>
@@ -175,10 +176,10 @@
 
               <!-- Special Requests -->
               <div>
-                <label class="block font-body text-sm text-gray-600 mb-1">
+                <label for="accommodation-notes" class="block font-body text-sm text-gray-600 mb-1">
                   Специални изисквания или бележки
                 </label>
-                <textarea [(ngModel)]="accommodationNotes" rows="3"
+                <textarea id="accommodation-notes" [(ngModel)]="accommodationNotes" rows="3"
                           class="w-full p-2 border border-gray-300 rounded-md"
                           placeholder="Въведете специални изисквания или бележки"></textarea>
               </div>

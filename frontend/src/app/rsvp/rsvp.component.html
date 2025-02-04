@@ -1,0 +1,212 @@
+<app-section-container id="rsvp" ariaLabel="RSVP Form">
+  <div class="space-y-12">
+    <!-- Header Section -->
+    <div class="text-center space-y-4">
+      <h1 class="font-display text-4xl md:text-5xl lg:text-6xl text-gray-800">
+        Потвърдете Вашето Присъствие
+      </h1>
+      <p class="font-body text-xl text-gray-600">
+        Моля, потвърдете присъствието си за нашата сватба и ни дайте възможност да организираме този незабравим ден заедно
+      </p>
+    </div>
+
+    <!-- Progress Steps -->
+    <div class="max-w-3xl mx-auto">
+      <div class="relative">
+        <!-- Progress Bar -->
+        <div class="absolute top-1/2 left-0 w-full h-1 bg-gray-200 -translate-y-1/2"></div>
+
+        <!-- Steps -->
+        <div class="relative flex justify-between">
+          <div *ngFor="let step of [1, 2, 3]; let i = index"
+               class="flex flex-col items-center">
+            <!-- Step Circle -->
+            <div [class]="'w-10 h-10 rounded-full flex items-center justify-center border-2 bg-white ' +
+                         (currentStep >= step ? 'border-pink-600 text-pink-600' : 'border-gray-300 text-gray-400')">
+              <ng-container *ngIf="currentStep <= step">{{step}}</ng-container>
+              <svg *ngIf="currentStep > step" xmlns="http://www.w3.org/2000/svg"
+                   class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+            </div>
+            <!-- Step Label -->
+            <span [class]="'mt-2 font-body text-sm ' +
+                          (currentStep >= step ? 'text-pink-600' : 'text-gray-500')">
+              {{stepLabels[i]}}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 1: Initial RSVP -->
+    <div *ngIf="currentStep === 1" class="max-w-2xl mx-auto">
+      <div class="bg-white/50 backdrop-blur-sm rounded-lg shadow-xl p-8">
+        <div class="flex items-center space-x-4 mb-6">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+          </svg>
+          <h2 class="font-display text-2xl text-gray-800">Ще присъствате ли на нашата сватба?</h2>
+        </div>
+
+        <div class="space-y-4">
+          <div class="flex items-center space-x-4">
+            <button
+                (click)="setAttendance(true)"
+                [class]="'flex-1 p-4 rounded-lg border-2 transition-colors ' +
+            (attending === true ? 'border-pink-600 bg-pink-50' : 'border-gray-300 hover:border-pink-300')"
+            >
+              <div class="font-body text-xl text-gray-800 mb-2">Да</div>
+              <p class="font-body text-sm text-gray-600">
+                Да, с удоволствие ще споделим този специален момент с вас
+              </p>
+            </button>
+
+            <button
+                (click)="setAttendance(false)"
+                [class]="'flex-1 p-4 rounded-lg border-2 transition-colors ' +
+            (attending === false ? 'border-pink-600 bg-pink-50' : 'border-gray-300 hover:border-pink-300')"
+            >
+              <div class="font-body text-xl text-gray-800 mb-2">Не</div>
+              <p class="font-body text-sm text-gray-600">
+                Няма да можем да присъстваме, но ви пожелаваме прекрасен празник
+              </p>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Step 2: Guest Details -->
+    <div *ngIf="currentStep === 2" class="max-w-2xl mx-auto">
+      <div class="bg-white/50 backdrop-blur-sm rounded-lg shadow-xl p-8">
+        <h2 class="font-display text-2xl text-gray-800 mb-6">
+          Кой ще присъства?
+        </h2>
+
+        <div class="space-y-6">
+          <!-- Primary Guest -->
+          <div class="p-6 bg-white rounded-lg border border-gray-200">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h3 class="font-display text-xl text-gray-800">
+                  {{primaryGuest.firstName}} {{primaryGuest.lastName}}
+                </h3>
+                <p class="text-sm text-gray-500 mt-1">Главен гост</p>
+              </div>
+              <div class="flex items-center">
+                <input type="checkbox" [(ngModel)]="primaryGuest.isAttending"
+                       class="w-5 h-5 text-pink-600 border-gray-300 rounded focus:ring-pink-500">
+              </div>
+            </div>
+
+            <div *ngIf="primaryGuest.isAttending" class="mt-4">
+              <label class="block font-body text-sm text-gray-600 mb-1">
+                Специални изисквания за храната
+              </label>
+              <input type="text" [(ngModel)]="primaryGuest.dietaryRequirements"
+                     class="w-full p-2 border border-gray-300 rounded-md"
+                     placeholder="Например: вегетарианец, алергии и др.">
+            </div>
+          </div>
+
+          <!-- Family Members -->
+          <div *ngFor="let member of familyMembers"
+               class="p-6 bg-white rounded-lg border border-gray-200">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h3 class="font-display text-xl text-gray-800">
+                  {{member.firstName}} {{member.lastName}}
+                </h3>
+                <p class="text-sm text-gray-500 mt-1">{{getRelationLabel(member.relation)}}</p>
+              </div>
+              <div class="flex items-center">
+                <input type="checkbox" [(ngModel)]="member.isAttending"
+                       class="w-5 h-5 text-pink-600 border-gray-300 rounded focus:ring-pink-500">
+              </div>
+            </div>
+
+            <div *ngIf="member.isAttending" class="mt-4">
+              <label class="block font-body text-sm text-gray-600 mb-1">
+                Специални изисквания за храната
+              </label>
+              <input type="text" [(ngModel)]="member.dietaryRequirements"
+                     class="w-full p-2 border border-gray-300 rounded-md"
+                     placeholder="Например: вегетарианец, алергии и др.">
+            </div>
+          </div>
+
+          <!-- Summary -->
+          <div class="bg-pink-50 p-4 rounded-lg">
+            <p class="font-body text-gray-700">
+              Общо гости: {{getAttendingCount()}}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Step 3: Accommodation -->
+    <div *ngIf="currentStep === 3" class="max-w-2xl mx-auto">
+      <div class="bg-white/50 backdrop-blur-sm rounded-lg shadow-xl p-8">
+        <h2 class="font-display text-2xl text-gray-800 mb-6">Настаняване</h2>
+
+        <div class="space-y-6">
+          <div class="p-6 bg-white rounded-lg border border-gray-200">
+            <!-- Room Booking Toggle -->
+            <label class="flex items-center space-x-3 mb-6">
+              <input type="checkbox" [(ngModel)]="needsAccommodation"
+                     class="w-4 h-4 text-pink-600 border-gray-300 rounded focus:ring-pink-500">
+              <span class="font-body text-gray-700">Желая да резервирам стая</span>
+            </label>
+
+            <!-- Room Details -->
+            <div *ngIf="needsAccommodation" class="space-y-4">
+              <!-- Room Availability Info -->
+              <div class="bg-pink-50 p-4 rounded-lg">
+                <div class="flex items-center space-x-2 mb-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-pink-600" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                  </svg>
+                  <span class="font-body text-sm font-medium text-gray-700">Налични стаи: {{availableRooms}}</span>
+                </div>
+                <p class="font-body text-sm text-gray-600">
+                  При липса на свободни стаи ще бъдете добавени в списъка с чакащи и ще бъдете уведомени при освобождаване на стая.
+                </p>
+              </div>
+
+              <!-- Special Requests -->
+              <div>
+                <label class="block font-body text-sm text-gray-600 mb-1">
+                  Специални изисквания или бележки
+                </label>
+                <textarea [(ngModel)]="accommodationNotes" rows="3"
+                          class="w-full p-2 border border-gray-300 rounded-md"
+                          placeholder="Въведете специални изисквания или бележки"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="max-w-2xl mx-auto flex justify-between pt-6">
+      <button *ngIf="currentStep > 1"
+              (click)="previousStep()"
+              class="px-6 py-2 text-gray-600 hover:text-gray-800">
+        Назад
+      </button>
+      <div class="ml-auto">
+        <button *ngIf="currentStep < 3"
+                (click)="nextStep()"
+                class="px-6 py-2 bg-pink-600 text-white rounded-md hover:bg-pink-700">
+          Продължи
+        </button>
+        <button *ngIf="currentStep === 3"
+                (click)="submitRSVP()"
+                class="px-6 py-2 bg-pink-600 text-white rounded-md hover:bg-pink-700">
+          Потвърди
+        </button>
+      </div>
+    </div>
+  </div>
+</app-section-container>

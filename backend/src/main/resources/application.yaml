@@ -1,4 +1,6 @@
 spring:
+  flyway:
+    enabled: false
   datasource:
     url: jdbc:mariadb://mariadb:3306/wedding_site
     username: ${DB_WEDDING_SITE_USERNAME}

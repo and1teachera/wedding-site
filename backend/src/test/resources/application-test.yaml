@@ -1,7 +1,7 @@
 spring:
   flyway:
     enabled: false
-    validate-on-migrate: false
+    validate-on-migrate: true
   datasource:
     url: jdbc:h2:mem:testdb
     driver-class-name: org.h2.Driver

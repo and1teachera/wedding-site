@@ -44,7 +44,7 @@ services:
       - mariadb_data:/var/lib/mysql
       - ./init-scripts:/docker-entrypoint-initdb.d
     ports:
-      - "3306:3306"
+      - "3307:3306"
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "monitoring", "-p${MONITORING_PASSWORD}"]
       interval: 10s

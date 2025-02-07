@@ -1,11 +1,17 @@
 spring:
   flyway:
     enabled: false
+    validate-on-migrate: false
   datasource:
-    url: jdbc:h2:mem:testdb  # Use in-memory DB to satisfy Hibernate context
+    url: jdbc:h2:mem:testdb
     driver-class-name: org.h2.Driver
     username: sa
     password:
   jpa:
     hibernate:
       ddl-auto: none
+    properties:
+      javax:
+        persistence:
+          validation:
+            mode: none

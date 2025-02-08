@@ -96,29 +96,36 @@ jobs:
       - name: Start backend service and its dependencies
         run: docker compose up -d backend mariadb rabbitmq
 
+      - name: Install curl
+        run: sudo apt-get update && sudo apt-get install -y curl
+
       - name: Test backend health
         run: |
-          timeout=60
+          echo "Checking backend health..."
+          CONTAINER_IP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker compose ps -q backend))
+          echo "Backend container IP: $CONTAINER_IP"
+          
+          timeout=120
           while [ $timeout -gt 0 ]; do
-            if curl -f http://localhost:8080/actuator/health; then
+            if curl -f "http://$CONTAINER_IP:8080/actuator/health" 2>/dev/null; then
               echo "Backend is healthy"
               break
             fi
+            echo "Still waiting for backend... $(($timeout))s remaining"
             sleep 5
             ((timeout-=5))
-            echo "Still waiting for backend... $(($timeout))s remaining"
+          
+            # Print container logs if there's an error
+            if [ $? -ne 0 ] && [ $timeout -eq 0 ]; then
+              echo "Backend health check failed. Container logs:"
+              docker compose logs backend
+              echo "Container status:"
+              docker compose ps
+              echo "Network inspection:"
+              docker network inspect wedding_network
+              exit 1
+            fi
           done
-          if [ $timeout -eq 0 ]; then
-            echo "Backend failed to become healthy"
-            docker compose logs backend
-            exit 1
-          fi
-
-      - name: Debug Backend Logs
-        if: always()
-        run: |
-          docker compose ps
-          docker compose logs backend
 
 
   frontend-validation:

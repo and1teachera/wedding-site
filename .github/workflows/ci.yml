@@ -76,6 +76,7 @@ jobs:
     env:
       DB_WEDDING_SITE_USERNAME: ${{ secrets.DB_WEDDING_SITE_USERNAME }}
       DB_WEDDING_SITE_PASSWORD: ${{ secrets.DB_WEDDING_SITE_PASSWORD }}
+      MONITORING_PASSWORD: ${{ secrets.MONITORING_PASSWORD }}
       DB_ROOT_PASSWORD: ${{ secrets.DB_ROOT_PASSWORD }}
 
     steps:

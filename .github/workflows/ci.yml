@@ -93,7 +93,7 @@ jobs:
           ./gradlew build
 
       - name: Start backend service
-        run: docker compose up -d backend mariadb
+        run: docker compose up -d backend mariadb rabbitmq
 
       - name: Test backend health
         run: |

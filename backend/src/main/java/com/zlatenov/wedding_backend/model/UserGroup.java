@@ -34,7 +34,7 @@ public class UserGroup {
     @Column(nullable = false, length = 100)
     private String groupName;
 
-
+    @Builder.Default
     @ManyToMany
     @JoinTable(
             name = "group_members",

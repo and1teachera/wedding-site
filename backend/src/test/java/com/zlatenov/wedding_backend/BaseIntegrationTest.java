@@ -1,13 +1,16 @@
-package com.zlatenov.wedding_backend.repository;
+package com.zlatenov.wedding_backend;
 
-import com.zlatenov.wedding_backend.TestContainerConfig;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MariaDBContainer;
 
-@DataJpaTest
-public abstract class BaseRepositoryTest extends TestContainerConfig {
+/**
+ * @author Angel Zlatenov
+ */
+
+@SpringBootTest
+public abstract class BaseIntegrationTest extends TestContainerConfig {
 
     private static final MariaDBContainer<?> mariaDBContainer;
 
@@ -18,7 +21,6 @@ public abstract class BaseRepositoryTest extends TestContainerConfig {
                 .withPassword("test_pass");
         mariaDBContainer.start();
     }
-
 
     @DynamicPropertySource
     static void dataSourceProperties(DynamicPropertyRegistry registry) {

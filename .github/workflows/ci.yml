@@ -92,8 +92,8 @@ jobs:
           cd backend
           ./gradlew build
 
-      - name: Start backend service
-        run: docker compose up -d backend mariadb
+      - name: Start backend service and its dependencies
+        run: docker compose up -d backend mariadb rabbitmq
 
 #      - name: Test backend health
 #        run: |

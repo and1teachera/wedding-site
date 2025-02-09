@@ -99,34 +99,66 @@ jobs:
       - name: Install curl
         run: sudo apt-get update && sudo apt-get install -y curl
 
+      - name: Debug container state
+        run: |
+          echo "Current containers:"
+          docker compose ps
+
+          echo "\nContainer ports:"
+          docker compose ps -a
+
+          echo "\nNetwork information:"
+          docker network ls
+
+          echo "\nDetailed network inspection:"
+          docker network inspect wedding_network
+
+          echo "\nInitial backend logs:"
+          docker compose logs backend
+
       - name: Test backend health
         run: |
+          echo "Checking backend container status..."
+          BACKEND_CONTAINER=$(docker compose ps backend --format json | jq -r '.[0].Name')
+
+          if [ -z "$BACKEND_CONTAINER" ]; then
+            echo "Error: Backend container not found!"
+            echo "Current containers:"
+            docker compose ps
+            exit 1
+          fi
+
+          echo "Found backend container: $BACKEND_CONTAINER"
+
           echo "Checking backend health..."
-          CONTAINER_IP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker compose ps -q backend))
-          echo "Backend container IP: $CONTAINER_IP"
-          
           timeout=120
           while [ $timeout -gt 0 ]; do
-            if curl -f "http://$CONTAINER_IP:8080/actuator/health" 2>/dev/null; then
+            if curl -f "http://localhost:8080/actuator/health" 2>/dev/null; then
               echo "Backend is healthy"
               break
             fi
             echo "Still waiting for backend... $(($timeout))s remaining"
+
+            # Print recent container logs
+            echo "Recent container logs:"
+            docker compose logs --tail=50 backend
+
+            # Check container status
+            echo "Container status:"
+            docker compose ps backend
+
             sleep 5
             ((timeout-=5))
-          
-            # Print container logs if there's an error
-            if [ $? -ne 0 ] && [ $timeout -eq 0 ]; then
-              echo "Backend health check failed. Container logs:"
-              docker compose logs backend
-              echo "Container status:"
-              docker compose ps
-              echo "Network inspection:"
-              docker network inspect wedding_network
-              exit 1
-            fi
           done
 
+          if [ $timeout -eq 0 ]; then
+            echo "Backend health check failed after timeout"
+            echo "Full container logs:"
+            docker compose logs backend
+            echo "Final container status:"
+            docker compose ps
+            exit 1
+          fi
 
   frontend-validation:
     runs-on: ubuntu-latest

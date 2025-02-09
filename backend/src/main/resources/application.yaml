@@ -1,6 +1,7 @@
 spring:
   flyway:
-    enabled: false
+    enabled: true
+    locations: classpath:db/migration
     fail-on-missing-locations: false
   datasource:
     url: jdbc:mariadb://mariadb:3306/wedding_site
@@ -11,7 +12,7 @@ spring:
     name: wedding-backend
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: none
     database-platform: org.hibernate.dialect.MariaDBDialect
     open-in-view: false
   rabbitmq:
@@ -22,8 +23,16 @@ spring:
 management:
   endpoints:
     web:
+      base-path: /actuator
       exposure:
-        include: health
+        include: health,info
   endpoint:
     health:
       show-details: always
+      probes:
+        enabled: true
+  health:
+    defaults:
+      enabled: true
+    db:
+      enabled: true

@@ -76,6 +76,7 @@ jobs:
     env:
       DB_WEDDING_SITE_USERNAME: ${{ secrets.DB_WEDDING_SITE_USERNAME }}
       DB_WEDDING_SITE_PASSWORD: ${{ secrets.DB_WEDDING_SITE_PASSWORD }}
+      MONITORING_PASSWORD: ${{ secrets.MONITORING_PASSWORD }}
       DB_ROOT_PASSWORD: ${{ secrets.DB_ROOT_PASSWORD }}
 
     steps:
@@ -95,30 +96,64 @@ jobs:
       - name: Start backend service and its dependencies
         run: docker compose up -d backend mariadb rabbitmq
 
-#      - name: Test backend health
-#        run: |
-#          timeout=60
-#          while [ $timeout -gt 0 ]; do
-#            if curl -f http://localhost:8080/actuator/health; then
-#              echo "Backend is healthy"
-#              break
-#            fi
-#            sleep 5
-#            ((timeout-=5))
-#            echo "Still waiting for backend... $(($timeout))s remaining"
-#          done
-#          if [ $timeout -eq 0 ]; then
-#            echo "Backend failed to become healthy"
-#            docker compose logs backend
-#            exit 1
-#          fi
-
-      - name: Debug Backend Logs
-        if: always()
+      - name: Debug container state
         run: |
+          echo "Current containers:"
           docker compose ps
+
+          echo "\nContainer ports:"
+          docker compose ps -a
+
+          echo "\nNetwork information:"
+          docker network ls
+
+          echo "\nDetailed network inspection:"
+          docker network inspect wedding_network
+
+          echo "\nInitial backend logs:"
           docker compose logs backend
 
+      - name: Test backend health
+        run: |
+          echo "Checking backend container status..."
+
+          # Check if backend container exists using simpler command
+          if ! docker compose ps --status running backend | grep backend; then
+            echo "Error: Backend container not found or not running!"
+            echo "Current containers:"
+            docker compose ps
+            exit 1
+          fi
+
+          echo "Backend container is running, checking health..."
+          timeout=120
+          while [ $timeout -gt 0 ]; do
+            if curl -f "http://localhost:8080/actuator/health" 2>/dev/null; then
+              echo "Backend is healthy"
+              break
+            fi
+            echo "Still waiting for backend... $(($timeout))s remaining"
+
+            # Print recent container logs
+            echo "Recent container logs:"
+            docker compose logs --tail=50 backend
+
+            # Check container status
+            echo "Container status:"
+            docker compose ps backend
+
+            sleep 5
+            ((timeout-=5))
+          done
+
+          if [ $timeout -eq 0 ]; then
+            echo "Backend health check failed after timeout"
+            echo "Full container logs:"
+            docker compose logs backend
+            echo "Final container status:"
+            docker compose ps
+            exit 1
+          fi
 
   frontend-validation:
     runs-on: ubuntu-latest

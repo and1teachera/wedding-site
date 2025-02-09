@@ -58,6 +58,6 @@
     - Ensure platform stability by separating media handling into a dedicated service.
     - Use Docker Compose for local and cloud-based service orchestration.
     - Operate entirely in Bulgarian.
-    - **Queue System**: Critical actions like room booking will be queued during downtime and processed once the system is back online.
+    - **System**: Critical actions will have fallback mechanisms during downtime.
     - **Contact Functionality**: Users will have a general email option to reach admins for urgent matters during downtime.
     - **Error Messaging**: A user-friendly error message will inform users about the issue and provide contact instructions.

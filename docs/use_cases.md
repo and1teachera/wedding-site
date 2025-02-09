@@ -262,53 +262,50 @@ sequenceDiagram
     System-->>Guest: Display Confirmation Message
 ```
 ---
+### **Use Case 4: Book Accommodation**
 
-### Use Case 4: Book Accommodation
-
-**Use Case Description**: Allow guests to book a room or join a waiting list, ensuring the process is robust and concurrent actions are handled gracefully.
+**Use Case Description**: Allow guests to book a room directly without a waiting list or complex queue mechanisms, ensuring simplicity and reliability.
 
 - **Scope**: Wedding Site
 - **Level**: User Goal
 - **Primary Actor**: Guest
 - **Stakeholders and Interests**:
-  - **Guests**: Want a smooth booking process and assurance that their booking is secure.
-  - **Admins**: Require accurate and reliable room allocation data.
+  - **Guests**: Want a simple and reliable booking process.
+  - **Admins**: Require accurate room allocation data.
 - **Preconditions**:
   - Guest has confirmed their RSVP.
   - Guest is logged into the system.
 - **Postconditions**:
-  - Room booking is saved, or the guest is added to the waiting list.
+  - Room booking is saved, or the guest is notified of unavailability.
 - **Main Success Scenario Step by Step**:
   1. Guest navigates to the accommodation booking page.
   2. Views the list of available rooms.
-  3. Selects a room, which is immediately locked for 15 minutes.
-  4. Confirms the booking within the 15-minute window.
-  5. RabbitMQ processes the booking data to ensure reliability.
-  6. System saves the booking and updates room availability.
-  7. If all rooms are taken, the system notifies the guest and offers the option to join the waiting list.
+  3. Selects a room.
+  4. Confirms the booking.
+  5. System saves the booking and updates room availability.
+  6. If all rooms are taken, the system notifies the guest.
 - **Extensions (Other Scenarios and Alternatives)**:
-  - If the guest does not confirm within 15 minutes, the room is unlocked and becomes available to others.
-  - If the guest attempts to select a room that is locked by another guest, the system displays a notification explaining the unavailability.
+  - If the guest attempts to select a room that is already booked, the system displays a notification explaining the unavailability.
 - **Special Requirements**:
-  - Integrate RabbitMQ for processing booking data to prevent data loss.
-  - Implement a locking mechanism for rooms with a 15-minute timer.
+  - Ensure atomic transactions to prevent double booking.
 - **Data Variation List**:
-  - Room status: Available, Locked, Booked.
-  - Guest status: On Waiting List, Booking Confirmed.
+  - Room status: Available, Booked.
+  - Guest status: Booking Confirmed.
 - **Frequency Occurrence**:
   - Regularly during the RSVP period.
 - **Trigger**:
   - Guest navigates to the accommodation booking page.
 - **Actors**:
-  - Guest, System, RabbitMQ.
+  - Guest, System.
 - **Goals**:
-  - Ensure a reliable and fair booking process for all guests.
+  - Ensure a reliable and straightforward booking process for all guests.
 - **Failed Endings**:
-  - Booking fails due to system errors or RabbitMQ unavailability.
+  - Booking fails due to system errors or if the room becomes unavailable during the process.
 - **Miscellaneous**:
-  - Consider adding a countdown timer for the 15-minute lock visible to guests.
+  - Consider adding real-time updates to reflect room availability.
 - **Suggested Additional Use Cases**:
-  - Notify Admin of Booking Errors: Alert admins if RabbitMQ fails to process bookings.
+  - Notify Admin of Booking Errors: Alert admins if there are booking inconsistencies.
+
 #### **Flowchart:**
 
 ``` mermaid
@@ -316,15 +313,10 @@ flowchart TD
     A[Guest Logs In] --> B[Navigates to Accommodation Booking Page]
     B --> C[Views List of Available Rooms]
     C --> D[Selects a Room]
-    D --> E[System Locks Room for 15 Minutes]
-    E -->|Confirms Booking| F[RabbitMQ Processes Booking]
-    F --> G[Saves Booking and Updates Availability]
-    E -->|Does Not Confirm in 15 Minutes| H[Room Unlocked]
-    C -->|All Rooms Taken| I[Offers Option to Join Waiting List]
-    I --> J[Guest Joins Waiting List]
-    J --> G
+    D --> E[Confirms Booking]
+    E --> F[Saves Booking and Updates Availability]
+    C -->|All Rooms Taken| G[Notify Guest of Unavailability]
 ```
-
 
 #### **Sequence Diagram:**
 
@@ -332,30 +324,18 @@ flowchart TD
 sequenceDiagram
     participant Guest
     participant System
-    participant RabbitMQ
 
     Guest->>System: Log In
     Guest->>System: Navigate to Booking Page
     System-->>Guest: Display List of Available Rooms
     Guest->>System: Select a Room
-    System-->>Guest: Lock Room for 15 Minutes
-    alt Confirms Booking
+    alt Room Available
         Guest->>System: Confirm Booking
-        System->>RabbitMQ: Process Booking Data
-        RabbitMQ-->>System: Confirm Booking Success
         System-->>Guest: Display Confirmation
-    else Does Not Confirm
-        System-->>System: Unlock Room After 15 Minutes
-    end
-    alt No Rooms Available
-        System-->>Guest: Notify All Rooms Taken
-        Guest->>System: Join Waiting List
-        System-->>Guest: Confirmation of Waitlist Status
+    else Room Unavailable
+        System-->>Guest: Notify of Unavailability
     end
 ```
-
-
----
 
 ### Use Case 5: Manage Waiting List
 
@@ -650,31 +630,29 @@ sequenceDiagram
 ```
 ---
 
-### Use Case 9: Handle Downtime
+### **Use Case 9: Handle Downtime**
 
-**Use Case Description**: Ensure critical functionalities are handled gracefully during system outages.
+**Use Case Description**: Ensure critical functionalities are handled gracefully during system outages without complex queuing mechanisms.
 
 - **Scope**: Wedding Site
 - **Level**: Subfunction
 - **Primary Actor**: System
 - **Stakeholders and Interests**:
-  - Guests: Need assurances that their actions (e.g., booking) will not be lost during downtime.
-  - Admins: Want minimal disruption to guest experience and event planning.
+  - **Guests**: Need assurances that their actions (e.g., booking) will not be lost during downtime.
+  - **Admins**: Want minimal disruption to guest experience and event planning.
 - **Preconditions**:
   - System outage is detected.
 - **Postconditions**:
-  - Critical actions are queued, and guests are informed of the downtime.
+  - Guests are informed of the downtime, and no actions are accepted during this period.
 - **Main Success Scenario**:
   1. System detects downtime or a critical error.
   2. Guests attempting to perform actions like booking or RSVP are informed of the downtime via an error message.
-  3. Actions such as room booking are queued for processing once the system is restored.
-  4. Guests are provided a contact option to email admins for urgent assistance.
-  5. Admins receive notifications about the downtime and queued actions.
+  3. Guests are provided a contact option to email admins for urgent assistance.
+  4. Admins receive notifications about the downtime.
 - **Extensions (Other Scenarios and Alternatives)**:
   - If the system remains down for an extended period, admins can manually communicate updates to guests.
 - **Special Requirements**:
-  - Queue mechanism to save guest actions during downtime.
-  - Error messages should include clear instructions and contact options.
+  - Clear error messages with instructions and contact options.
 - **Data Variation List**:
   - Action type: Room Booking, RSVP.
 - **Frequency Occurrence**:
@@ -686,20 +664,17 @@ sequenceDiagram
 - **Goals**:
   - Minimize disruption to guest experience during downtime.
 - **Failed Endings**:
-  - Actions are lost due to queuing system failure.
-
+  - Actions are lost due to system errors.
 
 #### **Flowchart:**
 
 ``` mermaid
 flowchart TD
     A[System Detects Downtime] --> B[Display Error Message to Guests]
-    B --> C[Queue Critical Actions for Later Processing]
-    C --> D[Provide Guests with Admin Contact Information]
-    D --> E[Notify Admin of Downtime and Queued Actions]
-    C --> F[System Restores Availability]
-    F --> G[Process Queued Actions]
-    G --> H[Inform Guests of Completed Actions]
+    B --> C[Provide Guests with Admin Contact Information]
+    C --> D[Notify Admin of Downtime]
+    D --> E[System Restores Availability]
+    E --> F[Inform Guests of System Availability]
 ```
 
 #### **Sequence Diagram:**
@@ -713,16 +688,12 @@ sequenceDiagram
     System->>System: Detect Downtime
     Guest->>System: Attempt Action (e.g., Room Booking)
     System-->>Guest: Display Error Message
-    System->>System: Queue Action for Processing
     System-->>Guest: Provide Admin Contact Info
-    System->>Admin: Notify of Downtime and Queued Actions
+    System->>Admin: Notify of Downtime
     alt System Restored
-        System->>System: Process Queued Actions
-        System-->>Guest: Inform of Completed Actions
+        System-->>Guest: Inform of System Availability
     end
 ```
-
----
 
 ### Use Case 10: Monitor Event Metrics
 

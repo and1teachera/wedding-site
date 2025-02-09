@@ -54,11 +54,11 @@ This document provides a comprehensive overview of the architecture for the wedd
 
 - **MariaDB**:
 
-    - Stores all metadata, including guest details, RSVP status, and media URIs.
+  - Stores all metadata, including guest details, RSVP status, and media URIs.
 
-    - Full-Text Indexing is used for guest search functionality.
+  - Full-Text Indexing is used for guest search functionality.
 
-    - Persistent volumes ensure data durability.
+  - Persistent volumes ensure data durability.
 
 
 ### **Media Handling**
@@ -72,17 +72,17 @@ This document provides a comprehensive overview of the architecture for the wedd
 
 - **Backend Service**: Combines core functionality (RSVP, booking) and media handling (news feed, uploads).
 
-- **RabbitMQ**: Separate queues for accommodation booking and media processing.
+- **RabbitMQ**: Queue for asynchronous media processing
 
 - **Frontend Service**: Serves the Angular application.
 
 - **Monitoring Stack**:
 
-    - **Prometheus**: Collects system and application metrics.
+  - **Prometheus**: Collects system and application metrics.
 
-    - **Grafana**: Visualizes metrics.
+  - **Grafana**: Visualizes metrics.
 
-    - **AlertManager**: Sends alerts for defined conditions.
+  - **AlertManager**: Sends alerts for defined conditions.
 
 
 ### **Orchestration**
@@ -98,9 +98,9 @@ This document provides a comprehensive overview of the architecture for the wedd
 
 - **Structured Logging**:
 
-    - JSON-based logs for easier integration with monitoring tools.
+  - JSON-based logs for easier integration with monitoring tools.
 
-    - Logs include errors, RabbitMQ task failures, and security events.
+  - Logs include errors, RabbitMQ task failures, and security events.
 
 
 ### **Security**
@@ -116,15 +116,15 @@ This document provides a comprehensive overview of the architecture for the wedd
 
 - **Core Features**:
 
-    - Guest registration and management.
+  - Guest registration and management.
 
-    - RSVP tracking and accommodation booking.
+  - RSVP tracking and accommodation booking.
 
 - **Media Handling**:
 
-    - Upload and storage of media files.
+  - Upload and storage of media files.
 
-    - News feed updates and interactions.
+  - News feed updates and interactions.
 
 
 ### **Frontend**
@@ -138,29 +138,27 @@ This document provides a comprehensive overview of the architecture for the wedd
 
 - Schema includes:
 
-    - Guest records.
+  - Guest records.
 
-    - RSVP statuses.
+  - RSVP statuses.
 
-    - Media file metadata (e.g., file names, URIs, upload timestamps).
+  - Media file metadata (e.g., file names, URIs, upload timestamps).
 
 
-### **Queues**
+### **Queue**
 
 - RabbitMQ for asynchronous processing:
 
-    - **Queue 1:** Handles accommodation booking tasks.
-
-    - **Queue 2:** Processes media uploads (e.g., thumbnail generation).
+  - **Queue:** Processes media uploads (e.g., thumbnail generation).
 
 
 ### **Monitoring Stack**
 
 - **Prometheus** collects metrics from:
 
-    - Backend services via Spring Actuator.
+  - Backend services via Spring Actuator.
 
-    - RabbitMQ (optional plugin).
+  - RabbitMQ (optional plugin).
 
 - **Grafana** visualizes metrics and system health.
 
@@ -175,22 +173,22 @@ This document provides a comprehensive overview of the architecture for the wedd
 
 - **Modular Monolithic Architecture**:
 
-    - Single backend service to simplify deployment and resource utilization.
+  - Single backend service to simplify deployment and resource utilization.
 
-    - Decoupled asynchronous processing using RabbitMQ queues.
+  - Decoupled asynchronous processing using RabbitMQ queues.
 
 
 ### **Deployment**
 
 - **Dockerized Services**:
 
-    - Backend, frontend, RabbitMQ, MariaDB, and monitoring tools are containerized.
+  - Backend, frontend, RabbitMQ, MariaDB, and monitoring tools are containerized.
 
 - **Hosting**:
 
-    - Staging: Render.com free plan.
+  - Staging: Render.com free plan.
 
-    - Production: hosting with resource constraints.
+  - Production: hosting with resource constraints.
 
 
 ---
@@ -208,9 +206,9 @@ This document provides a comprehensive overview of the architecture for the wedd
 
 - GitHub Actions automate:
 
-    - Code testing and validation.
+  - Code testing and validation.
 
-    - Deployment to staging environments.
+  - Deployment to staging environments.
 
 
 ---

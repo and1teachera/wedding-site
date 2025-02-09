@@ -16,8 +16,6 @@ jobs:
       DB_WEDDING_SITE_PASSWORD: ${{ secrets.DB_WEDDING_SITE_PASSWORD }}
       DB_ROOT_PASSWORD: ${{ secrets.DB_ROOT_PASSWORD }}
       MONITORING_PASSWORD: ${{ secrets.MONITORING_PASSWORD }}
-      RABBITMQ_USER: ${{ secrets.RABBITMQ_USER }}
-      RABBITMQ_PASSWORD: ${{ secrets.RABBITMQ_PASSWORD }}
 
     steps:
       - name: Checkout code
@@ -34,41 +32,18 @@ jobs:
 
       - name: Start infrastructure containers
         run: |
-          docker compose up -d mariadb rabbitmq
-          echo "Waiting for RabbitMQ to initialize..."
-          timeout=300
-          while [ $timeout -gt 0 ]; do
-            if curl -sf -u $RABBITMQ_USER:$RABBITMQ_PASSWORD http://localhost:15672/api/health/checks/virtual-hosts; then
-              echo "RabbitMQ is ready"
-              break
-            fi
-            sleep 5
-            ((timeout-=5))
-            echo "Still waiting for RabbitMQ... $(($timeout))s remaining"
-          done
-          if [ $timeout -eq 0 ]; then
-            echo "RabbitMQ failed to start within the timeout period"
-            docker compose logs rabbitmq
-            exit 1
-          fi
+          docker compose up -d mariadb
 
       - name: Install test dependencies
         run: |
           python3 -m pip install --upgrade pip
           python3 -m pip install pika
 
-      - name: Test RabbitMQ
-        run: |
-          python3 tests/test_rabbitmq.py
-        env:
-          RABBITMQ_USER: ${{ secrets.RABBITMQ_USER }}
-          RABBITMQ_PASSWORD: ${{ secrets.RABBITMQ_PASSWORD }}
-
       - name: Debug Infrastructure Logs
         if: always()
         run: |
           docker compose ps
-          docker compose logs rabbitmq mariadb
+          docker compose logs mariadb
 
   backend-validation:
     needs: infrastructure-validation
@@ -94,7 +69,7 @@ jobs:
           ./gradlew build
 
       - name: Start backend service and its dependencies
-        run: docker compose up -d backend mariadb rabbitmq
+        run: docker compose up -d backend mariadb
 
       - name: Debug container state
         run: |

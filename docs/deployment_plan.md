@@ -28,7 +28,7 @@ Deploy the wedding site application to:
 
 - **Docker Compose:** For local development and production setup.
 - **MariaDB:** Database for metadata and application data.
-- **RabbitMQ:** For task decoupling (booking and media handling).
+- **RabbitMQ:** For media processing.
 - **Prometheus + Grafana + AlertManager:** For monitoring and alerting.
 - **Spring Actuator:** Exposes metrics for monitoring.
 - **Spring Security:** Secures sensitive endpoints.
@@ -86,7 +86,6 @@ Deploy the wedding site application to:
               RABBITMQ_HOST: rabbitmq
             depends_on:
               - mariadb
-              - rabbitmq
         
           frontend:
             build: ./frontend

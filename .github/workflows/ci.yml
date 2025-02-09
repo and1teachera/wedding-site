@@ -116,18 +116,16 @@ jobs:
       - name: Test backend health
         run: |
           echo "Checking backend container status..."
-          BACKEND_CONTAINER=$(docker compose ps backend --format json | jq -r '.[0].Name')
 
-          if [ -z "$BACKEND_CONTAINER" ]; then
-            echo "Error: Backend container not found!"
+          # Check if backend container exists using simpler command
+          if ! docker compose ps --status running backend | grep backend; then
+            echo "Error: Backend container not found or not running!"
             echo "Current containers:"
             docker compose ps
             exit 1
           fi
 
-          echo "Found backend container: $BACKEND_CONTAINER"
-
-          echo "Checking backend health..."
+          echo "Backend container is running, checking health..."
           timeout=120
           while [ $timeout -gt 0 ]; do
             if curl -f "http://localhost:8080/actuator/health" 2>/dev/null; then

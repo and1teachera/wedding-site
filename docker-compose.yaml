@@ -40,6 +40,11 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mariadb://mariadb:3306/wedding_site
       - SPRING_DATASOURCE_USERNAME=${DB_WEDDING_SITE_USERNAME}
       - SPRING_DATASOURCE_PASSWORD=${DB_WEDDING_SITE_PASSWORD}
+      - MAIL_HOST=${MAIL_HOST}
+      - MAIL_PORT=${MAIL_PORT}
+      - MAIL_USERNAME=${MAIL_USERNAME}
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET:-default-secret-key}
     depends_on:
       mariadb:
         condition: service_healthy

@@ -53,10 +53,10 @@ jobs:
       DB_WEDDING_SITE_PASSWORD: ${{ secrets.DB_WEDDING_SITE_PASSWORD }}
       MONITORING_PASSWORD: ${{ secrets.MONITORING_PASSWORD }}
       DB_ROOT_PASSWORD: ${{ secrets.DB_ROOT_PASSWORD }}
-      MAIL_HOST: smtp.test.local
-      MAIL_PORT: 1025
-      MAIL_USERNAME: test_user
-      MAIL_PASSWORD: test_pass
+      MAIL_HOST: ${{ secrets.MAIL_HOST }}
+      MAIL_PORT: ${{ secrets.MAIL_PORT }}
+      MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+      MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
 
     steps:
       - uses: actions/checkout@v4

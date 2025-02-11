@@ -1,4 +1,19 @@
 spring:
+  mail:
+    host: localhost
+    port: 3025
+    username: test
+    password: test
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+  security:
+    jwt:
+      secret: ${JWT_SECRET:KkYzn0UFeYNKEgtnslOVCmR96iUfAMDM07EUzk5MSZkfXl49aCu4rdmsqbbgD5MlZiIH40sScWKwCFbZlqi9PA==}
+      expiration: 7200000  # 2 hours in milliseconds
   jpa:
     hibernate:
       ddl-auto: create-drop

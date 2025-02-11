@@ -47,3 +47,5 @@ management:
       enabled: true
     db:
       enabled: true
+    mail:
+      enabled: false

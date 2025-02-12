@@ -1,5 +1,8 @@
 package com.zlatenov.wedding_backend.security;
 
+import com.zlatenov.wedding_backend.exception.InvalidTokenSignatureException;
+import com.zlatenov.wedding_backend.exception.MalformedTokenException;
+import com.zlatenov.wedding_backend.exception.TokenExpiredException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -61,16 +64,17 @@ public class JwtTokenProvider {
             return true;
         } catch (ExpiredJwtException e) {
             log.warn("JWT expired: {}", e.getMessage());
-        } catch (UnsupportedJwtException e) {
-            log.warn("JWT unsupported: {}", e.getMessage());
+            throw new TokenExpiredException("JWT token has expired");
         } catch (MalformedJwtException e) {
             log.warn("JWT malformed: {}", e.getMessage());
+            throw new MalformedTokenException("JWT token is malformed");
         } catch (SignatureException e) {
             log.warn("JWT signature invalid: {}", e.getMessage());
-        } catch (IllegalArgumentException e) {
-            log.warn("JWT claims string is empty: {}", e.getMessage());
+            throw new InvalidTokenSignatureException("JWT token has invalid signature");
+        } catch (UnsupportedJwtException | IllegalArgumentException e) {
+            log.warn("JWT validation error: {}", e.getMessage());
+            throw new MalformedTokenException("JWT token validation failed");
         }
-        return false;
     }
 
     public String getUsernameFromToken(String token) {

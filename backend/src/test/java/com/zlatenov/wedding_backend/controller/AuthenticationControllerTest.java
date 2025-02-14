@@ -119,6 +119,16 @@ class AuthenticationControllerTest {
     }
 
     @Test
+    @DisplayName("Should return 400 for empty request body")
+    void shouldReturn400ForEmptyRequestBody() throws Exception {
+        mockMvc.perform(post("/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("INVALID_REQUEST"))
+                .andExpect(jsonPath("$.message").value("Request body is required"));
+    }
+
+    @Test
     @DisplayName("Should return proper error response for invalid credentials")
     void shouldReturnProperErrorResponseForInvalidCredentials() throws Exception {
         LoginByEmailRequest request = new LoginByEmailRequest("test@example.com", "wrongpassword");

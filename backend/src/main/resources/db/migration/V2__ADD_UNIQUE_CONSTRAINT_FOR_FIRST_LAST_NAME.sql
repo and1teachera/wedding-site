@@ -1,0 +1,1 @@
+ALTER TABLE users ADD CONSTRAINT uk_user_name_combo UNIQUE (first_name, last_name);

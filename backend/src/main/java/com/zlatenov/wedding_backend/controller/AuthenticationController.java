@@ -1,5 +1,6 @@
 package com.zlatenov.wedding_backend.controller;
 
+import com.zlatenov.wedding_backend.annotation.RateLimited;
 import com.zlatenov.wedding_backend.dto.AuthenticationResponse;
 import com.zlatenov.wedding_backend.dto.LoginByEmailRequest;
 import com.zlatenov.wedding_backend.dto.LoginByNamesRequest;
@@ -27,6 +28,7 @@ public class AuthenticationController {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
 
+    @RateLimited(requests = 5, timeWindowSeconds = 60, key = "#ip")
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> authenticateByEmail(
             @RequestBody @Valid LoginByEmailRequest request) {
@@ -54,6 +56,7 @@ public class AuthenticationController {
         }
     }
 
+    @RateLimited(requests = 5, timeWindowSeconds = 60, key = "#ip")
     @PostMapping("/login-by-names")
     public ResponseEntity<AuthenticationResponse> authenticateByNames(
             @RequestBody @Valid LoginByNamesRequest request) {

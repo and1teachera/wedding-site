@@ -13,11 +13,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserDetailsService userDetailsService;
+
+    // List of paths that don't require authentication
+    private final List<String> publicPaths = Arrays.asList("/auth/login", "/auth/login-by-names");
 
     public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider, UserDetailsService userDetailsService) {
         this.jwtTokenProvider = jwtTokenProvider;
@@ -27,20 +32,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        
+
+        // Skip token validation for public endpoints
+        if (isPublicPath(request.getServletPath())) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String jwt = getJwtFromRequest(request);
-        
+
         if (jwt != null && jwtTokenProvider.validateToken(jwt)) {
             String username = jwtTokenProvider.getUsernameFromToken(jwt);
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            
-            UsernamePasswordAuthenticationToken authentication = 
-                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+            UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            
+
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
-        
+
         filterChain.doFilter(request, response);
     }
 
@@ -50,5 +61,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return bearerToken.substring(7);
         }
         return null;
+    }
+
+    private boolean isPublicPath(String servletPath) {
+        return publicPaths.stream().anyMatch(servletPath::startsWith);
     }
 }

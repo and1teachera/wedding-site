@@ -1,38 +1,25 @@
-### Use Case 1: Register Guests
-
-**Use Case Description**: Allow guests to register for the event using a secure link with a unique parameter and default password.
-
+### Use Case 1: Guests login
+**Use Case Description**: Allow guests to login within the app with default password.
 - **Scope**: Wedding Site
 - **Level**: User Goal
 - **Primary Actor**: Guest
 - **Stakeholders and Interests**:
-  - **Guests**: Want an easy, secure, and intuitive way to register for the event and manage their family’s participation.
+  - **Guests**: Want an easy, secure, and intuitive way to login and respond for the event and manage their family’s participation.
   - **Admins**: Need a system that validates and secures guest registrations without requiring additional manual interventions.
 - **Preconditions**:
-  - Guest has received the secure link and default password from the admin.
-  - The link parameter is valid.
+  - Guest has received a link and default password from the admin.
 - **Postconditions**:
   - Guest account is created with optional family details.
   - Guest can RSVP and optionally book accommodations.
 - **Main Success Scenario Step by Step**:
-  1. Guest accesses the secure link (`weddings.site/asfhse`).
-  2. Sees the "Register Me" button and clicks it.
-  3. Enters the default password (`mywedding`).
-  4. If the password matches, the system displays a form:
-    - Guest fills out their name.
-    - If the name exists in the system, the guest provides their email (required) and optionally a phone number.
+  1. Guest accesses the application
+  2. Enters their first name, last name and default password (`mywedding`).
+  3. If the name exists in the system and the password matches, the guest access the system:
     - Guest optionally sets a custom password; otherwise, the default password remains active.
-  5. System confirms the registration and displays the RSVP page.
-  6. Guest RSVPs for the event:
-    - Options are "Tentative" (default), "Yes," or "No."
-    - Guest can RSVP on behalf of family members, entering optional email and phone details for each.
-  7. If RSVP is positive, the system displays an option to book accommodation for the whole family.
-  8. Guest completes the process, and the system saves all data.
+  4. System displays the landing page.
 - **Extensions (Other Scenarios and Alternatives)**:
   - If the password is incorrect, the system displays an error message.
-  - If the secure link has expired, the system prompts the guest to contact support.
 - **Special Requirements**:
-  - Ensure secure validation of the link and parameter.
   - Data input fields must comply with localization standards for Bulgaria.
 - **Data Variation List**:
   - Family member data: Name, Email (optional), Phone (optional), RSVP (optional).
@@ -40,13 +27,13 @@
 - **Frequency Occurrence**:
   - One-time action per guest or family.
 - **Trigger**:
-  - Guest accesses the secure link.
+  - Guest accesses the site.
 - **Actors**:
   - Guest, System
 - **Goals**:
-  - Create a secure and streamlined registration process for guests and their families.
+  - Create a secure and streamlined login process for guests and their families.
 - **Failed Endings**:
-  - Registration fails due to an invalid link, incorrect password, or missing required fields.
+  - Registration fails due to an incorrect password, or missing required fields.
 - **Miscellaneous**:
   - Consider adding validation messages for invalid entries.
 
@@ -54,55 +41,28 @@
 #### **Flowchart:**
 
 ``` mermaid
-flowchart TD
-    A[Access Secure Link] --> B[Click Register Me]
-    B --> C[Enter Default Password]
-    C --|Password Matches|--> D[Display Registration Form]
-    C --|Password Incorrect|--> E[Show Error Message]
-    D --> F[Fill Out Name]
-    F --|Name Exists|--> G[Provide Email and Phone]
-    F --|Name Does Not Exist|--> H[Submit Form]
-    G --> I[Set Custom Password]
-    G --|No Custom Password|--> J[Use Default Password]
-    I --> J
-    J --> H
-    H --> K[System Confirms Registration]
-    K --> L[Display RSVP Page]
-    L --> M[RSVP for Event]
-    M --|Positive RSVP|--> N[Option to Book Accommodation]
-    M --|Negative RSVP|--> O[Complete Registration]
-    N --> O
-
-```
+	flowchart TD
+    A[Guest Accesses the Application] --> B[Enter First Name, Last Name, and Default Password]
+    B --|Password Matches & Name Exists|--> C[Access Granted: Display Landing Page]
+    B --|Password Incorrect|--> D[Show Error Message]
+```  
 
 
 #### **Sequence Diagram:**
 
 ``` mermaid
-sequenceDiagram
-    participant Guest
-    participant System
-
-    Guest->>System: Access Secure Link
-    System-->>Guest: Display "Register Me" Button
-    Guest->>System: Click "Register Me"
-    Guest->>System: Enter Default Password
-    alt Password Valid
-        System-->>Guest: Display Registration Form
-        Guest->>System: Fill Out Name
-        alt Name Exists
-            Guest->>System: Provide Email (Required) & Phone (Optional)
-        end
-        Guest->>System: Submit Form
-        System-->>Guest: Display RSVP Page
-        Guest->>System: RSVP for Event
-        alt Positive RSVP
-            System-->>Guest: Display Option to Book Accommodation
-        end
-        System-->>Guest: Save Data
-    else Password Invalid
-        System-->>Guest: Show Error Message
-    end
+	sequenceDiagram
+	    participant Guest
+	    participant System
+	
+	    Guest->>System: Access Application
+	    Guest->>System: Enter First Name, Last Name, and Default Password
+	
+	    alt Password Valid and Name Exists
+	        System-->>Guest: Access Granted - Display Landing Page
+	    else Password Invalid
+	        System-->>Guest: Show Error Message
+	    end
 ```
 ---
 

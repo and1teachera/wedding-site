@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {Observable, of, throwError} from 'rxjs';
-import { catchError, tap, finalize } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { TokenService } from './token.service';
 
 export class AuthError extends Error {

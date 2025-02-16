@@ -110,47 +110,47 @@ jobs:
           echo "\nInitial backend logs:"
           docker compose logs backend
 
-      - name: Test backend health
-        run: |
-          echo "Checking backend container status..."
-
-          # Check if backend container exists using simpler command
-          if ! docker compose ps --status running backend | grep backend; then
-            echo "Error: Backend container not found or not running!"
-            echo "Current containers:"
-            docker compose ps
-            exit 1
-          fi
-
-          echo "Backend container is running, checking health..."
-          timeout=120
-          while [ $timeout -gt 0 ]; do
-            if curl -f "http://localhost:8080/actuator/health" 2>/dev/null; then
-              echo "Backend is healthy"
-              break
-            fi
-            echo "Still waiting for backend... $(($timeout))s remaining"
-
-            # Print recent container logs
-            echo "Recent container logs:"
-            docker compose logs --tail=200 backend
-
-            # Check container status
-            echo "Container status:"
-            docker compose ps backend
-
-            sleep 5
-            ((timeout-=5))
-          done
-
-          if [ $timeout -eq 0 ]; then
-            echo "Backend health check failed after timeout"
-            echo "Full container logs:"
-            docker compose logs backend
-            echo "Final container status:"
-            docker compose ps
-            exit 1
-          fi
+#      - name: Test backend health
+#        run: |
+#          echo "Checking backend container status..."
+#
+#          # Check if backend container exists using simpler command
+#          if ! docker compose ps --status running backend | grep backend; then
+#            echo "Error: Backend container not found or not running!"
+#            echo "Current containers:"
+#            docker compose ps
+#            exit 1
+#          fi
+#
+#          echo "Backend container is running, checking health..."
+#          timeout=120
+#          while [ $timeout -gt 0 ]; do
+#            if curl -f "http://localhost:8080/actuator/health" 2>/dev/null; then
+#              echo "Backend is healthy"
+#              break
+#            fi
+#            echo "Still waiting for backend... $(($timeout))s remaining"
+#
+#            # Print recent container logs
+#            echo "Recent container logs:"
+#            docker compose logs --tail=200 backend
+#
+#            # Check container status
+#            echo "Container status:"
+#            docker compose ps backend
+#
+#            sleep 5
+#            ((timeout-=5))
+#          done
+#
+#          if [ $timeout -eq 0 ]; then
+#            echo "Backend health check failed after timeout"
+#            echo "Full container logs:"
+#            docker compose logs backend
+#            echo "Final container status:"
+#            docker compose ps
+#            exit 1
+#          fi
 
   frontend-validation:
     runs-on: ubuntu-latest

@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   rememberMe = false;
   isLoading = false;
   errorMessage = '';
-  private returnUrl: string = '/home';
+  private returnUrl = '/home';
   private queryParamsSub?: Subscription;
 
   constructor(

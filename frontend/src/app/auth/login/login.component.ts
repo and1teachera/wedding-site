@@ -90,13 +90,23 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
       });
     } else {
-      this.authService.loginWithEmail(/*{
-        email: this.email,
+      if (!this.validateEmailLoginInputs()) {
+        this.isLoading = false;
+        return;
+      }
+      this.authService.loginWithEmail({
+        email: this.email.trim(),
         password: this.password,
         rememberMe: this.rememberMe
-      }*/).subscribe({
-        next: () => this.router.navigate(['/home']),
-        error: (error) => console.error('Login failed:', error)
+      }).subscribe({
+        next: () => {
+          this.navigateToReturnUrl();
+        },
+        error: (error) => {
+          this.isLoading = false;
+          this.handleLoginError(error);
+          this.password = '';
+        }
       });
     }
   }
@@ -145,5 +155,18 @@ export class LoginComponent implements OnInit, OnDestroy {
     const allowedPaths = ['/home', '/rsvp'];
 
     return allowedPaths.some(path => url.startsWith(path));
+  }
+
+  private validateEmailLoginInputs(): boolean {
+    if (!this.email || !this.password) {
+      this.errorMessage = 'Моля, попълнете всички полета';
+      return false;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(this.email.trim())) {
+      this.errorMessage = 'Моля, въведете валиден имейл адрес';
+      return false;
+    }
+    return true;
   }
 }

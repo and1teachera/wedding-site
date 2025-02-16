@@ -4,25 +4,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zlatenov.wedding_backend.configuration.TestSecurityConfiguration;
 import com.zlatenov.wedding_backend.dto.LoginByEmailRequest;
 import com.zlatenov.wedding_backend.dto.LoginByNamesRequest;
+import com.zlatenov.wedding_backend.exception.InvalidCredentialsException;
+import com.zlatenov.wedding_backend.model.User;
 import com.zlatenov.wedding_backend.security.JwtTokenProvider;
+import com.zlatenov.wedding_backend.service.LoginAuditService;
+import com.zlatenov.wedding_backend.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-
-import java.util.Collections;
+import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -39,10 +34,13 @@ class AuthenticationControllerTest {
     private MockMvc mockMvc;
 
     @MockitoBean
-    private AuthenticationManager authenticationManager;
+    private JwtTokenProvider jwtTokenProvider;
 
     @MockitoBean
-    private JwtTokenProvider jwtTokenProvider;
+    private UserService userService;
+
+    @MockitoBean
+    private LoginAuditService loginAuditService;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -51,13 +49,11 @@ class AuthenticationControllerTest {
     void shouldAuthenticateWithEmail() throws Exception {
         // Arrange
         LoginByEmailRequest request = new LoginByEmailRequest("test@example.com", "password");
-        UserDetails userDetails = new User("test@example.com", "password",
-                Collections.singletonList(new SimpleGrantedAuthority("GUEST")));
-        Authentication authentication = new UsernamePasswordAuthenticationToken(
-                userDetails, null, userDetails.getAuthorities());
 
-        when(authenticationManager.authenticate(any())).thenReturn(authentication);
-        when(jwtTokenProvider.generateToken(any(UserDetails.class))).thenReturn("test.jwt.token");
+        when(userService.authenticateUser(any(), any(), any(), any()))
+                .thenReturn(User.builder().firstName("Test").lastName("User").build());
+
+        when(jwtTokenProvider.generateToken(any(User.class))).thenReturn("test.jwt.token");
 
         // Act & Assert
         mockMvc.perform(post("/auth/login")
@@ -73,13 +69,11 @@ class AuthenticationControllerTest {
     void shouldAuthenticateWithNames() throws Exception {
         // Arrange
         LoginByNamesRequest request = new LoginByNamesRequest("John", "Doe", "password");
-        UserDetails userDetails = new User("John Doe", "password",
-                Collections.singletonList(new SimpleGrantedAuthority("GUEST")));
-        Authentication authentication = new UsernamePasswordAuthenticationToken(
-                userDetails, null, userDetails.getAuthorities());
 
-        when(authenticationManager.authenticate(any())).thenReturn(authentication);
-        when(jwtTokenProvider.generateToken(any(UserDetails.class))).thenReturn("test.jwt.token");
+        when(userService.authenticateUser(any(), any(), any(), any(), any()))
+                .thenReturn(User.builder().firstName("Test").lastName("User").build());
+
+        when(jwtTokenProvider.generateToken(any(User.class))).thenReturn("test.jwt.token");
 
         // Act & Assert
         mockMvc.perform(post("/auth/login-by-names")
@@ -95,8 +89,8 @@ class AuthenticationControllerTest {
     void shouldReturn401ForInvalidCredentials() throws Exception {
         // Arrange
         LoginByEmailRequest request = new LoginByEmailRequest("test@example.com", "wrongpassword");
-        when(authenticationManager.authenticate(any()))
-                .thenThrow(new BadCredentialsException("Invalid credentials"));
+        when(userService.authenticateUser(any(), any(), any(), any()))
+                .thenThrow(new InvalidCredentialsException("Invalid credentials"));
 
         // Act & Assert
         mockMvc.perform(post("/auth/login")
@@ -132,9 +126,8 @@ class AuthenticationControllerTest {
     @DisplayName("Should return proper error response for invalid credentials")
     void shouldReturnProperErrorResponseForInvalidCredentials() throws Exception {
         LoginByEmailRequest request = new LoginByEmailRequest("test@example.com", "wrongpassword");
-        when(authenticationManager.authenticate(any()))
-                .thenThrow(new BadCredentialsException("Invalid credentials"));
-
+        when(userService.authenticateUser(any(), any(), any(), any()))
+                .thenThrow(new InvalidCredentialsException("Invalid credentials"));
         mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))

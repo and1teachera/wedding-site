@@ -17,7 +17,7 @@ public class Family {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 100)
+    @Column(name = "family_name", nullable = false, length = 100)
     private String name;
 
 
@@ -27,5 +27,4 @@ public class Family {
     @OneToMany(mappedBy = "family")
     private Set<RoomBooking> bookings;
 
-    // getters, setters, constructors
 }

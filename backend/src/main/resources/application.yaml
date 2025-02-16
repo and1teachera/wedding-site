@@ -1,21 +1,21 @@
 spring:
-  mail:
-    host: ${MAIL_HOST}
-    port: ${MAIL_PORT}
-    username: ${MAIL_USERNAME}
-    password: ${MAIL_PASSWORD}
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
+#  mail:
+#    host: ${MAIL_HOST}
+#    port: ${MAIL_PORT}
+#    username: ${MAIL_USERNAME}
+#    password: ${MAIL_PASSWORD}
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#          starttls:
+#            enable: true
   flyway:
     enabled: true
     locations: classpath:db/migration
     fail-on-missing-locations: false
   datasource:
-    url: jdbc:mariadb://mariadb:3306/wedding_site
+    url: jdbc:mariadb://localhost:3306/wedding_site
     username: ${DB_WEDDING_SITE_USERNAME}
     password: ${DB_WEDDING_SITE_PASSWORD}
     driver-class-name: org.mariadb.jdbc.Driver
@@ -49,3 +49,8 @@ management:
       enabled: true
     mail:
       enabled: false
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG

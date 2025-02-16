@@ -1,1 +1,5 @@
-<router-outlet></router-outlet>
+<div class="min-h-screen bg-white">
+  <app-main-navigation *ngIf="tokenService.isTokenValid()"></app-main-navigation>
+
+  <router-outlet></router-outlet>
+</div>

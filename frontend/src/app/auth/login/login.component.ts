@@ -1,20 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AuthService, AuthError, NetworkError } from '../services/auth.service';
 import { TitlePictureComponent } from '../../shared/components/title-picture/title-picture.component';
+import { TokenService } from '../services/token.service';
+import { Subscription } from 'rxjs';
+import {HttpClientModule} from "@angular/common/http";
 
 type LoginMethod = 'names' | 'email';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, TitlePictureComponent],
+  imports: [CommonModule, HttpClientModule, FormsModule, TitlePictureComponent],
+  providers: [AuthService],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit, OnDestroy {
   pageTitle = "It's Just Forever, No Big Deal";
   loginMethod: LoginMethod = 'names';
   firstName = '';
@@ -22,31 +26,69 @@ export class LoginComponent {
   email = '';
   password = '';
   rememberMe = false;
+  isLoading = false;
+  errorMessage = '';
+  private returnUrl = '/home';
+  private queryParamsSub?: Subscription;
 
   constructor(
       private router: Router,
-      private authService: AuthService
+      private route: ActivatedRoute,
+      private authService: AuthService,
+      private tokenService: TokenService
   ) {}
+
+  ngOnInit() {
+    if (this.tokenService.isTokenValid()) {
+      this.navigateToReturnUrl();
+      return;
+    }
+    this.tokenService.removeToken();
+    this.queryParamsSub = this.route.queryParams.subscribe(params => {
+      this.returnUrl = params['returnUrl'] || '/home';
+      if (!this.isValidReturnUrl(this.returnUrl)) {
+        this.returnUrl = '/home';
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.queryParamsSub) {
+      this.queryParamsSub.unsubscribe();
+    }
+
+    this.tokenService.performCleanup();
+  }
 
   toggleLoginMethod(method: LoginMethod) {
     this.loginMethod = method;
-    // Clear form fields when switching methods
-    this.firstName = '';
-    this.lastName = '';
-    this.email = '';
-    this.password = '';
+    this.resetForm();
   }
 
-  onSubmit() {
+  onSubmit(event: Event): void {
+    event.preventDefault();
     if (this.loginMethod === 'names') {
-      this.authService.loginWithNames(/*{
-        firstName: this.firstName,
-        lastName: this.lastName,
+      if (!this.validateNameLoginInputs()) {
+        return;
+      }
+
+      this.isLoading = true;
+      this.errorMessage = '';
+
+      this.authService.loginWithNames({
+        firstName: this.firstName.trim(),
+        lastName: this.lastName.trim(),
         password: this.password,
         rememberMe: this.rememberMe
-      }*/).subscribe({
-        next: () => this.router.navigate(['/home']),
-        error: (error) => console.error('Login failed:', error)
+      }).subscribe({
+        next: () => {
+          this.navigateToReturnUrl();
+        },
+        error: (error) => {
+          this.isLoading = false;
+          this.handleLoginError(error);
+          this.password = ''; // Clear password on error
+        }
       });
     } else {
       this.authService.loginWithEmail(/*{
@@ -58,5 +100,51 @@ export class LoginComponent {
         error: (error) => console.error('Login failed:', error)
       });
     }
+  }
+
+  private validateNameLoginInputs(): boolean {
+    if (!this.firstName || !this.lastName || !this.password) {
+      this.errorMessage = 'Моля, попълнете всички полета';
+      return false;
+    }
+
+    if (this.firstName.trim().length < 2 || this.lastName.trim().length < 2) {
+      this.errorMessage = 'Имената трябва да са поне 2 символа';
+      return false;
+    }
+
+    return true;
+  }
+
+  private handleLoginError(error: Error): void {
+    if (error instanceof AuthError || error instanceof NetworkError) {
+      this.errorMessage = error.message;
+    } else {
+      this.errorMessage = 'Възникна неочаквана грешка. Моля, опитайте отново по-късно.';
+      console.error('Unexpected login error:', error);
+    }
+  }
+
+  private navigateToReturnUrl(): void {
+    this.router.navigateByUrl(this.returnUrl);
+  }
+
+  private resetForm(): void {
+    this.firstName = '';
+    this.lastName = '';
+    this.email = '';
+    this.password = '';
+    this.errorMessage = '';
+  }
+
+  private isValidReturnUrl(url: string): boolean {
+    // Only allow relative URLs that start with '/'
+    if (!url.startsWith('/')) {
+      return false;
+    }
+
+    const allowedPaths = ['/home', '/rsvp'];
+
+    return allowedPaths.some(path => url.startsWith(path));
   }
 }

@@ -33,8 +33,9 @@ CREATE TABLE group_members (
 );
 
 CREATE TABLE user_responses (
-                                user_id BIGINT PRIMARY KEY,
-                                response_status ENUM('MAYBE', 'YES', 'NO') DEFAULT 'MAYBE',
+                                id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                                user_id BIGINT NOT NULL UNIQUE,
+                                status VARCHAR(10) DEFAULT 'MAYBE',
                                 dietary_notes VARCHAR(100),
                                 additional_notes VARCHAR(100),
                                 FOREIGN KEY (user_id) REFERENCES users(id)

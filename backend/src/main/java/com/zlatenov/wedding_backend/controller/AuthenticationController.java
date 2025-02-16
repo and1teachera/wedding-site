@@ -42,7 +42,7 @@ public class AuthenticationController {
 
         return ResponseEntity.ok(AuthenticationResponse.builder()
                 .token(jwt)
-                .userType("GUEST")
+                .userType(user.isAdmin() ? "ADMIN" : "GUEST")
                 .build());
     }
 

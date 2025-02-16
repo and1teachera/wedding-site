@@ -88,9 +88,16 @@ export class AuthService {
     return throwError(() => new Error('Възникна грешка. Моля, опитайте отново по-късно.'));
   }
 
-  loginWithEmail(/*credentials: EmailLoginCredentials*/): Observable<boolean> {
-    // This is a placeholder for actual authentication logic
-    // For now, it just returns a successful login
-    return of(true);
+  loginWithEmail(credentials: EmailLoginCredentials): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.API_URL}/login`, credentials, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }).pipe(
+        tap(response => {
+          this.tokenService.setToken(response.token, credentials.rememberMe);
+        }),
+        catchError(this.handleError)
+    );
   }
 }

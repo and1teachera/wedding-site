@@ -1,24 +1,22 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-
+import { TestBed } from '@angular/core/testing';
 import { MainNavigationComponent } from './main-navigation.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('MainNavigationComponent', () => {
-  let component: MainNavigationComponent;
-  let fixture: ComponentFixture<MainNavigationComponent>;
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule], // Include this
-      declarations: [MainNavigationComponent]
+      imports: [
+        MainNavigationComponent,
+        HttpClientTestingModule,
+        RouterTestingModule,
+      ],
     }).compileComponents();
-
-    fixture = TestBed.createComponent(MainNavigationComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    const fixture = TestBed.createComponent(MainNavigationComponent);
+    const component = fixture.componentInstance;
     expect(component).toBeTruthy();
   });
 });

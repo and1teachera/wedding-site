@@ -57,7 +57,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.queryParamsSub.unsubscribe();
     }
 
-    this.tokenService.performCleanup();
   }
 
   toggleLoginMethod(method: LoginMethod) {

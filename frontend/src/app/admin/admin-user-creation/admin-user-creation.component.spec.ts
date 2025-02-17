@@ -11,7 +11,6 @@ import { SectionContainerComponent } from '../../shared/components/layout/sectio
 describe('AdminUserCreationComponent', () => {
   let component: AdminUserCreationComponent;
   let fixture: ComponentFixture<AdminUserCreationComponent>;
-  let adminService: AdminService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -28,7 +27,6 @@ describe('AdminUserCreationComponent', () => {
 
     fixture = TestBed.createComponent(AdminUserCreationComponent);
     component = fixture.componentInstance;
-    adminService = TestBed.inject(AdminService);
     fixture.detectChanges();
   });
 

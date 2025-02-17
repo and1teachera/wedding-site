@@ -1,4 +1,3 @@
--- V3__Add_Login_Attempts_Table.sql
 CREATE TABLE login_attempts (
                                 id BIGINT AUTO_INCREMENT PRIMARY KEY,
                                 attempt_time TIMESTAMP NOT NULL,

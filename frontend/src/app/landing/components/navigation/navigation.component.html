@@ -28,7 +28,9 @@
         <a (click)="scrollToSection($event, 'info-section')" class="text-gray-700 hover:text-gray-900"
            href="#faq">FAQ</a>
         <a (click)="scrollToSection($event, 'contacts')" class="text-gray-700 hover:text-gray-900" href="#contacts">Контакти</a>
-
+        <a *ngIf="isAdmin" [routerLink]="['/admin/users']" class="text-gray-700 hover:text-gray-900">
+          Admin
+        </a>
         <a [routerLink]="['/rsvp']" class="bg-pink-600 text-white px-4 py-6 rounded-md hover:bg-pink-700">
           RSVP
         </a>
@@ -56,6 +58,14 @@
            href="#faq">FAQ</a>
         <a (click)="scrollToSection($event, 'contacts')" class="block text-gray-700 hover:bg-gray-100 px-3 py-6 rounded-md"
            href="#contacts">Контакти</a>
+
+        <!-- Admin Links for Mobile -->
+        <a *ngIf="isAdmin"
+           [routerLink]="['/admin/users']"
+           class="block text-gray-700 hover:bg-gray-100 px-3 py-6 rounded-md"
+           (click)="closeMenu()">
+          Admin
+        </a>
         <a [routerLink]="['/rsvp']" class="w-full mt-2 bg-pink-600 text-white px-4 py-6 rounded-md hover:bg-pink-700">
           RSVP
         </a>

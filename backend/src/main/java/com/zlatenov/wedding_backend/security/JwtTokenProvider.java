@@ -4,24 +4,16 @@ import com.zlatenov.wedding_backend.exception.InvalidTokenSignatureException;
 import com.zlatenov.wedding_backend.exception.MalformedTokenException;
 import com.zlatenov.wedding_backend.exception.TokenExpiredException;
 import com.zlatenov.wedding_backend.model.User;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.SignatureException;
-import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
-import java.util.Base64;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 @Component
@@ -37,7 +29,8 @@ public class JwtTokenProvider {
 
     public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("userType", "GUEST");
+        claims.put("userType", user.isAdmin() ? "ADMIN" : "GUEST");
+
         return createToken(claims, user.getFirstName() + " " + user.getLastName());
     }
 
@@ -53,6 +46,14 @@ public class JwtTokenProvider {
 
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(Base64.getDecoder().decode(jwtSecret));
+    }
+
+    public Claims getAllClaimsFromToken(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     public Boolean validateToken(String token) {
@@ -86,11 +87,10 @@ public class JwtTokenProvider {
         return claimsResolver.apply(claims);
     }
 
-    private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+    @SuppressWarnings("unchecked")
+    public Collection<SimpleGrantedAuthority> getRolesFromToken(String token) {
+        Claims claims = getAllClaimsFromToken(token);
+        String userType = claims.get("userType", String.class);
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + userType));
     }
 }

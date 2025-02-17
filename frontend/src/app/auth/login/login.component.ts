@@ -71,6 +71,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         return;
       }
 
+      console.log('Submitting login form with names');
       this.isLoading = true;
       this.errorMessage = '';
 
@@ -81,6 +82,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         rememberMe: this.rememberMe
       }).subscribe({
         next: () => {
+          console.log('Login successful, navigating to:', this.returnUrl);
           this.navigateToReturnUrl();
         },
         error: (error) => {
@@ -103,6 +105,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.navigateToReturnUrl();
         },
         error: (error) => {
+          console.error('Login error:', error);
           this.isLoading = false;
           this.handleLoginError(error);
           this.password = '';

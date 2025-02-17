@@ -53,4 +53,5 @@ management:
 logging:
   level:
     org.springframework.security: DEBUG
+    com.zlatenov.wedding_backend: DEBUG
     org.springframework.web: DEBUG

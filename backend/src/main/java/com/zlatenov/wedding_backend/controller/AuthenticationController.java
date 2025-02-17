@@ -60,10 +60,15 @@ public class AuthenticationController {
 
         String jwt = jwtTokenProvider.generateToken(user);
 
-        return ResponseEntity.ok(AuthenticationResponse.builder()
+        AuthenticationResponse response = AuthenticationResponse.builder()
                 .token(jwt)
                 .userType(user.isAdmin() ? "ADMIN" : "GUEST")
-                .build());
+                .user(AuthenticationResponse.UserInfo.builder().firstName(user.getFirstName()).lastName(user.getLastName()).build())
+                .build();
+
+        log.info("Authentication successful. Response: {}", response);
+
+        return ResponseEntity.ok(response);
     }
 
     private String extractIpAddress(HttpServletRequest request) {

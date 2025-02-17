@@ -33,6 +33,7 @@ export interface EmailLoginCredentials {
 
 export interface LoginResponse {
   token: string;
+  userType: string;
   user: {
     firstName: string;
     lastName: string;
@@ -59,12 +60,14 @@ export class AuthService {
     }).pipe(
         tap(response => {
           this.tokenService.setToken(response.token, credentials.rememberMe);
+          console.log('Token set in service');
         }),
         catchError(this.handleError)
     );
   }
 
   private handleError(error: HttpErrorResponse) {
+    console.error('Login error:', error);
     if (!navigator.onLine) {
       return throwError(() => new NetworkError('Няма връзка с интернет. Моля, проверете вашата връзка.'));
     }

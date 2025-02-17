@@ -21,9 +21,6 @@ public class UserCreationRequest {
     private String phone;
 
     @Builder.Default
-    private String defaultPassword = "mywedding";
-
-    @Builder.Default
     private boolean isChild = false;
 
     @Builder.Default

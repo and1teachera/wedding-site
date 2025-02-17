@@ -36,6 +36,16 @@ export class TokenService {
     this.isAuthenticatedSubject.next(false);
   }
 
+  /**
+   * Performs cleanup for non-remembered sessions
+   * This should be called in component's ngOnDestroy
+   */
+  performCleanup(): void {
+    if (sessionStorage.getItem(this.SESSION_CLEANUP_KEY)) {
+      this.removeToken();
+    }
+  }
+
   isTokenValid(): boolean {
     const token = this.getToken();
     if (!token) return false;
@@ -50,13 +60,15 @@ export class TokenService {
     }
   }
 
-  /**
-   * Performs cleanup for non-remembered sessions
-   * This should be called in component's ngOnDestroy
-   */
-  performCleanup(): void {
-    if (sessionStorage.getItem(this.SESSION_CLEANUP_KEY)) {
-      this.removeToken();
+  isAdmin(): boolean {
+    const token = this.getToken();
+    if (!token) return false;
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.userType === 'ADMIN';
+    } catch {
+      return false;
     }
   }
 }

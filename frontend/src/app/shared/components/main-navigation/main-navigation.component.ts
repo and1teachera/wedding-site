@@ -48,4 +48,8 @@ export class MainNavigationComponent {
       }
     });
   }
+
+  get isAdmin(): boolean {
+    return this.tokenService.isAdmin();
+  }
 }

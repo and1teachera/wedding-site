@@ -22,14 +22,14 @@ public class AdminController {
 
     private final AdminService adminService;
 
-    @PostMapping("/users")
+    @PostMapping("/user")
     public ResponseEntity<Void> createUser(@RequestBody @Valid UserCreationRequest request) {
         log.info("Creating new user: {} {}", request.getFirstName(), request.getLastName());
         adminService.createUser(request);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/families")
+    @PostMapping("/family")
     public ResponseEntity<Void> createFamily(@RequestBody @Valid FamilyCreationRequest request) {
         log.info("Received request to create family: {}", request.getFamilyName());
         log.debug("Family creation request details - Primary User: {} {}, Family Members: {}",

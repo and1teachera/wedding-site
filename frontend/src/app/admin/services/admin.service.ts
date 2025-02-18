@@ -25,10 +25,10 @@ export class AdminService {
   constructor(private http: HttpClient) {}
 
   createUser(user: UserCreationRequest): Observable<void> {
-    return this.http.post<void>(`${this.API_URL}/users`, user);
+    return this.http.post<void>(`${this.API_URL}/user`, user);
   }
 
   createFamily(family: FamilyCreationRequest): Observable<void> {
-    return this.http.post<void>(`${this.API_URL}/families`, family);
+    return this.http.post<void>(`${this.API_URL}/family`, family);
   }
 }

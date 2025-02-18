@@ -33,7 +33,7 @@ describe('AdminService', () => {
 
     service.createUser(mockUser).subscribe();
 
-    const req = httpMock.expectOne('/api/admin/users');
+    const req = httpMock.expectOne('/api/admin/user');
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual(mockUser);
   });
@@ -55,7 +55,7 @@ describe('AdminService', () => {
 
     service.createFamily(mockFamily).subscribe();
 
-    const req = httpMock.expectOne('/api/admin/families');
+    const req = httpMock.expectOne('/api/admin/family');
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual(mockFamily);
   });

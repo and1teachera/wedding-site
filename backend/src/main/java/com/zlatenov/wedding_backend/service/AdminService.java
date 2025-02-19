@@ -8,6 +8,7 @@ import com.zlatenov.wedding_backend.repository.FamilyRepository;
 import com.zlatenov.wedding_backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,8 +21,9 @@ public class AdminService {
     private final UserRepository userRepository;
     private final FamilyRepository familyRepository;
     private final PasswordEncoder passwordEncoder;
-    //TODO: just a placeholder for now - will be replaced with a more secure solution
-    private final String defaultPassword = "mywedding";
+
+    @Value("${DEFAULT_PASSWORD}")
+    private String defaultPassword;
 
     @Transactional
     public void createUser(UserCreationRequest request) {

@@ -22,3 +22,4 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
   flyway:
     enabled: false
+DEFAULT_PASSWORD: testpassword

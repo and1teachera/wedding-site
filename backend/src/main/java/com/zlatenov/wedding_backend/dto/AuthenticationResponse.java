@@ -26,5 +26,6 @@ public class AuthenticationResponse {
     public static class UserInfo {
         private String firstName;
         private String lastName;
+        private Long familyId;
     }
 }

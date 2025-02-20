@@ -30,6 +30,9 @@ public class JwtTokenProvider {
     public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("userType", user.isAdmin() ? "ADMIN" : "GUEST");
+        claims.put("familyId", user.getFamily() != null ? user.getFamily().getId() : null);
+        claims.put("userId", user.getId());
+
 
         return createToken(claims, user.getFirstName() + " " + user.getLastName());
     }

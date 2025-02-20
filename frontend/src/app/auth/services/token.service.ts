@@ -51,7 +51,8 @@ export class TokenService {
     if (!token) return false;
 
     try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
+      const payload = this.decodeToken(token);
+      if (!payload) return false;
 
       const currentTime = Math.floor(Date.now() / 1000);
       return payload.exp > currentTime + 5;
@@ -65,10 +66,45 @@ export class TokenService {
     if (!token) return false;
 
     try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload.userType === 'ADMIN';
+      const payload = this.decodeToken(token);
+      return payload?.userType === 'ADMIN';
     } catch {
       return false;
+    }
+  }
+
+  getFamilyId(): number | null {
+    try {
+      const token = this.getToken();
+      if (!token) return null;
+
+      const payload = this.decodeToken(token);
+      return payload?.familyId || null;
+    } catch {
+      return null;
+    }
+  }
+
+  private decodeToken(token: string): any {
+    try {
+      const parts = token.split('.');
+      if (parts.length !== 3) {
+        throw new Error('Invalid token format');
+      }
+
+      const payload = parts[1];
+      const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+      const padding = '='.repeat((4 - base64.length % 4) % 4);
+
+      const decoded = decodeURIComponent(atob(base64 + padding)
+          .split('')
+          .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .join(''));
+
+      return JSON.parse(decoded);
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return null;
     }
   }
 }

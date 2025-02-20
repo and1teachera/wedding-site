@@ -1,6 +1,15 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
+interface JwtPayload {
+  exp: number;
+  userType: string;
+  familyId?: number | null;
+  userId: number;
+  sub: string;
+  iat: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -85,7 +94,7 @@ export class TokenService {
     }
   }
 
-  private decodeToken(token: string): any {
+  private decodeToken(token: string): JwtPayload | null {
     try {
       const parts = token.split('.');
       if (parts.length !== 3) {

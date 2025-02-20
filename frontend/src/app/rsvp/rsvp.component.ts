@@ -2,15 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import {SectionContainerComponent} from "../shared/components/layout/section-container/section-container.component";
+import { SectionContainerComponent } from "../shared/components/layout/section-container/section-container.component";
+import { RsvpService, GuestResponse } from './services/rsvp.service';
 
 interface FamilyMember {
-  id: string;
+  id: number;
   firstName: string;
   lastName: string;
   relation: 'primary' | 'spouse' | 'child';
   isAttending: boolean;
   dietaryRequirements?: string;
+  additionalNotes?: string;
 }
 
 @Component({
@@ -23,47 +25,67 @@ export class RsvpComponent implements OnInit {
   currentStep = 1;
   attending: boolean | null = null;
   stepLabels = ['RSVP', 'Потвърждение за семейството', 'Настаняване'];
+  isLoading = true;
+  errorMessage = '';
 
   primaryGuest: FamilyMember = {
-    id: '1',
-    firstName: 'Самуил',
-    lastName: 'Спасов',
+    id: 0,
+    firstName: '',
+    lastName: '',
     relation: 'primary',
     isAttending: false
   };
 
-  familyMembers: FamilyMember[] = [
-    {
-      id: '2',
-      firstName: 'Йоана',
-      lastName: 'Спасова',
-      relation: 'spouse',
-      isAttending: false
-    },
-    {
-      id: '3',
-      firstName: 'Стефан',
-      lastName: 'Спасов',
-      relation: 'child',
-      isAttending: false
-    },
-    {
-      id: '4',
-      firstName: 'Луиза',
-      lastName: 'Спасова',
-      relation: 'child',
-      isAttending: false
-    }
-  ];
 
   needsAccommodation = false;
   accommodationNotes = '';
   availableRooms = 5;
+  familyMembers: FamilyMember[] = [];
 
-  constructor(private router: Router) {}
+
+  constructor(
+      private router: Router,
+      private rsvpService: RsvpService
+  ) {}
 
   ngOnInit() {
-    console.log('Fetching family data for:', this.primaryGuest.firstName);
+    this.loadFamilyData();
+  }
+
+  private loadFamilyData() {
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    this.rsvpService.getFamilyMembers().subscribe({
+      next: (response) => {
+        // Set primary guest data
+        this.primaryGuest = {
+          id: response.primaryUser.id,
+          firstName: response.primaryUser.firstName,
+          lastName: response.primaryUser.lastName,
+          relation: 'primary',
+          isAttending: response.primaryUser.rsvpStatus === 'YES',
+          dietaryRequirements: response.primaryUser.dietaryNotes
+        };
+
+        // Set family members data
+        this.familyMembers = response.familyMembers.map(member => ({
+          id: member.id,
+          firstName: member.firstName,
+          lastName: member.lastName,
+          relation: member.isChild ? 'child' : 'spouse',
+          isAttending: member.rsvpStatus === 'YES',
+          dietaryRequirements: member.dietaryNotes
+        }));
+
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading family data:', error);
+        this.errorMessage = 'Възникна грешка при зареждане на данните. Моля, опитайте отново по-късно.';
+        this.isLoading = false;
+      }
+    });
   }
 
   setAttendance(willAttend: boolean) {
@@ -113,22 +135,49 @@ export class RsvpComponent implements OnInit {
     }
   }
 
-  async submitRSVP() {
-    try {
-      const rsvpData = {
-        primaryGuest: this.primaryGuest,
-        familyMembers: this.familyMembers,
-        accommodation: {
-          required: this.needsAccommodation,
-          notes: this.accommodationNotes
-        }
-      };
-
-      console.log('Submitting family RSVP:', rsvpData);
-
-      await this.router.navigate(['/home']);
-    } catch (error) {
-      console.error('Error submitting RSVP:', error);
+  submitRSVP() {
+    if (this.isLoading) {
+      return;
     }
+
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    // Prepare the guest responses
+    const primaryGuestResponse: GuestResponse = {
+      userId: this.primaryGuest.id,
+      status: this.primaryGuest.isAttending ? 'YES' : 'NO',
+      dietaryNotes: this.primaryGuest.dietaryRequirements,
+      additionalNotes: this.primaryGuest.additionalNotes
+    };
+
+    const familyMemberResponses: GuestResponse[] = this.familyMembers.map(member => ({
+      userId: member.id,
+      status: member.isAttending ? 'YES' : 'NO',
+      dietaryNotes: member.dietaryRequirements,
+      additionalNotes: member.additionalNotes
+    }));
+
+    // Submit the RSVP
+    this.rsvpService.submitRsvp({
+      primaryGuest: primaryGuestResponse,
+      familyMembers: familyMemberResponses
+    }).subscribe({
+      next: (response) => {
+        this.isLoading = false;
+        // Navigate to home with success message
+        this.router.navigate(['/home'], {
+          queryParams: {
+            rsvpSuccess: true,
+            attendees: response.confirmedAttendees
+          }
+        });
+      },
+      error: (error) => {
+        console.error('Error submitting RSVP:', error);
+        this.errorMessage = 'Възникна грешка при записване на отговора. Моля, опитайте отново по-късно.';
+        this.isLoading = false;
+      }
+    });
   }
 }

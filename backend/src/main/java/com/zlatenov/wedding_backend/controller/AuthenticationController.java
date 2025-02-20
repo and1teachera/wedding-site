@@ -63,10 +63,18 @@ public class AuthenticationController {
         AuthenticationResponse response = AuthenticationResponse.builder()
                 .token(jwt)
                 .userType(user.isAdmin() ? "ADMIN" : "GUEST")
-                .user(AuthenticationResponse.UserInfo.builder().firstName(user.getFirstName()).lastName(user.getLastName()).build())
+                .user(AuthenticationResponse.UserInfo.builder()
+                        .firstName(user.getFirstName())
+                        .lastName(user.getLastName())
+                        .familyId(user.getFamily() != null ? user.getFamily().getId() : null)
+                        .build())
                 .build();
 
-        log.info("Authentication successful. Response: {}", response);
+
+        log.info("Authentication successful for user: {} {}, Family ID: {}",
+                user.getFirstName(),
+                user.getLastName(),
+                user.getFamily() != null ? user.getFamily().getId() : "none");
 
         return ResponseEntity.ok(response);
     }

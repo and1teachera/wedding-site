@@ -1,0 +1,57 @@
+/* Enhanced styles for navigation */
+:host {
+    display: block;
+}
+
+/* Link hover effects */
+a.text-gray-700:hover {
+    color: #db2777; /* pink-600 */
+}
+
+/* Smooth transitions */
+a, button {
+    transition: all 0.2s ease-in-out;
+}
+
+/* Pink button hover effects */
+.bg-pink-600 {
+    position: relative;
+    overflow: hidden;
+}
+
+.bg-pink-600:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(219, 39, 119, 0.2);
+}
+
+.bg-pink-600:active {
+    transform: translateY(1px);
+}
+
+/* Logout button hover effect */
+button.bg-gray-500:hover {
+    background-color: #4b5563; /* gray-600 */
+    cursor: pointer;
+}
+
+/* Disabled button state */
+button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Mobile menu animation */
+.md\:hidden {
+    animation: slideDown 0.3s ease-in-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

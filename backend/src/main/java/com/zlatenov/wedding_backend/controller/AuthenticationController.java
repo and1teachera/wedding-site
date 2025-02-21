@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
+
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -77,6 +79,25 @@ public class AuthenticationController {
                 user.getFamily() != null ? user.getFamily().getId() : "none");
 
         return ResponseEntity.ok(response);
+    }
+
+    /**
+     * Handles user logout requests.
+     * In a stateless JWT implementation, the server doesn't need to do any special processing
+     * as the client is responsible for discarding the token. We log the event for audit purposes.
+     *
+     * @param principal The authenticated user principal
+     * @return Empty response with 200 OK status
+     */
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(Principal principal) {
+
+        if (principal != null) {
+            log.info("User '{}' logged out", principal.getName());
+        } else {
+            log.warn("Logout request received with no authenticated principal");
+        }
+        return ResponseEntity.ok().build();
     }
 
     private String extractIpAddress(HttpServletRequest request) {

@@ -48,8 +48,7 @@ describe('LandingComponent', () => {
         {
           provide: LogoutService,
           useValue: {
-            logout: () => of(true),
-            forceLogout: () => {}
+            logout: () => of(true)
           }
         }
       ]

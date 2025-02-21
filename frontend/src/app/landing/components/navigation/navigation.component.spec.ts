@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NavigationComponent } from './navigation.component';
-import { ContentContainerComponent } from '../../../shared/components/layout/content-container/content-container.component';
 import { TokenService } from '../../../auth/services/token.service';
 import { LogoutService } from '../../../auth/services/logout.service';
 import { of } from 'rxjs';
@@ -29,8 +28,7 @@ describe('NavigationComponent', () => {
         {
           provide: LogoutService,
           useValue: {
-            logout: () => of(true),
-            forceLogout: () => {}
+            logout: () => of(true)
           }
         }
       ]

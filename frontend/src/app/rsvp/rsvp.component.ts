@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SectionContainerComponent } from "../shared/components/layout/section-container/section-container.component";
 import { RsvpService, GuestResponse } from './services/rsvp.service';
+import { AccommodationService } from '../accommodation/services/accommodation.service';
 
 interface FamilyMember {
   id: number;
@@ -36,72 +37,103 @@ export class RsvpComponent implements OnInit {
     isAttending: false
   };
 
-
   needsAccommodation = false;
   accommodationNotes = '';
   availableRooms = 5;
   familyMembers: FamilyMember[] = [];
 
+  // Room booking related properties
+  hasRoomBooking = false;
+  roomBooking: any = null;
+  isBookingRoom = false;
 
   constructor(
       private router: Router,
-      private rsvpService: RsvpService
+      private rsvpService: RsvpService,
+      private accommodationService: AccommodationService
   ) {}
 
-ngOnInit() {
-  this.loadFamilyData();
-}
+  ngOnInit() {
+    this.loadFamilyData();
+    this.loadAccommodationData();
+  }
 
-private loadFamilyData() {
-  this.isLoading = true;
-  this.errorMessage = '';
+  private loadFamilyData() {
+    this.isLoading = true;
+    this.errorMessage = '';
 
-  this.rsvpService.getFamilyMembers().subscribe({
-    next: (response) => {
-      // Set primary guest data and determine attendance status
-      const primaryStatus = response.primaryUser.rsvpStatus;
-      const isAttending = primaryStatus === 'YES';
-      const hasResponded = primaryStatus !== 'MAYBE';
+    this.rsvpService.getFamilyMembers().subscribe({
+      next: (response) => {
+        // Set primary guest data and determine attendance status
+        const primaryStatus = response.primaryUser.rsvpStatus;
+        const isAttending = primaryStatus === 'YES';
+        const hasResponded = primaryStatus !== 'MAYBE';
 
-      this.primaryGuest = {
-        id: response.primaryUser.id,
-        firstName: response.primaryUser.firstName,
-        lastName: response.primaryUser.lastName,
-        relation: 'primary',
-        isAttending: isAttending,
-        dietaryRequirements: response.primaryUser.dietaryNotes,
-        additionalNotes: response.primaryUser.additionalNotes
-      };
+        this.primaryGuest = {
+          id: response.primaryUser.id,
+          firstName: response.primaryUser.firstName,
+          lastName: response.primaryUser.lastName,
+          relation: 'primary',
+          isAttending: isAttending,
+          dietaryRequirements: response.primaryUser.dietaryNotes,
+          additionalNotes: response.primaryUser.additionalNotes
+        };
 
-      // Set family members data
-      this.familyMembers = response.familyMembers.map(member => ({
-        id: member.id,
-        firstName: member.firstName,
-        lastName: member.lastName,
-        relation: member.isChild ? 'child' : 'spouse',
-        isAttending: member.rsvpStatus === 'YES',
-        dietaryRequirements: member.dietaryNotes,
-        additionalNotes: member.additionalNotes
-      }));
+        // Set family members data
+        this.familyMembers = response.familyMembers.map(member => ({
+          id: member.id,
+          firstName: member.firstName,
+          lastName: member.lastName,
+          relation: member.isChild ? 'child' : 'spouse',
+          isAttending: member.rsvpStatus === 'YES',
+          dietaryRequirements: member.dietaryNotes,
+          additionalNotes: member.additionalNotes
+        }));
 
-      // If user has already responded, set the appropriate state
-      if (hasResponded) {
-        this.attending = isAttending;
+        // If user has already responded, set the appropriate state
+        if (hasResponded) {
+          this.attending = isAttending;
 
-        // If attending, auto-advance to step 2
-        if (isAttending && this.currentStep === 1) {
-          this.currentStep = 2;
+          // If attending, auto-advance to step 2
+          if (isAttending && this.currentStep === 1) {
+            this.currentStep = 2;
+          }
         }
-      }
 
-      this.isLoading = false;
-    },
-    error: (error) => {
-      console.error('Error loading family data:', error);
-      this.errorMessage = 'Възникна грешка при зареждане на данните. Моля, опитайте отново по-късно.';
-      this.isLoading = false;
-    }
-  });
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading family data:', error);
+        this.errorMessage = 'Възникна грешка при зареждане на данните. Моля, опитайте отново по-късно.';
+        this.isLoading = false;
+      }
+    });
+  }
+
+  private loadAccommodationData() {
+    this.accommodationService.getAvailableRoomsCount().subscribe({
+      next: (count) => {
+        this.availableRooms = count;
+      },
+      error: (error) => {
+        console.error('Error loading available rooms:', error);
+      }
+    });
+
+    this.accommodationService.getBookingStatus().subscribe({
+      next: (response) => {
+        this.hasRoomBooking = response.success;
+        this.roomBooking = response.success ? response : null;
+
+        if (response.success) {
+          this.needsAccommodation = true;
+          this.accommodationNotes = response.notes || '';
+        }
+      },
+      error: (error) => {
+        console.error('Error loading booking status:', error);
+      }
+    });
   }
 
   setAttendance(willAttend: boolean) {
@@ -128,6 +160,58 @@ private loadFamilyData() {
     }
   }
 
+  bookRoom() {
+    if (this.isBookingRoom) {
+      return;
+    }
+
+    this.isBookingRoom = true;
+    this.errorMessage = '';
+
+    this.accommodationService.bookRoom({ notes: this.accommodationNotes }).subscribe({
+      next: (response) => {
+        this.hasRoomBooking = response.success;
+        this.roomBooking = response.success ? response : null;
+        this.isBookingRoom = false;
+
+        if (response.success) {
+          this.availableRooms--;
+        }
+      },
+      error: (error) => {
+        console.error('Error booking room:', error);
+        this.errorMessage = 'Възникна грешка при резервиране на стаята. Моля, опитайте отново по-късно.';
+        this.isBookingRoom = false;
+      }
+    });
+  }
+
+  cancelRoomBooking() {
+    if (this.isBookingRoom) {
+      return;
+    }
+
+    this.isBookingRoom = true;
+    this.errorMessage = '';
+
+    this.accommodationService.cancelBooking().subscribe({
+      next: (response) => {
+        this.hasRoomBooking = false;
+        this.roomBooking = null;
+        this.isBookingRoom = false;
+
+        if (response.success) {
+          this.availableRooms++;
+        }
+      },
+      error: (error) => {
+        console.error('Error cancelling booking:', error);
+        this.errorMessage = 'Възникна грешка при отказване на резервацията. Моля, опитайте отново по-късно.';
+        this.isBookingRoom = false;
+      }
+    });
+  }
+
   submitRSVP() {
     if (this.isLoading) {
       return;
@@ -151,12 +235,17 @@ private loadFamilyData() {
       additionalNotes: member.additionalNotes
     }));
 
-    // Submit the RSVP
+    // Submit the RSVP without accommodation info since it's not in the interface
     this.rsvpService.submitRsvp({
       primaryGuest: primaryGuestResponse,
       familyMembers: familyMemberResponses
     }).subscribe({
       next: (response) => {
+        // If accommodation is needed and no booking exists, create one after RSVP is submitted
+        if (this.needsAccommodation && !this.hasRoomBooking && this.availableRooms > 0) {
+          this.bookRoom();
+        }
+
         this.isLoading = false;
         // Navigate to home with success message
         this.router.navigate(['/home'], {

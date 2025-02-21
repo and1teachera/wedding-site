@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SectionContainerComponent } from "../shared/components/layout/section-container/section-container.component";
 import { RsvpService, GuestResponse } from './services/rsvp.service';
-import { AccommodationService } from '../accommodation/services/accommodation.service';
+import {AccommodationService, RoomBookingResponse} from '../accommodation/services/accommodation.service';
 
 interface FamilyMember {
   id: number;
@@ -44,7 +44,7 @@ export class RsvpComponent implements OnInit {
 
   // Room booking related properties
   hasRoomBooking = false;
-  roomBooking: any = null;
+  roomBooking: RoomBookingResponse | null = null;
   isBookingRoom = false;
 
   constructor(

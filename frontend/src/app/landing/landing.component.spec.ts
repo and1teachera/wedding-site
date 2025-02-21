@@ -11,6 +11,10 @@ import { AccommodationComponent } from './components/accommodation/accommodation
 import { ScheduleComponent } from './components/schedule/schedule.component';
 import { InfoSectionComponent } from './components/info-section/info-section.component';
 import { ContactSectionComponent } from './components/contact-section/contact-section.component';
+import {LogoutService} from "../auth/services/logout.service";
+import {of} from "rxjs";
+import {TokenService} from "../auth/services/token.service";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('LandingComponent', () => {
   let component: LandingComponent;
@@ -30,7 +34,24 @@ describe('LandingComponent', () => {
         AccommodationComponent,
         ScheduleComponent,
         InfoSectionComponent,
-        ContactSectionComponent
+        ContactSectionComponent,
+        HttpClientTestingModule
+      ],
+      providers: [
+        {
+          provide: TokenService,
+          useValue: {
+            isTokenValid: () => true,
+            isAdmin: () => false
+          }
+        },
+        {
+          provide: LogoutService,
+          useValue: {
+            logout: () => of(true),
+            forceLogout: () => {}
+          }
+        }
       ]
     }).compileComponents();
 

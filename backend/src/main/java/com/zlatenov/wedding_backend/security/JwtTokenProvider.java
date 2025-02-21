@@ -2,18 +2,32 @@ package com.zlatenov.wedding_backend.security;
 
 import com.zlatenov.wedding_backend.exception.InvalidTokenSignatureException;
 import com.zlatenov.wedding_backend.exception.MalformedTokenException;
+import com.zlatenov.wedding_backend.exception.ResourceNotFoundException;
 import com.zlatenov.wedding_backend.exception.TokenExpiredException;
 import com.zlatenov.wedding_backend.model.User;
-import io.jsonwebtoken.*;
+import com.zlatenov.wedding_backend.repository.UserRepository;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
-import java.util.*;
+import java.util.Base64;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 
 @Component
@@ -26,6 +40,9 @@ public class JwtTokenProvider {
 
     @Value("${spring.security.jwt.expiration}")
     private Long jwtExpirationInMs;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
@@ -95,5 +112,18 @@ public class JwtTokenProvider {
         Claims claims = getAllClaimsFromToken(token);
         String userType = claims.get("userType", String.class);
         return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + userType));
+    }
+
+    /**
+     * Get family ID for a user by first name and last name
+     * @param firstName User's first name
+     * @param lastName User's last name
+     * @return Family ID or null if user not found or not associated with a family
+     */
+    public Long getFamilyIdFromUsername(String firstName, String lastName) {
+        User user = userRepository.findByFirstNameAndLastName(firstName, lastName)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        return user.getFamily() != null ? user.getFamily().getId() : null;
     }
 }

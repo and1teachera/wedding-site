@@ -156,14 +156,7 @@ public class RsvpService {
         UserResponse primaryResponse = userResponseRepository.findByUserId(primaryUser.getId())
                 .orElse(null);
 
-        UserDto primaryUserDto = UserDto.builder()
-                .id(primaryUser.getId())
-                .firstName(primaryUser.getFirstName())
-                .lastName(primaryUser.getLastName())
-                .isChild(primaryUser.isChild())
-                .rsvpStatus(primaryResponse != null ? primaryResponse.getStatus() : ResponseStatus.MAYBE)
-                .dietaryNotes(primaryResponse != null ? primaryResponse.getDietaryNotes() : null)
-                .build();
+        UserDto primaryUserDto = createUserDtoFromResponse(primaryUser, primaryResponse);
 
         List<UserDto> familyMembersDto = new ArrayList<>();
 
@@ -179,14 +172,7 @@ public class RsvpService {
                 UserResponse memberResponse = userResponseRepository.findByUserId(member.getId())
                         .orElse(null);
 
-                UserDto memberDto = UserDto.builder()
-                        .id(member.getId())
-                        .firstName(member.getFirstName())
-                        .lastName(member.getLastName())
-                        .isChild(member.isChild())
-                        .rsvpStatus(memberResponse != null ? memberResponse.getStatus() : ResponseStatus.MAYBE)
-                        .dietaryNotes(memberResponse != null ? memberResponse.getDietaryNotes() : null)
-                        .build();
+                UserDto memberDto = createUserDtoFromResponse(member, memberResponse);
 
                 familyMembersDto.add(memberDto);
             }
@@ -195,6 +181,18 @@ public class RsvpService {
         return FamilyMembersResponse.builder()
                 .primaryUser(primaryUserDto)
                 .familyMembers(familyMembersDto)
+                .build();
+    }
+
+    private UserDto createUserDtoFromResponse(User user, UserResponse userResponse) {
+        return UserDto.builder()
+                .id(user.getId())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .isChild(user.isChild())
+                .rsvpStatus(userResponse != null ? userResponse.getStatus() : ResponseStatus.MAYBE)
+                .dietaryNotes(userResponse != null ? userResponse.getDietaryNotes() : null)
+                .additionalNotes(userResponse != null ? userResponse.getAdditionalNotes() : null)
                 .build();
     }
 

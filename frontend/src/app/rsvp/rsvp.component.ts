@@ -24,7 +24,7 @@ interface FamilyMember {
 export class RsvpComponent implements OnInit {
   currentStep = 1;
   attending: boolean | null = null;
-  stepLabels = ['RSVP', 'Потвърждение за семейството', 'Настаняване'];
+  stepLabels = ['RSVP', 'Гости', 'Настаняване'];
   isLoading = true;
   errorMessage = '';
 
@@ -48,55 +48,67 @@ export class RsvpComponent implements OnInit {
       private rsvpService: RsvpService
   ) {}
 
-  ngOnInit() {
-    this.loadFamilyData();
-  }
+ngOnInit() {
+  this.loadFamilyData();
+}
 
-  private loadFamilyData() {
-    this.isLoading = true;
-    this.errorMessage = '';
+private loadFamilyData() {
+  this.isLoading = true;
+  this.errorMessage = '';
 
-    this.rsvpService.getFamilyMembers().subscribe({
-      next: (response) => {
-        // Set primary guest data
-        this.primaryGuest = {
-          id: response.primaryUser.id,
-          firstName: response.primaryUser.firstName,
-          lastName: response.primaryUser.lastName,
-          relation: 'primary',
-          isAttending: response.primaryUser.rsvpStatus === 'YES',
-          dietaryRequirements: response.primaryUser.dietaryNotes
-        };
+  this.rsvpService.getFamilyMembers().subscribe({
+    next: (response) => {
+      // Set primary guest data and determine attendance status
+      const primaryStatus = response.primaryUser.rsvpStatus;
+      const isAttending = primaryStatus === 'YES';
+      const hasResponded = primaryStatus !== 'MAYBE';
 
-        // Set family members data
-        this.familyMembers = response.familyMembers.map(member => ({
-          id: member.id,
-          firstName: member.firstName,
-          lastName: member.lastName,
-          relation: member.isChild ? 'child' : 'spouse',
-          isAttending: member.rsvpStatus === 'YES',
-          dietaryRequirements: member.dietaryNotes
-        }));
+      this.primaryGuest = {
+        id: response.primaryUser.id,
+        firstName: response.primaryUser.firstName,
+        lastName: response.primaryUser.lastName,
+        relation: 'primary',
+        isAttending: isAttending,
+        dietaryRequirements: response.primaryUser.dietaryNotes,
+        additionalNotes: response.primaryUser.additionalNotes
+      };
 
-        this.isLoading = false;
-      },
-      error: (error) => {
-        console.error('Error loading family data:', error);
-        this.errorMessage = 'Възникна грешка при зареждане на данните. Моля, опитайте отново по-късно.';
-        this.isLoading = false;
+      // Set family members data
+      this.familyMembers = response.familyMembers.map(member => ({
+        id: member.id,
+        firstName: member.firstName,
+        lastName: member.lastName,
+        relation: member.isChild ? 'child' : 'spouse',
+        isAttending: member.rsvpStatus === 'YES',
+        dietaryRequirements: member.dietaryNotes,
+        additionalNotes: member.additionalNotes
+      }));
+
+      // If user has already responded, set the appropriate state
+      if (hasResponded) {
+        this.attending = isAttending;
+
+        // If attending, auto-advance to step 2
+        if (isAttending && this.currentStep === 1) {
+          this.currentStep = 2;
+        }
       }
-    });
+
+      this.isLoading = false;
+    },
+    error: (error) => {
+      console.error('Error loading family data:', error);
+      this.errorMessage = 'Възникна грешка при зареждане на данните. Моля, опитайте отново по-късно.';
+      this.isLoading = false;
+    }
+  });
   }
 
   setAttendance(willAttend: boolean) {
     this.attending = willAttend;
     this.primaryGuest.isAttending = willAttend;
 
-    if (willAttend) {
-      this.nextStep();
-    } else {
-      this.submitRSVP();
-    }
+    this.nextStep();
   }
 
   getAttendingCount(): number {
@@ -104,16 +116,8 @@ export class RsvpComponent implements OnInit {
         .filter(member => member.isAttending).length;
   }
 
-  getRelationLabel(relation: string): string {
-    switch (relation) {
-      case 'spouse': return 'Съпруга';
-      case 'child': return 'Дете';
-      default: return '';
-    }
-  }
-
   nextStep() {
-    if (this.currentStep < 3 && this.validateCurrentStep()) {
+    if (this.currentStep < 3) {
       this.currentStep++;
     }
   }
@@ -121,17 +125,6 @@ export class RsvpComponent implements OnInit {
   previousStep() {
     if (this.currentStep > 1) {
       this.currentStep--;
-    }
-  }
-
-  validateCurrentStep(): boolean {
-    switch (this.currentStep) {
-      case 1:
-        return this.attending !== null;
-      case 2:
-        return true;
-      default:
-        return true;
     }
   }
 

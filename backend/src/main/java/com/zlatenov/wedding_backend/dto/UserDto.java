@@ -17,4 +17,5 @@ public class UserDto {
     private boolean isChild;
     private ResponseStatus rsvpStatus;
     private String dietaryNotes;
+    private String additionalNotes;
 }

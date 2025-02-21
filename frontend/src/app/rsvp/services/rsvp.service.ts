@@ -30,6 +30,7 @@ export interface UserDto {
   isChild: boolean;
   rsvpStatus: ResponseStatus;
   dietaryNotes?: string;
+  additionalNotes?: string;
 }
 
 export interface FamilyMembersResponse {

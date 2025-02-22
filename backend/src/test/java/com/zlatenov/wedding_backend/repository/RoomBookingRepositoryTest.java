@@ -5,15 +5,13 @@ import com.zlatenov.wedding_backend.model.Family;
 import com.zlatenov.wedding_backend.model.Room;
 import com.zlatenov.wedding_backend.model.RoomBooking;
 import com.zlatenov.wedding_backend.model.UserGroup;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -51,8 +49,6 @@ class RoomBookingRepositoryTest extends BaseRepositoryTest {
         booking.setRoom(room);
         booking.setStatus(BookingStatus.CONFIRMED);
         booking.setBookingTime(LocalDateTime.now());
-        booking.setCheckInDate(LocalDate.now());
-        booking.setCheckOutDate(LocalDate.now().plusDays(2));
 
         roomBookingRepository.save(booking);
 
@@ -98,8 +94,6 @@ class RoomBookingRepositoryTest extends BaseRepositoryTest {
         booking.setGroup(group);
         booking.setStatus(BookingStatus.CONFIRMED);
         booking.setBookingTime(LocalDateTime.now());
-        booking.setCheckInDate(LocalDate.now());
-        booking.setCheckOutDate(LocalDate.now().plusDays(2));
         return booking;
     }
 }

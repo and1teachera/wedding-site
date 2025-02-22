@@ -59,4 +59,12 @@ export class RsvpService {
   getFamilyMembers(): Observable<FamilyMembersResponse> {
     return this.http.get<FamilyMembersResponse>(`${this.API_URL}/family-members`);
   }
+
+  /**
+   * Save the primary guest's response only
+   * @param response The primary guest's response
+   */
+  savePrimaryGuestResponse(response: GuestResponse): Observable<RsvpResponse> {
+    return this.http.post<RsvpResponse>(`${this.API_URL}/primary`, response);
+  }
 }

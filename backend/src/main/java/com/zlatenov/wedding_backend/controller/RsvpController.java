@@ -1,6 +1,7 @@
 package com.zlatenov.wedding_backend.controller;
 
 import com.zlatenov.wedding_backend.dto.FamilyMembersResponse;
+import com.zlatenov.wedding_backend.dto.GuestResponse;
 import com.zlatenov.wedding_backend.dto.RsvpRequest;
 import com.zlatenov.wedding_backend.dto.RsvpResponse;
 import com.zlatenov.wedding_backend.service.RsvpService;
@@ -20,8 +21,7 @@ public class RsvpController {
     private final RsvpService rsvpService;
 
     @PostMapping
-    public ResponseEntity<RsvpResponse> submitRsvp(
-            @RequestBody @Valid RsvpRequest request,
+    public ResponseEntity<RsvpResponse> submitRsvp(@RequestBody @Valid RsvpRequest request,
             Authentication authentication) {
 
         log.info("Received RSVP submission from user: {}", authentication.getName());
@@ -46,6 +46,19 @@ public class RsvpController {
         log.info("Retrieving family members for user: {}", authentication.getName());
 
         FamilyMembersResponse response = rsvpService.getFamilyMembers(authentication.getName());
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/primary")
+    public ResponseEntity<RsvpResponse> savePrimaryGuestResponse(
+            @RequestBody @Valid GuestResponse request,
+            Authentication authentication) {
+
+        log.info("Saving primary guest response for user: {}", authentication.getName());
+        log.debug("Primary guest response details: {}", request);
+
+        RsvpResponse response = rsvpService.savePrimaryGuestResponse(request, authentication.getName());
 
         return ResponseEntity.ok(response);
     }

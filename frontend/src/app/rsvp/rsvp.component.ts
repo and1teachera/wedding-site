@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SectionContainerComponent } from "../shared/components/layout/section-container/section-container.component";
 import { RsvpService, GuestResponse } from './services/rsvp.service';
-import {AccommodationService, RoomBookingResponse} from '../accommodation/services/accommodation.service';
+import { AccommodationService, RoomBookingResponse } from '../accommodation/services/accommodation.service';
 
 interface FamilyMember {
   id: number;
@@ -28,6 +28,7 @@ export class RsvpComponent implements OnInit {
   stepLabels = ['RSVP', 'Гости', 'Настаняване'];
   isLoading = true;
   errorMessage = '';
+  hasChanges = false;
 
   primaryGuest: FamilyMember = {
     id: 0,
@@ -137,10 +138,74 @@ export class RsvpComponent implements OnInit {
   }
 
   setAttendance(willAttend: boolean) {
-    this.attending = willAttend;
-    this.primaryGuest.isAttending = willAttend;
+    this.isLoading = true;
+    const primaryGuestResponse: GuestResponse = {
+      userId: this.primaryGuest.id,
+      status: willAttend ? 'YES' : 'NO',
+      dietaryNotes: this.primaryGuest.dietaryRequirements,
+      additionalNotes: this.primaryGuest.additionalNotes
+    };
 
-    this.nextStep();
+    this.rsvpService.savePrimaryGuestResponse(primaryGuestResponse).subscribe({
+      next: () => {
+        this.attending = willAttend;
+        this.primaryGuest.isAttending = willAttend;
+        this.isLoading = false;
+        this.nextStep();
+      },
+      error: (error) => {
+        console.error('Error saving attendance:', error);
+        this.errorMessage = 'Възникна грешка при записване на отговора. Моля, опитайте отново по-късно.';
+        this.isLoading = false;
+      }
+    });
+  }
+
+  onFamilyMemberSelectionChange() {
+    this.hasChanges = true;
+
+    // If primary user checkbox is updated in step 2, update the step 1 value as well
+    const primaryMemberSelected = this.familyMembers.find(m => m.id === this.primaryGuest.id)?.isAttending;
+    if (primaryMemberSelected !== undefined) {
+      this.primaryGuest.isAttending = primaryMemberSelected;
+    }
+  }
+
+  confirmFamilySelection() {
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    // Prepare all responses including primary and family members
+    const primaryGuestResponse: GuestResponse = {
+      userId: this.primaryGuest.id,
+      status: this.primaryGuest.isAttending ? 'YES' : 'NO',
+      dietaryNotes: this.primaryGuest.dietaryRequirements,
+      additionalNotes: this.primaryGuest.additionalNotes
+    };
+
+    const familyMemberResponses: GuestResponse[] = this.familyMembers.map(member => ({
+      userId: member.id,
+      status: member.isAttending ? 'YES' : 'NO',
+      dietaryNotes: member.dietaryRequirements,
+      additionalNotes: member.additionalNotes
+    }));
+
+    // Submit RSVP
+    this.rsvpService.submitRsvp({
+      primaryGuest: primaryGuestResponse,
+      familyMembers: familyMemberResponses
+    }).subscribe({
+      next: () => {
+        this.isLoading = false;
+        this.hasChanges = false;
+        this.nextStep();
+      },
+      error: (error) => {
+        console.error('Error saving family selections:', error);
+        this.errorMessage = 'Възникна грешка при записване на отговорите. Моля, опитайте отново по-късно.';
+        this.isLoading = false;
+      }
+    });
   }
 
   getAttendingCount(): number {
@@ -212,53 +277,12 @@ export class RsvpComponent implements OnInit {
     });
   }
 
-  submitRSVP() {
-    if (this.isLoading) {
-      return;
-    }
-
-    this.isLoading = true;
-    this.errorMessage = '';
-
-    // Prepare the guest responses
-    const primaryGuestResponse: GuestResponse = {
-      userId: this.primaryGuest.id,
-      status: this.primaryGuest.isAttending ? 'YES' : 'NO',
-      dietaryNotes: this.primaryGuest.dietaryRequirements,
-      additionalNotes: this.primaryGuest.additionalNotes
-    };
-
-    const familyMemberResponses: GuestResponse[] = this.familyMembers.map(member => ({
-      userId: member.id,
-      status: member.isAttending ? 'YES' : 'NO',
-      dietaryNotes: member.dietaryRequirements,
-      additionalNotes: member.additionalNotes
-    }));
-
-    // Submit the RSVP without accommodation info since it's not in the interface
-    this.rsvpService.submitRsvp({
-      primaryGuest: primaryGuestResponse,
-      familyMembers: familyMemberResponses
-    }).subscribe({
-      next: (response) => {
-        // If accommodation is needed and no booking exists, create one after RSVP is submitted
-        if (this.needsAccommodation && !this.hasRoomBooking && this.availableRooms > 0) {
-          this.bookRoom();
-        }
-
-        this.isLoading = false;
-        // Navigate to home with success message
-        this.router.navigate(['/home'], {
-          queryParams: {
-            rsvpSuccess: true,
-            attendees: response.confirmedAttendees
-          }
-        });
-      },
-      error: (error) => {
-        console.error('Error submitting RSVP:', error);
-        this.errorMessage = 'Възникна грешка при записване на отговора. Моля, опитайте отново по-късно.';
-        this.isLoading = false;
+  finishProcess() {
+    // Navigate to home with success message
+    this.router.navigate(['/home'], {
+      queryParams: {
+        rsvpSuccess: true,
+        attendees: this.getAttendingCount()
       }
     });
   }

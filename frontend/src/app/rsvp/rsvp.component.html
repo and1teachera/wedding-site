@@ -1,6 +1,6 @@
 <app-section-container id="rsvp">
   <div class="text-center mb-12">
-    <h1 class="text-4xl md:text-5xl font-display text-gray-800 mb-4">RSVP</h1>
+    <h1 class="text-4xl md:text-5xl font-display text-gray-800 mb-4">Отговор</h1>
     <p class="text-xl text-gray-600">Моля, потвърдете присъствието си на нашата сватба</p>
   </div>
 
@@ -68,7 +68,7 @@
       </div>
 
       <!-- Next button for step 1 -->
-      <div *ngIf="attending !== null" class="mt-6 flex justify-center">
+      <div *ngIf="attending !== null" class="mt-6 flex justify-end">
         <button
             (click)="nextStep()"
             class="bg-pink-600 text-white py-2 px-6 rounded-md hover:bg-pink-700 transition-all duration-300">
@@ -79,8 +79,9 @@
 
     <!-- Step 2: Family Members -->
     <div *ngIf="currentStep === 2">
-      <h2 class="text-2xl font-display text-center mb-6">Кой ще присъства?</h2>
-
+      <h2 class="text-2xl font-display text-center mb-6 text-gray-800">
+        {{ familyMembers.length > 0 ? 'Кой ще присъства' : 'Допълнителни бележки' }}
+      </h2>
       <!-- Primary Guest -->
       <div class="bg-white shadow-md rounded-lg p-4 mb-4">
         <div class="flex items-center justify-between">
@@ -190,9 +191,9 @@
       </div>
 
       <div class="mt-6 flex items-center justify-center gap-4">
-        <p class="text-gray-700">
-          Общ брой гости: <span class="font-bold">{{ getAttendingCount() }}</span>
-        </p>
+        <div *ngIf="familyMembers.length > 0" class="text-lg text-gray-700 mb-4">
+          Общ брой гости: <strong>{{ getAttendingCount() }}</strong>
+        </div>
       </div>
 
       <!-- Navigation and action buttons for step 2 -->

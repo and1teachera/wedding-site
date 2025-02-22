@@ -257,4 +257,50 @@ public class RsvpService {
             log.info("Processed accommodation request for family: {}", primaryUser.getFamily().getId());
         }
     }
+
+    /**
+     * Save the primary guest's response only
+     * @param guestResponse The primary guest's response
+     * @param username The authenticated user's username
+     * @return Response with success status
+     */
+    @Transactional
+    public RsvpResponse savePrimaryGuestResponse(GuestResponse guestResponse, String username) {
+        // Get the authenticated user
+        String[] names = username.split(" ");
+        if (names.length != 2) {
+            throw new IllegalArgumentException("Invalid username format");
+        }
+
+        User primaryUser = userRepository.findByFirstNameAndLastName(names[0], names[1])
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        // Verify this is the primary user's response
+        if (!Objects.equals(primaryUser.getId(), guestResponse.getUserId())) {
+            throw new UnauthorizedAccessException("Unauthorized access to user data");
+        }
+
+        // Update the user's response
+        UserResponse response = userResponseRepository.findByUserId(primaryUser.getId())
+                .orElse(UserResponse.builder()
+                        .user(primaryUser)
+                        .build());
+
+        response.setStatus(guestResponse.getStatus());
+        response.setDietaryNotes(guestResponse.getDietaryNotes());
+        response.setAdditionalNotes(guestResponse.getAdditionalNotes());
+
+        userResponseRepository.save(response);
+
+        log.info("Saved primary guest response for user: {}, status: {}",
+                username, response.getStatus());
+
+        return RsvpResponse.builder()
+                .success(true)
+                .message("Primary guest response saved successfully")
+                .primaryUserId(primaryUser.getId())
+                .confirmedAttendees(response.getStatus() == ResponseStatus.YES ? 1 : 0)
+                .build();
+    }
+
 }

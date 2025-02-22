@@ -114,28 +114,37 @@ public class RoomService {
     /**
      * Get room booking details for a family
      * @param familyId The family ID
-     * @return Room booking details or null if none exists
+     * @return Room booking details if such exist
      */
     @Transactional(readOnly = true)
     public RoomBookingResponse getRoomBookingDetails(Long familyId) {
-        List<RoomBooking> bookings = roomBookingRepository.findByFamilyId(familyId);
+        Optional<RoomBooking> latestBookingOpt = roomBookingRepository.findLatestBookingByFamilyId(familyId);
 
-        if (bookings.isEmpty()) {
+        if (latestBookingOpt.isEmpty()) {
             return RoomBookingResponse.builder()
                     .success(false)
                     .message("No room booking found")
                     .build();
         }
 
-        RoomBooking booking = bookings.get(0); // Get first booking
+        RoomBooking latestBooking = latestBookingOpt.get();
 
+        // Check if the latest booking is CONFIRMED (active) or CANCELLED
+        if (latestBooking.getStatus() == BookingStatus.CANCELLED) {
+            return RoomBookingResponse.builder()
+                    .success(false)
+                    .message("No active room booking found")
+                    .build();
+        }
+
+        // If we get here, the booking is confirmed and active
         return RoomBookingResponse.builder()
                 .success(true)
                 .message("Room booking found")
-                .roomNumber(booking.getRoom().getRoomNumber())
+                .roomNumber(latestBooking.getRoom().getRoomNumber())
                 .familyId(familyId)
-                .status(booking.getStatus().toString())
-                .notes(booking.getNotes())
+                .status(latestBooking.getStatus().toString())
+                .notes(latestBooking.getNotes())
                 .build();
     }
 
@@ -146,33 +155,40 @@ public class RoomService {
      */
     @Transactional
     public RoomBookingResponse cancelRoomBooking(Long familyId) {
-        List<RoomBooking> bookings = roomBookingRepository.findByFamilyId(familyId);
+        Optional<RoomBooking> latestConfirmedBooking = roomBookingRepository.findLatestConfirmedBookingByFamilyId(familyId);
 
-        if (bookings.isEmpty()) {
+        if (latestConfirmedBooking.isEmpty()) {
             return RoomBookingResponse.builder()
                     .success(false)
-                    .message("No room booking found to cancel")
+                    .message("No active room booking found to cancel")
                     .build();
         }
 
-        RoomBooking booking = bookings.get(0); // Get first booking
+        RoomBooking booking = latestConfirmedBooking.get();
         Room room = booking.getRoom();
 
-        // Update booking status
-        booking.setStatus(BookingStatus.CANCELLED);
-        roomBookingRepository.save(booking);
+        RoomBooking cancelledBooking = RoomBooking.builder()
+                .room(room)
+                .family(booking.getFamily())
+                .checkInDate(booking.getCheckInDate())
+                .checkOutDate(booking.getCheckOutDate())
+                .status(BookingStatus.CANCELLED)
+                .notes("Cancelled booking: " + (booking.getNotes() != null ? booking.getNotes() : ""))
+                .bookingTime(LocalDateTime.now())
+                .build();
+
+        roomBookingRepository.save(cancelledBooking);
 
         // Make room available again
         room.setAvailable(true);
         roomRepository.save(room);
 
-        log.info("Room booking cancelled for family ID: {}, room number: {}",
-                familyId, room.getRoomNumber());
+        log.info("Room booking cancelled for family ID: {}, room number: {}, original booking ID: {}",
+                familyId, room.getRoomNumber(), booking.getId());
 
         return RoomBookingResponse.builder()
                 .success(true)
                 .message("Room booking cancelled successfully")
                 .build();
     }
-
 }

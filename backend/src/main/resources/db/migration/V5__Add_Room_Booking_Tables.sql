@@ -10,8 +10,6 @@ ALTER TABLE room_bookings DROP PRIMARY KEY;
 ALTER TABLE room_bookings ADD COLUMN id BIGINT AUTO_INCREMENT PRIMARY KEY;
 ALTER TABLE room_bookings MODIFY room_id BIGINT;
 ALTER TABLE room_bookings MODIFY group_id BIGINT NULL;
-ALTER TABLE room_bookings ADD COLUMN check_in_date DATE NOT NULL;
-ALTER TABLE room_bookings ADD COLUMN check_out_date DATE NOT NULL;
 ALTER TABLE room_bookings ADD COLUMN status VARCHAR(10) DEFAULT 'CONFIRMED';
 ALTER TABLE room_bookings ADD COLUMN notes VARCHAR(255);
 ALTER TABLE room_bookings ADD COLUMN family_id BIGINT NULL;

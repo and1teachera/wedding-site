@@ -19,7 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -77,8 +76,6 @@ public class RoomService {
         RoomBooking booking = RoomBooking.builder()
                 .room(availableRoom)
                 .family(family)
-                .checkInDate(LocalDate.of(2025, 8, 8)) // Day before wedding
-                .checkOutDate(LocalDate.of(2025, 8, 10)) // Day after wedding
                 .status(BookingStatus.CONFIRMED)
                 .notes(request.getNotes())
                 .bookingTime(LocalDateTime.now())
@@ -170,8 +167,6 @@ public class RoomService {
         RoomBooking cancelledBooking = RoomBooking.builder()
                 .room(room)
                 .family(booking.getFamily())
-                .checkInDate(booking.getCheckInDate())
-                .checkOutDate(booking.getCheckOutDate())
                 .status(BookingStatus.CANCELLED)
                 .notes("Cancelled booking: " + (booking.getNotes() != null ? booking.getNotes() : ""))
                 .bookingTime(LocalDateTime.now())

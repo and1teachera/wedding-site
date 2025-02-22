@@ -20,14 +20,14 @@
     <div class="flex justify-between mb-8">
       <ng-container *ngFor="let label of stepLabels; let i = index">
         <div
-            class="flex flex-col items-center"
+            [class.text-gray-500]="i + 1 !== currentStep"
             [class.text-pink-600]="i + 1 === currentStep"
-            [class.text-gray-500]="i + 1 !== currentStep">
+            class="flex flex-col items-center">
           <div
-              class="w-8 h-8 rounded-full flex items-center justify-center text-white mb-1"
-              [class.bg-pink-600]="i + 1 === currentStep"
               [class.bg-gray-400]="i + 1 !== currentStep && i + 1 > currentStep"
-              [class.bg-green-500]="i + 1 < currentStep">
+              [class.bg-green-500]="i + 1 < currentStep"
+              [class.bg-pink-600]="i + 1 === currentStep"
+              class="w-8 h-8 rounded-full flex items-center justify-center text-white mb-1">
             {{ i + 1 < currentStep ? '✓' : i + 1 }}
           </div>
           <span class="text-sm hidden md:block">{{ label }}</span>
@@ -43,21 +43,21 @@
       <div class="flex flex-col md:flex-row justify-center gap-4 mb-8">
         <button
             (click)="setAttendance(true)"
-            class="py-3 px-6 rounded-md text-white transition-all duration-300"
-            [class.bg-green-600]="attending === true"
-            [class.hover:bg-green-700]="attending === true"
             [class.bg-gray-500]="attending !== true"
-            [class.hover:bg-gray-600]="attending !== true">
+            [class.bg-green-600]="attending === true"
+            [class.hover:bg-gray-600]="attending !== true"
+            [class.hover:bg-green-700]="attending === true"
+            class="py-3 px-6 rounded-md text-white transition-all duration-300">
           Да, ще присъствам
         </button>
 
         <button
             (click)="setAttendance(false)"
-            class="py-3 px-6 rounded-md text-white transition-all duration-300"
-            [class.bg-red-600]="attending === false"
-            [class.hover:bg-red-700]="attending === false"
             [class.bg-gray-500]="attending !== false"
-            [class.hover:bg-gray-600]="attending !== false">
+            [class.bg-red-600]="attending === false"
+            [class.hover:bg-gray-600]="attending !== false"
+            [class.hover:bg-red-700]="attending === false"
+            class="py-3 px-6 rounded-md text-white transition-all duration-300">
           Не, няма да присъствам
         </button>
       </div>
@@ -89,11 +89,11 @@
           </div>
           <div class="flex items-center">
             <!-- Primary Guest checkbox in Step 2 should be disabled and reflect Step 1 choice -->
-            <input type="checkbox" [(ngModel)]="primaryGuest.isAttending"
+            <input (change)="onFamilyMemberSelectionChange()" [(ngModel)]="primaryGuest.isAttending"
                    [disabled]="familyMembers.length === 0"
-                   (change)="onFamilyMemberSelectionChange()"
+                   class="w-5 h-5 text-pink-600 border-gray-300 rounded focus:ring-pink-500"
                    id="primaryGuestAttending"
-                   class="w-5 h-5 text-pink-600 border-gray-300 rounded focus:ring-pink-500">
+                   type="checkbox">
             <label class="ml-2" for="primaryGuestAttending">Ще присъства</label>
           </div>
         </div>
@@ -104,8 +104,8 @@
               Специални изисквания за храна
             </label>
             <input
-                [(ngModel)]="primaryGuest.dietaryRequirements"
                 (input)="onFamilyMemberSelectionChange()"
+                [(ngModel)]="primaryGuest.dietaryRequirements"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-pink-500 focus:ring-pink-500"
                 id="primaryDietaryRequirements"
                 placeholder="Алергии, вегетарианец и т.н."
@@ -117,8 +117,8 @@
               Допълнителни бележки
             </label>
             <textarea
-                [(ngModel)]="primaryGuest.additionalNotes"
                 (input)="onFamilyMemberSelectionChange()"
+                [(ngModel)]="primaryGuest.additionalNotes"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-pink-500 focus:ring-pink-500"
                 id="primaryAdditionalNotes"
                 placeholder="Други детайли, които трябва да знаем"
@@ -139,8 +139,8 @@
             </div>
             <div class="flex items-center">
               <input
-                  [(ngModel)]="member.isAttending"
                   (change)="onFamilyMemberSelectionChange()"
+                  [(ngModel)]="member.isAttending"
                   [id]="'memberAttending' + i"
                   class="form-checkbox h-5 w-5 text-pink-600"
                   type="checkbox">
@@ -154,8 +154,8 @@
                 Специални изисквания за храна
               </label>
               <input
-                  [(ngModel)]="member.dietaryRequirements"
                   (input)="onFamilyMemberSelectionChange()"
+                  [(ngModel)]="member.dietaryRequirements"
                   [id]="'memberDietaryRequirements' + i"
                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-pink-500 focus:ring-pink-500"
                   placeholder="Алергии, вегетарианец и т.н."
@@ -167,8 +167,8 @@
                 Допълнителни бележки
               </label>
               <textarea
-                  [(ngModel)]="member.additionalNotes"
                   (input)="onFamilyMemberSelectionChange()"
+                  [(ngModel)]="member.additionalNotes"
                   [id]="'memberAdditionalNotes' + i"
                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-pink-500 focus:ring-pink-500"
                   placeholder="Други детайли, които трябва да знаем"
@@ -178,9 +178,20 @@
         </div>
       </div>
 
-      <div class="mt-6 text-center">
-        <p class="text-gray-700 mb-4">
-          Общо потвърдени гости: <span class="font-bold">{{ getAttendingCount() }}</span>
+      <div class="flex justify-end mt-6">
+      <button
+          (click)="confirmFamilySelection()"
+          [class.opacity-50]="!hasChanges || isLoading"
+          [disabled]="!hasChanges || isLoading"
+          class="bg-green-600 text-white py-2 px-6 rounded-md hover:bg-green-700 transition-all duration-300 disabled:cursor-not-allowed">
+        <span *ngIf="!isLoading">Потвърди</span>
+        <span *ngIf="isLoading">Запазване...</span>
+      </button>
+      </div>
+
+      <div class="mt-6 flex items-center justify-center gap-4">
+        <p class="text-gray-700">
+          Общ брой гости: <span class="font-bold">{{ getAttendingCount() }}</span>
         </p>
       </div>
 
@@ -192,22 +203,11 @@
           Назад
         </button>
 
-        <div class="flex space-x-4">
-          <button
-              (click)="confirmFamilySelection()"
-              [disabled]="!hasChanges || isLoading"
-              [class.opacity-50]="!hasChanges || isLoading"
-              class="bg-green-600 text-white py-2 px-6 rounded-md hover:bg-green-700 transition-all duration-300 disabled:cursor-not-allowed">
-            <span *ngIf="!isLoading">Потвърди</span>
-            <span *ngIf="isLoading">Запазване...</span>
-          </button>
-
-          <button
-              (click)="nextStep()"
-              class="bg-pink-600 text-white py-2 px-6 rounded-md hover:bg-pink-700 transition-all duration-300">
-            Напред
-          </button>
-        </div>
+        <button
+            (click)="nextStep()"
+            class="bg-pink-600 text-white py-2 px-6 rounded-md hover:bg-pink-700 transition-all duration-300">
+          Напред
+        </button>
       </div>
     </div>
 
@@ -239,8 +239,10 @@
           <div *ngIf="hasRoomBooking && roomBooking" class="bg-green-50 border-l-4 border-green-400 p-4 mb-4">
             <div class="flex">
               <div class="flex-shrink-0">
-                <svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                <svg class="h-5 w-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path clip-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        fill-rule="evenodd"/>
                 </svg>
               </div>
               <div class="ml-3">
@@ -263,11 +265,14 @@
           </div>
 
           <!-- Available rooms or waiting list info -->
-          <div *ngIf="!hasRoomBooking && availableRooms === 0" class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+          <div *ngIf="!hasRoomBooking && availableRooms === 0"
+               class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
             <div class="flex">
               <div class="flex-shrink-0">
-                <svg class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path clip-rule="evenodd"
+                        d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                        fill-rule="evenodd"/>
                 </svg>
               </div>
               <div class="ml-3">

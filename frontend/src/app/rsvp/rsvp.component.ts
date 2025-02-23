@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SectionContainerComponent } from "../shared/components/layout/section-container/section-container.component";
-import { RsvpService, GuestResponse } from './services/rsvp.service';
+import {RsvpService, ResponseStatus} from './services/rsvp.service';
 import { AccommodationService, RoomBookingResponse } from '../accommodation/services/accommodation.service';
 
 interface FamilyMember {
@@ -137,19 +137,34 @@ export class RsvpComponent implements OnInit {
     });
   }
 
-  setAttendance(willAttend: boolean) {
+  setFamilyAttendance(willAttend: boolean) {
     this.isLoading = true;
-    const primaryGuestResponse: GuestResponse = {
-      userId: this.primaryGuest.id,
-      status: willAttend ? 'YES' : 'NO',
-      dietaryNotes: this.primaryGuest.dietaryRequirements,
-      additionalNotes: this.primaryGuest.additionalNotes
+
+    // Set attendance for primary guest and all family members
+    this.primaryGuest.isAttending = willAttend;
+    this.familyMembers.forEach(member => {
+      member.isAttending = willAttend;
+    });
+
+    // Create responses for all family members
+    const familyResponses = {
+      primaryGuest: {
+        userId: this.primaryGuest.id,
+        status: willAttend ? 'YES' : 'NO' as ResponseStatus,
+        dietaryNotes: this.primaryGuest.dietaryRequirements,
+        additionalNotes: this.primaryGuest.additionalNotes
+      },
+      familyMembers: this.familyMembers.map(member => ({
+        userId: member.id,
+        status: willAttend ? 'YES' : 'NO' as ResponseStatus,
+        dietaryNotes: member.dietaryRequirements,
+        additionalNotes: member.additionalNotes
+      }))
     };
 
-    this.rsvpService.savePrimaryGuestResponse(primaryGuestResponse).subscribe({
+    this.rsvpService.submitRsvp(familyResponses).subscribe({
       next: () => {
         this.attending = willAttend;
-        this.primaryGuest.isAttending = willAttend;
         this.isLoading = false;
         this.nextStep();
       },
@@ -163,38 +178,43 @@ export class RsvpComponent implements OnInit {
 
   onFamilyMemberSelectionChange() {
     this.hasChanges = true;
+    this.updateAttendanceStatus();
+  }
 
-    // If primary user checkbox is updated in step 2, update the step 1 value as well
-    const primaryMemberSelected = this.familyMembers.find(m => m.id === this.primaryGuest.id)?.isAttending;
-    if (primaryMemberSelected !== undefined) {
-      this.primaryGuest.isAttending = primaryMemberSelected;
+  private updateAttendanceStatus() {
+    const anyoneAttending = this.primaryGuest.isAttending ||
+        this.familyMembers.some(member => member.isAttending);
+
+    if (this.attending !== anyoneAttending) {
+      this.attending = anyoneAttending;
+      this.hasChanges = true;
     }
+  }
+
+  get isSingleUser(): boolean {
+    return this.familyMembers.length === 0;
   }
 
   confirmFamilySelection() {
     this.isLoading = true;
     this.errorMessage = '';
 
-    // Prepare all responses including primary and family members
-    const primaryGuestResponse: GuestResponse = {
-      userId: this.primaryGuest.id,
-      status: this.primaryGuest.isAttending ? 'YES' : 'NO',
-      dietaryNotes: this.primaryGuest.dietaryRequirements,
-      additionalNotes: this.primaryGuest.additionalNotes
+    const familyResponses = {
+      primaryGuest: {
+        userId: this.primaryGuest.id,
+        status: this.primaryGuest.isAttending ? 'YES' : 'NO' as ResponseStatus,
+        dietaryNotes: this.primaryGuest.dietaryRequirements,
+        additionalNotes: this.primaryGuest.additionalNotes
+      },
+      familyMembers: this.familyMembers.map(member => ({
+        userId: member.id,
+        status: member.isAttending ? 'YES' : 'NO' as ResponseStatus,
+        dietaryNotes: member.dietaryRequirements,
+        additionalNotes: member.additionalNotes
+      }))
     };
 
-    const familyMemberResponses: GuestResponse[] = this.familyMembers.map(member => ({
-      userId: member.id,
-      status: member.isAttending ? 'YES' : 'NO',
-      dietaryNotes: member.dietaryRequirements,
-      additionalNotes: member.additionalNotes
-    }));
-
-    // Submit RSVP
-    this.rsvpService.submitRsvp({
-      primaryGuest: primaryGuestResponse,
-      familyMembers: familyMemberResponses
-    }).subscribe({
+    this.rsvpService.submitRsvp(familyResponses).subscribe({
       next: () => {
         this.isLoading = false;
         this.hasChanges = false;

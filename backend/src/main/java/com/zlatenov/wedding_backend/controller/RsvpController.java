@@ -21,14 +21,20 @@ public class RsvpController {
     private final RsvpService rsvpService;
 
     @PostMapping
-    public ResponseEntity<RsvpResponse> submitRsvp(@RequestBody @Valid RsvpRequest request,
+    public ResponseEntity<RsvpResponse> submitRsvp(
+            @RequestBody @Valid RsvpRequest request,
             Authentication authentication) {
-
-        log.info("Received RSVP submission from user: {}", authentication.getName());
+        log.info("Received RSVP submission for family from user: {}", authentication.getName());
         log.debug("RSVP request details: {}", request);
 
         RsvpResponse response = rsvpService.processRsvp(request, authentication.getName());
+        return ResponseEntity.ok(response);
+    }
 
+    @GetMapping("/family-members")
+    public ResponseEntity<FamilyMembersResponse> getFamilyMembers(Authentication authentication) {
+        log.info("Retrieving family members for user: {}", authentication.getName());
+        FamilyMembersResponse response = rsvpService.getFamilyMembers(authentication.getName());
         return ResponseEntity.ok(response);
     }
 
@@ -37,15 +43,6 @@ public class RsvpController {
         log.info("Retrieving RSVP status for user: {}", authentication.getName());
 
         RsvpResponse response = rsvpService.getRsvpStatus(authentication.getName());
-
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/family-members")
-    public ResponseEntity<FamilyMembersResponse> getFamilyMembers(Authentication authentication) {
-        log.info("Retrieving family members for user: {}", authentication.getName());
-
-        FamilyMembersResponse response = rsvpService.getFamilyMembers(authentication.getName());
 
         return ResponseEntity.ok(response);
     }

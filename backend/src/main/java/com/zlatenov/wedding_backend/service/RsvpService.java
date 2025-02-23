@@ -35,7 +35,7 @@ public class RsvpService {
      */
     @Transactional
     public RsvpResponse processRsvp(RsvpRequest request, String username) {
-        // Get the authenticated user
+        // Get the authenticated user and family
         String[] names = username.split(" ");
         if (names.length != 2) {
             throw new IllegalArgumentException("Invalid username format");
@@ -44,8 +44,10 @@ public class RsvpService {
         User primaryUser = userRepository.findByFirstNameAndLastName(names[0], names[1])
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        // Verify that the primary user in the request matches the authenticated user
-        verifyUserAccess(primaryUser, request.getPrimaryGuest().getUserId());
+        // Verify this is the primary user's response
+        if (!Objects.equals(primaryUser.getId(), request.getPrimaryGuest().getUserId())) {
+            throw new UnauthorizedAccessException("Unauthorized access to user data");
+        }
 
         // Update primary guest's response
         updateUserResponse(request.getPrimaryGuest());
@@ -54,7 +56,7 @@ public class RsvpService {
         int confirmedAttendees = request.getPrimaryGuest().getStatus() == ResponseStatus.YES ? 1 : 0;
 
         if (request.getFamilyMembers() != null && !request.getFamilyMembers().isEmpty()) {
-            // Verify all family members belong to the same family as primary user
+            // Verify all family members belong to the same family
             verifyFamilyMembersAccess(primaryUser, request.getFamilyMembers());
 
             // Update each family member's response
@@ -66,17 +68,12 @@ public class RsvpService {
             }
         }
 
-        // Process accommodation request if present
-        if (request.getAccommodation() != null && request.getAccommodation().isRequired()) {
-            processAccommodationRequest(primaryUser, request.getAccommodation(), confirmedAttendees);
-        }
-
-        log.info("Successfully processed RSVP for user: {}, confirmed attendees: {}",
+        log.info("Successfully processed RSVP for family. Primary user: {}, confirmed attendees: {}",
                 username, confirmedAttendees);
 
         return RsvpResponse.builder()
                 .success(true)
-                .message("Your RSVP has been successfully recorded")
+                .message("RSVP has been successfully recorded")
                 .primaryUserId(primaryUser.getId())
                 .confirmedAttendees(confirmedAttendees)
                 .build();

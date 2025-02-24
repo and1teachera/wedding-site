@@ -35,9 +35,9 @@ CREATE TABLE waiting_list (
 
 
 INSERT INTO rooms (room_number, is_available) VALUES
-                                                  (101, true), (102, true), (103, true), (104, true), (105, true),
-                                                  (106, true), (107, true), (108, true), (109, true), (110, true),
-                                                  (201, true), (202, true), (203, true), (204, true), (205, true),
-                                                  (206, true), (207, true), (208, true), (209, true), (210, true),
-                                                  (301, true), (302, true), (303, true), (304, true), (305, true),
-                                                  (306, true), (307, true), (308, true), (309, true), (310, true);
+                                                  (1, true), (2, true), (3, true), (4, true), (5, true),
+                                                  (6, true), (7, true), (8, true), (9, true), (10, true),
+                                                  (11, true), (12, true), (13, true), (14, true), (15, true),
+                                                  (16, true), (17, true), (18, true), (19, true), (20, true),
+                                                  (21, true), (22, true), (23, true), (24, true), (25, true),
+                                                  (26, true), (27, true), (28, true), (29, true), (30, true);

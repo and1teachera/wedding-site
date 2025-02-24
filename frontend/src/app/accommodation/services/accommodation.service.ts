@@ -1,4 +1,3 @@
-// accommodation.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -39,16 +38,23 @@ export class AccommodationService {
   }
 
   /**
-   * Get the current booking status for the user's family
+   * Get the current booking or request status for the user
    */
   getBookingStatus(): Observable<RoomBookingResponse> {
     return this.http.get<RoomBookingResponse>(`${this.API_URL}/booking-status`);
   }
 
   /**
-   * Cancel a room booking for the user's family
+   * Cancel a room booking or request
    */
   cancelBooking(): Observable<RoomBookingResponse> {
     return this.http.post<RoomBookingResponse>(`${this.API_URL}/cancel`, {});
+  }
+
+  /**
+   * Request accommodation for a single user
+   */
+  requestSingleAccommodation(request: RoomBookingRequest): Observable<RoomBookingResponse> {
+    return this.http.post<RoomBookingResponse>(`${this.API_URL}/request-single`, request);
   }
 }

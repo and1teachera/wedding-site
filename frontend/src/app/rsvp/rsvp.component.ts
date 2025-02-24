@@ -4,7 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SectionContainerComponent } from "../shared/components/layout/section-container/section-container.component";
 import {RsvpService, ResponseStatus} from './services/rsvp.service';
-import { AccommodationService, RoomBookingResponse } from '../accommodation/services/accommodation.service';
+import {
+  AccommodationService,
+  RoomBookingRequest,
+  RoomBookingResponse
+} from '../accommodation/services/accommodation.service';
 
 interface FamilyMember {
   id: number;
@@ -129,6 +133,11 @@ export class RsvpComponent implements OnInit {
         if (response.success) {
           this.needsAccommodation = true;
           this.accommodationNotes = response.notes || '';
+
+          if (this.isSingleUser && response.status === 'PENDING') {
+            // Already has a pending request
+            this.hasRoomBooking = true;
+          }
         }
       },
       error: (error) => {
@@ -303,6 +312,92 @@ export class RsvpComponent implements OnInit {
       queryParams: {
         rsvpSuccess: true,
         attendees: this.getAttendingCount()
+      }
+    });
+  }
+
+  /**
+   * Handles accommodation request for both single users and families
+   */
+  requestAccommodation(): void {
+    if (this.isBookingRoom) {
+      return;
+    }
+
+    this.isBookingRoom = true;
+    this.errorMessage = '';
+
+    const request: RoomBookingRequest = {
+      notes: this.accommodationNotes
+    };
+
+    const request$ = this.isSingleUser ?
+        this.accommodationService.requestSingleAccommodation(request) :
+        this.accommodationService.bookRoom(request);
+
+    request$.subscribe({
+      next: (response) => {
+        this.hasRoomBooking = response.success;
+        this.roomBooking = response.success ? response : null;
+        this.isBookingRoom = false;
+
+        if (response.success && !this.isSingleUser) {
+          this.availableRooms--;
+        }
+      },
+      error: (error) => {
+        console.error('Error processing accommodation request:', error);
+        this.errorMessage = 'Възникна грешка при обработката на заявката. Моля, опитайте отново по-късно.';
+        this.isBookingRoom = false;
+      }
+    });
+  }
+
+  /**
+   * Loads the current accommodation status on init
+   */
+  private loadAccommodationStatus(): void {
+    this.accommodationService.getBookingStatus().subscribe({
+      next: (response) => {
+        this.hasRoomBooking = response.success;
+        this.roomBooking = response.success ? response : null;
+
+        if (response.success) {
+          this.needsAccommodation = true;
+          this.accommodationNotes = response.notes || '';
+        }
+      },
+      error: (error) => {
+        console.error('Error loading accommodation status:', error);
+      }
+    });
+  }
+
+  /**
+   * Cancels the current accommodation request/booking
+   */
+  cancelAccommodation(): void {
+    if (this.isBookingRoom) {
+      return;
+    }
+
+    this.isBookingRoom = true;
+    this.errorMessage = '';
+
+    this.accommodationService.cancelBooking().subscribe({
+      next: (response) => {
+        this.hasRoomBooking = false;
+        this.roomBooking = null;
+        this.isBookingRoom = false;
+
+        if (response.success && !this.isSingleUser) {
+          this.availableRooms++;
+        }
+      },
+      error: (error) => {
+        console.error('Error cancelling accommodation:', error);
+        this.errorMessage = 'Възникна грешка при отказване на заявката. Моля, опитайте отново по-късно.';
+        this.isBookingRoom = false;
       }
     });
   }

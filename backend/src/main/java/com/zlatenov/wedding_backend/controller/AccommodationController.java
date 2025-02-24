@@ -45,19 +45,30 @@ public class AccommodationController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/booking-status")
-    public ResponseEntity<RoomBookingResponse> getBookingStatus(Authentication authentication) {
-        Long familyId = tokenService.getFamilyIdFromAuthentication(authentication);
-
-        RoomBookingResponse response = roomService.getRoomBookingDetails(familyId);
+    @PostMapping("/cancel")
+    public ResponseEntity<RoomBookingResponse> cancelBooking(Authentication authentication) {
+        Long userId = tokenService.getUserIdFromAuthentication(authentication);
+        RoomBookingResponse response = roomService.cancelAccommodation(userId);
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/cancel")
-    public ResponseEntity<RoomBookingResponse> cancelBooking(Authentication authentication) {
-        Long familyId = tokenService.getFamilyIdFromAuthentication(authentication);
+    @GetMapping("/booking-status")
+    public ResponseEntity<RoomBookingResponse> getBookingStatus(Authentication authentication) {
+        Long userId = tokenService.getUserIdFromAuthentication(authentication);
+        RoomBookingResponse response = roomService.getBookingStatus(userId);
+        return ResponseEntity.ok(response);
+    }
 
-        RoomBookingResponse response = roomService.cancelRoomBooking(familyId);
+    /**
+     * Request accommodation for a single user
+     */
+    @PostMapping("/request-single")
+    public ResponseEntity<RoomBookingResponse> requestSingleAccommodation(
+            @RequestBody @Valid RoomBookingRequest request,
+            Authentication authentication) {
+
+        Long userId = tokenService.getUserIdFromAuthentication(authentication);
+        RoomBookingResponse response = roomService.requestSingleAccommodation(userId, request);
         return ResponseEntity.ok(response);
     }
 

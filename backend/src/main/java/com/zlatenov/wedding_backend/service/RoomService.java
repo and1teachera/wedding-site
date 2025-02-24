@@ -4,15 +4,21 @@ import com.zlatenov.wedding_backend.dto.RoomBookingRequest;
 import com.zlatenov.wedding_backend.dto.RoomBookingResponse;
 import com.zlatenov.wedding_backend.exception.ResourceNotFoundException;
 import com.zlatenov.wedding_backend.exception.RsvpValidationException;
+import com.zlatenov.wedding_backend.exception.UnauthorizedAccessException;
 import com.zlatenov.wedding_backend.model.BookingStatus;
 import com.zlatenov.wedding_backend.model.Family;
 import com.zlatenov.wedding_backend.model.ResponseStatus;
 import com.zlatenov.wedding_backend.model.Room;
 import com.zlatenov.wedding_backend.model.RoomBooking;
+import com.zlatenov.wedding_backend.model.SingleUserAccommodationRequest;
+import com.zlatenov.wedding_backend.model.SingleUserAccommodationStatus;
+import com.zlatenov.wedding_backend.model.User;
 import com.zlatenov.wedding_backend.model.UserResponse;
 import com.zlatenov.wedding_backend.repository.FamilyRepository;
 import com.zlatenov.wedding_backend.repository.RoomBookingRepository;
 import com.zlatenov.wedding_backend.repository.RoomRepository;
+import com.zlatenov.wedding_backend.repository.SingleUserAccommodationRepository;
+import com.zlatenov.wedding_backend.repository.UserRepository;
 import com.zlatenov.wedding_backend.repository.UserResponseRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +40,8 @@ public class RoomService {
     private final RoomBookingRepository roomBookingRepository;
     private final FamilyRepository familyRepository;
     private final UserResponseRepository userResponseRepository;
+    private final UserRepository userRepository;
+    private final SingleUserAccommodationRepository singleUserAccommodationRepository;
 
     /**
      * Get the count of available rooms
@@ -185,5 +193,102 @@ public class RoomService {
                 .success(true)
                 .message("Room booking cancelled successfully")
                 .build();
+    }
+
+    @Transactional
+    public RoomBookingResponse requestSingleAccommodation(Long userId, RoomBookingRequest request) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        if (user.getFamily() != null) {
+            throw new UnauthorizedAccessException("Only single users can request single accommodation");
+        }
+
+        Optional<SingleUserAccommodationRequest> latestRequest =
+                singleUserAccommodationRepository.findLatestByUserId(userId);
+
+        if (latestRequest.isPresent() &&
+                latestRequest.get().getStatus() == SingleUserAccommodationStatus.PENDING) {
+            SingleUserAccommodationRequest pending = latestRequest.get();
+            return RoomBookingResponse.builder()
+                    .success(true)
+                    .message("You already have a pending accommodation request")
+                    .status(pending.getStatus().name())
+                    .notes(pending.getNotes())
+                    .build();
+        }
+
+        SingleUserAccommodationRequest accommodationRequest = SingleUserAccommodationRequest.builder()
+                .user(user)
+                .status(SingleUserAccommodationStatus.PENDING)
+                .notes(request.getNotes())
+                .build();
+
+        singleUserAccommodationRepository.save(accommodationRequest);
+
+        return RoomBookingResponse.builder()
+                .success(true)
+                .message("Accommodation request submitted successfully")
+                .status(SingleUserAccommodationStatus.PENDING.name())
+                .notes(request.getNotes())
+                .build();
+    }
+
+    public RoomBookingResponse getBookingStatus(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        if (user.getFamily() == null) {
+            Optional<SingleUserAccommodationRequest> latestRequest =
+                    singleUserAccommodationRepository.findLatestByUserId(userId);
+
+            if (latestRequest.isPresent()) {
+                SingleUserAccommodationRequest request = latestRequest.get();
+                return RoomBookingResponse.builder()
+                        .success(request.getStatus() == SingleUserAccommodationStatus.PENDING)
+                        .message("Single user accommodation request found")
+                        .status(request.getStatus().name())
+                        .notes(request.getNotes())
+                        .build();
+            }
+            return RoomBookingResponse.builder()
+                    .success(false)
+                    .message("No accommodation request found")
+                    .build();
+        }
+
+        return getRoomBookingDetails(user.getFamily().getId());
+    }
+
+    @Transactional
+    public RoomBookingResponse cancelAccommodation(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        if (user.getFamily() == null) {
+            Optional<SingleUserAccommodationRequest> latestPendingRequest =
+                    singleUserAccommodationRepository.findLatestPendingByUserId(userId);
+
+            if (latestPendingRequest.isPresent()) {
+                SingleUserAccommodationRequest cancellation = SingleUserAccommodationRequest.builder()
+                        .user(user)
+                        .status(SingleUserAccommodationStatus.CANCELLED)
+                        .notes("Cancelled: " + latestPendingRequest.get().getNotes())
+                        .build();
+
+                singleUserAccommodationRepository.save(cancellation);
+
+                return RoomBookingResponse.builder()
+                        .success(true)
+                        .message("Accommodation request cancelled successfully")
+                        .build();
+            }
+            return RoomBookingResponse.builder()
+                    .success(false)
+                    .message("No active accommodation request found")
+                    .build();
+        }
+
+        return cancelRoomBooking(user.getFamily().getId());
     }
 }

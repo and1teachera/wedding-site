@@ -1,20 +1,13 @@
-FROM node:lts-alpine AS builder
+FROM node:18-alpine AS build
 WORKDIR /app
-
 COPY package*.json ./
-
-RUN npm install
-
-COPY . ./
-
+RUN npm ci
+COPY . .
 RUN npm run build --configuration=production
 
-FROM node:lts-alpine
-WORKDIR /app
-
-RUN npm install -g serve
-
-COPY --from=builder /app/dist/frontend/browser /app
-EXPOSE 4200
-
-CMD ["serve", "-s", ".", "-l", "4200"]
+FROM nginx:alpine
+COPY --from=build /app/dist/frontend /usr/share/nginx/html
+WORKDIR /etc/nginx/conf.d
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

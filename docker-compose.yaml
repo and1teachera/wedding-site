@@ -38,7 +38,6 @@ services:
       - "8080:8080"
       - "5005:5005"
     environment:
-      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
       - SPRING_DATASOURCE_URL=jdbc:mariadb://mariadb:3306/wedding_site
       - SPRING_DATASOURCE_USERNAME=${DB_WEDDING_SITE_USERNAME}
       - SPRING_DATASOURCE_PASSWORD=${DB_WEDDING_SITE_PASSWORD}
@@ -47,6 +46,7 @@ services:
       - MAIL_USERNAME=${MAIL_USERNAME}
       - MAIL_PASSWORD=${MAIL_PASSWORD}
       - JWT_SECRET=${JWT_SECRET:-default-secret-key}
+      - DEFAULT_PASSWORD=mywedding
     depends_on:
       mariadb:
         condition: service_healthy

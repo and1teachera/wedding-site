@@ -18,16 +18,22 @@ export class NetworkError extends Error {
   }
 }
 
-export interface NameLoginCredentials {
+export interface NameAuthenticationRequest {
   firstName: string;
   lastName: string;
   password: string;
+}
+
+export interface EmailAuthenticationRequest {
+  email: string;
+  password: string;
+}
+
+export interface NameLoginCredentials extends NameAuthenticationRequest {
   rememberMe: boolean;
 }
 
-export interface EmailLoginCredentials {
-  email: string;
-  password: string;
+export interface EmailLoginCredentials extends EmailAuthenticationRequest {
   rememberMe: boolean;
 }
 
@@ -53,7 +59,13 @@ export class AuthService {
   ) {}
 
   loginWithNames(credentials: NameLoginCredentials): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.API_URL}/login-by-names`, credentials, {
+    const request: NameAuthenticationRequest = {
+      firstName: credentials.firstName,
+      lastName: credentials.lastName,
+      password: credentials.password
+    };
+    
+    return this.http.post<LoginResponse>(`${this.API_URL}/login-by-names`, request, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
@@ -92,7 +104,12 @@ export class AuthService {
   }
 
   loginWithEmail(credentials: EmailLoginCredentials): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.API_URL}/login`, credentials, {
+    const request: EmailAuthenticationRequest = {
+      email: credentials.email,
+      password: credentials.password
+    };
+    
+    return this.http.post<LoginResponse>(`${this.API_URL}/login`, request, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })

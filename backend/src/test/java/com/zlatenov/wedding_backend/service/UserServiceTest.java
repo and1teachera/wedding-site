@@ -1,5 +1,7 @@
 package com.zlatenov.wedding_backend.service;
 
+import com.zlatenov.wedding_backend.dto.EmailAuthenticationRequest;
+import com.zlatenov.wedding_backend.dto.NameAuthenticationRequest;
 import com.zlatenov.wedding_backend.exception.InvalidCredentialsException;
 import com.zlatenov.wedding_backend.exception.UserNotFoundException;
 import com.zlatenov.wedding_backend.model.User;
@@ -61,7 +63,11 @@ class UserServiceTest {
         when(passwordEncoder.matches(password, hashedPassword)).thenReturn(true);
 
         // Act
-        User result = userService.authenticateUserWithNames(firstName, lastName, password, ipAddress, userAgent);
+        NameAuthenticationRequest request = new NameAuthenticationRequest();
+        request.setFirstName(firstName);
+        request.setLastName(lastName);
+        request.setPassword(password);
+        User result = userService.authenticateUserWithNames(request, ipAddress, userAgent);
 
         // Assert
         assertNotNull(result);
@@ -85,8 +91,12 @@ class UserServiceTest {
                 .thenReturn(Optional.empty());
 
         // Act & Assert
+        NameAuthenticationRequest request = new NameAuthenticationRequest();
+        request.setFirstName(firstName);
+        request.setLastName(lastName);
+        request.setPassword(password);
         InvalidCredentialsException exception = assertThrows(InvalidCredentialsException.class, () ->
-                userService.authenticateUserWithNames(firstName, lastName, password, ipAddress, userAgent));
+                userService.authenticateUserWithNames(request, ipAddress, userAgent));
 
         assertEquals("Invalid credentials", exception.getMessage());
         verify(userRepository).findByFirstNameAndLastName(firstName, lastName);
@@ -116,8 +126,12 @@ class UserServiceTest {
         when(passwordEncoder.matches(password, hashedPassword)).thenReturn(false);
 
         // Act & Assert
+        NameAuthenticationRequest request = new NameAuthenticationRequest();
+        request.setFirstName(firstName);
+        request.setLastName(lastName);
+        request.setPassword(password);
         InvalidCredentialsException exception = assertThrows(InvalidCredentialsException.class, () ->
-                userService.authenticateUserWithNames(firstName, lastName, password, ipAddress, userAgent));
+                userService.authenticateUserWithNames(request, ipAddress, userAgent));
 
         assertEquals("Invalid credentials", exception.getMessage());
         verify(userRepository).findByFirstNameAndLastName(firstName, lastName);
@@ -144,7 +158,10 @@ class UserServiceTest {
         when(passwordEncoder.matches(password, hashedPassword)).thenReturn(true);
 
         // Act
-        User result = userService.authenticateUserWithEmail(email, password, ipAddress, userAgent);
+        EmailAuthenticationRequest request = new EmailAuthenticationRequest();
+        request.setEmail(email);
+        request.setPassword(password);
+        User result = userService.authenticateUserWithEmail(request, ipAddress, userAgent);
 
         // Assert
         assertNotNull(result);
@@ -165,8 +182,11 @@ class UserServiceTest {
         when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
 
         // Act & Assert
+        EmailAuthenticationRequest request = new EmailAuthenticationRequest();
+        request.setEmail(email);
+        request.setPassword(password);
         InvalidCredentialsException exception = assertThrows(InvalidCredentialsException.class, () ->
-                userService.authenticateUserWithEmail(email, password, ipAddress, userAgent));
+                userService.authenticateUserWithEmail(request, ipAddress, userAgent));
 
         assertEquals("Invalid credentials", exception.getMessage());
         verify(userRepository).findByEmail(email);

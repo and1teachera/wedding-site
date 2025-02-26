@@ -50,7 +50,7 @@ class AuthenticationControllerTest {
         // Arrange
         LoginByEmailRequest request = new LoginByEmailRequest("test@example.com", "password");
 
-        when(userService.authenticateUserWithEmail(any(), any(), any(), any()))
+        when(userService.authenticateUserWithEmail(any(), any(), any()))
                 .thenReturn(User.builder().firstName("Test").lastName("User").build());
 
         when(jwtTokenProvider.generateToken(any(User.class))).thenReturn("test.jwt.token");
@@ -70,7 +70,7 @@ class AuthenticationControllerTest {
         // Arrange
         LoginByNamesRequest request = new LoginByNamesRequest("John", "Doe", "password");
 
-        when(userService.authenticateUserWithNames(any(), any(), any(), any(), any()))
+        when(userService.authenticateUserWithNames(any(), any(), any()))
                 .thenReturn(User.builder().firstName("Test").lastName("User").build());
 
         when(jwtTokenProvider.generateToken(any(User.class))).thenReturn("test.jwt.token");
@@ -89,7 +89,7 @@ class AuthenticationControllerTest {
     void shouldReturn401ForInvalidCredentials() throws Exception {
         // Arrange
         LoginByEmailRequest request = new LoginByEmailRequest("test@example.com", "wrongpassword");
-        when(userService.authenticateUserWithEmail(any(), any(), any(), any()))
+        when(userService.authenticateUserWithEmail(any(), any(), any()))
                 .thenThrow(new InvalidCredentialsException("Invalid credentials"));
 
         // Act & Assert
@@ -126,7 +126,7 @@ class AuthenticationControllerTest {
     @DisplayName("Should return proper error response for invalid credentials")
     void shouldReturnProperErrorResponseForInvalidCredentials() throws Exception {
         LoginByEmailRequest request = new LoginByEmailRequest("test@example.com", "wrongpassword");
-        when(userService.authenticateUserWithEmail(any(), any(), any(), any()))
+        when(userService.authenticateUserWithEmail(any(), any(), any()))
                 .thenThrow(new InvalidCredentialsException("Invalid credentials"));
         mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)

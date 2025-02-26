@@ -115,10 +115,10 @@ public class JwtTokenProvider {
     }
 
     /**
-     * Get family ID for a user by first name and last name
+     * Get family Id for a user by first name and last name
      * @param firstName User's first name
      * @param lastName User's last name
-     * @return Family ID or null if user not found or not associated with a family
+     * @return Family Id or null if user not found or not associated with a family
      */
     public Long getFamilyIdFromUsername(String firstName, String lastName) {
         User user = userRepository.findByFirstNameAndLastName(firstName, lastName)

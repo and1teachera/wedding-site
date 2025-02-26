@@ -9,6 +9,16 @@ import java.util.Optional;
 
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
+
     Optional<Room> findByRoomNumber(Integer roomNumber);
+
     List<Room> findByIsAvailableTrue();
+
+
+    /**
+     * Find the first available room
+     * @return First available room or empty if none available
+     */
+    Optional<Room> findFirstByIsAvailableTrue();
+
 }

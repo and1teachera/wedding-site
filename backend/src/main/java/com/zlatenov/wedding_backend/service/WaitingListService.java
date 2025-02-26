@@ -25,8 +25,8 @@ public class WaitingListService {
     /**
      * Add a family or group to the waiting list if no rooms are available
      *
-     * @param familyId The family ID (nullable if using groupId)
-     * @param groupId The group ID (nullable if using familyId)
+     * @param familyId The family Id (nullable if using groupId)
+     * @param groupId The group Id (nullable if using familyId)
      * @param notes Additional notes for the request
      * @return true if added to waiting list, false if rooms are available
      */
@@ -34,12 +34,12 @@ public class WaitingListService {
     public boolean addToWaitingListIfNeeded(Long familyId, Long groupId, String notes) {
         // Check if at least one of familyId or groupId is provided
         if (familyId == null && groupId == null) {
-            throw new IllegalArgumentException("Either family ID or group ID must be provided");
+            throw new IllegalArgumentException("Either family Id or group Id must be provided");
         }
 
         // Check if both familyId and groupId are provided
         if (familyId != null && groupId != null) {
-            throw new IllegalArgumentException("Cannot provide both family ID and group ID");
+            throw new IllegalArgumentException("Cannot provide both family Id and group Id");
         }
 
         // Check if rooms are available
@@ -67,7 +67,7 @@ public class WaitingListService {
         waitingListRepository.save(waitingListEntry);
 
         log.info("Added to waiting list: {}",
-                familyId != null ? "Family ID: " + familyId : "Group ID: " + groupId);
+                familyId != null ? "Family Id: " + familyId : "Group Id: " + groupId);
 
         return true;
     }

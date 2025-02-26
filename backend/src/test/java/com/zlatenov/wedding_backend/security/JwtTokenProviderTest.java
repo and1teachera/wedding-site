@@ -5,6 +5,8 @@ import com.zlatenov.wedding_backend.exception.InvalidTokenSignatureException;
 import com.zlatenov.wedding_backend.exception.MalformedTokenException;
 import com.zlatenov.wedding_backend.exception.TokenExpiredException;
 import com.zlatenov.wedding_backend.model.User;
+import com.zlatenov.wedding_backend.repository.UserRepository;
+import com.zlatenov.wedding_backend.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,12 @@ class JwtTokenProviderTest extends BaseIntegrationTest {
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private UserService userService;
 
     private final User testUser = User.builder()
             .firstName("Test")

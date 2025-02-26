@@ -46,7 +46,7 @@ class WaitingListRepositoryTest extends BaseRepositoryTest {
         assertThat(retrievedEntry.get().getGroup().getGroupName()).isEqualTo("Late Bookers");
     }
 
-    @DisplayName("Should find entries by family ID")
+    @DisplayName("Should find entries by family Id")
     @Test
     void shouldFindByFamilyId() {
         Family family = new Family();
@@ -63,7 +63,7 @@ class WaitingListRepositoryTest extends BaseRepositoryTest {
         assertThat(entries.get(0).getFamily().getId()).isEqualTo(family.getId());
     }
 
-    @DisplayName("Should find entries by group ID")
+    @DisplayName("Should find entries by group Id")
     @Test
     void shouldFindByGroupId() {
         UserGroup group = new UserGroup();

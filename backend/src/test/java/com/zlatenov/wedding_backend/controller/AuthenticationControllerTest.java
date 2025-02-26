@@ -7,8 +7,8 @@ import com.zlatenov.wedding_backend.dto.LoginByNamesRequest;
 import com.zlatenov.wedding_backend.exception.InvalidCredentialsException;
 import com.zlatenov.wedding_backend.model.User;
 import com.zlatenov.wedding_backend.security.JwtTokenProvider;
-import com.zlatenov.wedding_backend.service.LoginAuditService;
-import com.zlatenov.wedding_backend.service.UserService;
+import com.zlatenov.wedding_backend.service.LoginAuditServiceImpl;
+import com.zlatenov.wedding_backend.service.UserServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,10 +37,10 @@ class AuthenticationControllerTest {
     private JwtTokenProvider jwtTokenProvider;
 
     @MockitoBean
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @MockitoBean
-    private LoginAuditService loginAuditService;
+    private LoginAuditServiceImpl loginAuditService;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -50,7 +50,7 @@ class AuthenticationControllerTest {
         // Arrange
         LoginByEmailRequest request = new LoginByEmailRequest("test@example.com", "password");
 
-        when(userService.authenticateUser(any(), any(), any(), any()))
+        when(userService.authenticateUserWithEmail(any(), any(), any(), any()))
                 .thenReturn(User.builder().firstName("Test").lastName("User").build());
 
         when(jwtTokenProvider.generateToken(any(User.class))).thenReturn("test.jwt.token");
@@ -70,7 +70,7 @@ class AuthenticationControllerTest {
         // Arrange
         LoginByNamesRequest request = new LoginByNamesRequest("John", "Doe", "password");
 
-        when(userService.authenticateUser(any(), any(), any(), any(), any()))
+        when(userService.authenticateUserWithNames(any(), any(), any(), any(), any()))
                 .thenReturn(User.builder().firstName("Test").lastName("User").build());
 
         when(jwtTokenProvider.generateToken(any(User.class))).thenReturn("test.jwt.token");
@@ -89,7 +89,7 @@ class AuthenticationControllerTest {
     void shouldReturn401ForInvalidCredentials() throws Exception {
         // Arrange
         LoginByEmailRequest request = new LoginByEmailRequest("test@example.com", "wrongpassword");
-        when(userService.authenticateUser(any(), any(), any(), any()))
+        when(userService.authenticateUserWithEmail(any(), any(), any(), any()))
                 .thenThrow(new InvalidCredentialsException("Invalid credentials"));
 
         // Act & Assert
@@ -126,7 +126,7 @@ class AuthenticationControllerTest {
     @DisplayName("Should return proper error response for invalid credentials")
     void shouldReturnProperErrorResponseForInvalidCredentials() throws Exception {
         LoginByEmailRequest request = new LoginByEmailRequest("test@example.com", "wrongpassword");
-        when(userService.authenticateUser(any(), any(), any(), any()))
+        when(userService.authenticateUserWithEmail(any(), any(), any(), any()))
                 .thenThrow(new InvalidCredentialsException("Invalid credentials"));
         mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)

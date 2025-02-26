@@ -55,7 +55,7 @@ public class AccommodationController {
     @GetMapping("/booking-status")
     public ResponseEntity<RoomBookingResponse> getBookingStatus(Authentication authentication) {
         Long userId = tokenService.getUserIdFromAuthentication(authentication);
-        RoomBookingResponse response = roomService.getBookingStatus(userId);
+        RoomBookingResponse response = roomService.getBookingStatusForUser(userId);
         return ResponseEntity.ok(response);
     }
 
@@ -63,8 +63,7 @@ public class AccommodationController {
      * Request accommodation for a single user
      */
     @PostMapping("/request-single")
-    public ResponseEntity<RoomBookingResponse> requestSingleAccommodation(
-            @RequestBody @Valid RoomBookingRequest request,
+    public ResponseEntity<RoomBookingResponse> requestSingleAccommodation(@RequestBody @Valid RoomBookingRequest request,
             Authentication authentication) {
 
         Long userId = tokenService.getUserIdFromAuthentication(authentication);

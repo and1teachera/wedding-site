@@ -38,7 +38,7 @@ public class AuthenticationController {
         log.info("Authentication attempt: {} , IP: {}, User-Agent: {}",
                 request.getEmail(), ipAddress, userAgent);
 
-        User user = userService.authenticateUser(request.getEmail(), request.getPassword(), ipAddress, userAgent);
+        User user = userService.authenticateUserWithEmail(request.getEmail(), request.getPassword(), ipAddress, userAgent);
 
         String jwt = jwtTokenProvider.generateToken(user);
 
@@ -58,7 +58,7 @@ public class AuthenticationController {
         log.info("Authentication attempt: {} {}, IP: {}, User-Agent: {}",
                 request.getFirstName(), request.getLastName(), ipAddress, userAgent);
 
-        User user = userService.authenticateUser(request.getFirstName(), request.getLastName(), request.getPassword(), ipAddress, userAgent);
+        User user = userService.authenticateUserWithNames(request.getFirstName(), request.getLastName(), request.getPassword(), ipAddress, userAgent);
 
         String jwt = jwtTokenProvider.generateToken(user);
 
@@ -73,7 +73,7 @@ public class AuthenticationController {
                 .build();
 
 
-        log.info("Authentication successful for user: {} {}, Family ID: {}",
+        log.info("Authentication successful for user: {} {}, Family Id: {}",
                 user.getFirstName(),
                 user.getLastName(),
                 user.getFamily() != null ? user.getFamily().getId() : "none");

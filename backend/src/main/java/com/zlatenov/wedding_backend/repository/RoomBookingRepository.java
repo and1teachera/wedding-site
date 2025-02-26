@@ -16,7 +16,7 @@ public interface RoomBookingRepository extends JpaRepository<RoomBooking, Long> 
 
     /**
      * Find the latest confirmed booking for a family
-     * @param familyId The family ID
+     * @param familyId The family Id
      * @return The latest confirmed booking or empty if none exists
      */
     @Query(value = "SELECT * FROM room_bookings rb " +

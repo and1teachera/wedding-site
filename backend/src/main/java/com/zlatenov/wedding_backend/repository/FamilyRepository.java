@@ -8,5 +8,6 @@ import java.util.List;
 
 @Repository
 public interface FamilyRepository extends JpaRepository<Family, Long> {
+
     List<Family> findByNameContainingIgnoreCase(String name);
 }

@@ -37,8 +37,4 @@ public class RateLimiterService {
 
         log.debug("Request {} of {} for key: {}", currentCount, maxRequests, key);
     }
-
-    public void clearRateLimit(String key) {
-        requestCounts.invalidate(key);
-    }
 }

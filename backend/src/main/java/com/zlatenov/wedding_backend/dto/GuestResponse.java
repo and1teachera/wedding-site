@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GuestResponse {
-    @NotNull(message = "User ID is required")
+    @NotNull(message = "User Id is required")
     private Long userId;
 
     @NotNull(message = "Attendance status is required")

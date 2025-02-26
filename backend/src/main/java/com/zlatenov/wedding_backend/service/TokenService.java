@@ -1,7 +1,5 @@
 package com.zlatenov.wedding_backend.service;
 
-import com.zlatenov.wedding_backend.exception.ResourceNotFoundException;
-import com.zlatenov.wedding_backend.repository.UserRepository;
 import com.zlatenov.wedding_backend.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -18,17 +16,28 @@ import org.springframework.stereotype.Service;
 public class TokenService {
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     /**
-     * Extract the family ID from the authentication object
+     * Extract the family Id from the authentication object
      * @param authentication The authentication object
-     * @return Family ID or null if not associated with a family
+     * @return Family Id or null if not associated with a family
      */
     public Long getFamilyIdFromAuthentication(Authentication authentication) {
         String[] names = validateUserName(authentication);
 
         return jwtTokenProvider.getFamilyIdFromUsername(names[0], names[1]);
+    }
+
+    /**
+     * Extract the user Id from the authentication object
+     * @param authentication The authentication object
+     * @return User Id
+     */
+    public Long getUserIdFromAuthentication(Authentication authentication) {
+        String[] names = validateUserName(authentication);
+
+        return userService.getByFirstNameAndLastName(names[0], names[1]).getId();
     }
 
     private String[] validateUserName(Authentication authentication) {
@@ -38,18 +47,5 @@ public class TokenService {
             throw new IllegalArgumentException("Invalid username format");
         }
         return names;
-    }
-
-    /**
-     * Extract the user ID from the authentication object
-     * @param authentication The authentication object
-     * @return User ID
-     */
-    public Long getUserIdFromAuthentication(Authentication authentication) {
-        String[] names = validateUserName(authentication);
-
-        return userRepository.findByFirstNameAndLastName(names[0], names[1])
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"))
-                .getId();
     }
 }

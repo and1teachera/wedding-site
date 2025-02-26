@@ -2,8 +2,8 @@ package com.zlatenov.wedding_backend.controller;
 
 import com.zlatenov.wedding_backend.annotation.RateLimited;
 import com.zlatenov.wedding_backend.dto.AuthenticationResponse;
-import com.zlatenov.wedding_backend.dto.LoginByEmailRequest;
-import com.zlatenov.wedding_backend.dto.LoginByNamesRequest;
+import com.zlatenov.wedding_backend.dto.EmailAuthenticationRequest;
+import com.zlatenov.wedding_backend.dto.NameAuthenticationRequest;
 import com.zlatenov.wedding_backend.model.User;
 import com.zlatenov.wedding_backend.security.JwtTokenProvider;
 import com.zlatenov.wedding_backend.service.UserService;
@@ -31,14 +31,14 @@ public class AuthenticationController {
 
     @RateLimited(requests = 5, timeWindowSeconds = 60, key = "#ip")
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> authenticateByEmail(@RequestBody @Valid LoginByEmailRequest request, HttpServletRequest httpRequest) {
+    public ResponseEntity<AuthenticationResponse> authenticateByEmail(@RequestBody @Valid EmailAuthenticationRequest request, HttpServletRequest httpRequest) {
         String ipAddress = extractIpAddress(httpRequest);
         String userAgent = httpRequest.getHeader("User-Agent");
 
         log.info("Authentication attempt: {} , IP: {}, User-Agent: {}",
                 request.getEmail(), ipAddress, userAgent);
 
-        User user = userService.authenticateUserWithEmail(request.getEmail(), request.getPassword(), ipAddress, userAgent);
+        User user = userService.authenticateUserWithEmail(request, ipAddress, userAgent);
 
         String jwt = jwtTokenProvider.generateToken(user);
 
@@ -50,7 +50,7 @@ public class AuthenticationController {
 
     @RateLimited(requests = 5, timeWindowSeconds = 60, key = "#ip")
     @PostMapping("/login-by-names")
-    public ResponseEntity<AuthenticationResponse> authenticateByNames(@RequestBody @Valid LoginByNamesRequest request, HttpServletRequest httpRequest) {
+    public ResponseEntity<AuthenticationResponse> authenticateByNames(@RequestBody @Valid NameAuthenticationRequest request, HttpServletRequest httpRequest) {
 
         String ipAddress = extractIpAddress(httpRequest);
         String userAgent = httpRequest.getHeader("User-Agent");
@@ -58,7 +58,7 @@ public class AuthenticationController {
         log.info("Authentication attempt: {} {}, IP: {}, User-Agent: {}",
                 request.getFirstName(), request.getLastName(), ipAddress, userAgent);
 
-        User user = userService.authenticateUserWithNames(request.getFirstName(), request.getLastName(), request.getPassword(), ipAddress, userAgent);
+        User user = userService.authenticateUserWithNames(request, ipAddress, userAgent);
 
         String jwt = jwtTokenProvider.generateToken(user);
 

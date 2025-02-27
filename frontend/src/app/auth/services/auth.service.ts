@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, map } from 'rxjs/operators';
 import { TokenService } from './token.service';
 
 export class AuthError extends Error {
@@ -59,23 +59,47 @@ export class AuthService {
   ) {}
 
   loginWithNames(credentials: NameLoginCredentials): Observable<LoginResponse> {
+    console.log('Attempting login with names:', credentials.firstName, credentials.lastName);
+    
     const request: NameAuthenticationRequest = {
       firstName: credentials.firstName,
       lastName: credentials.lastName,
       password: credentials.password
     };
     
+    console.log('Request payload:', JSON.stringify(request));
+    
     return this.http.post<LoginResponse>(`${this.API_URL}/login-by-names`, request, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
-      })
+      }),
+      observe: 'response' // Get the full response
     }).pipe(
         tap(response => {
-          console.log('Full auth response:', JSON.stringify(response)); // Log the full response
-          this.tokenService.setToken(response.token, credentials.rememberMe);
-          console.log('Token set in service');
+          console.log('Response status:', response.status);
+          console.log('Response headers:', response.headers.keys());
+          console.log('Content-Type:', response.headers.get('Content-Type'));
+          console.log('Response body:', JSON.stringify(response.body));
+          
+          if (!response.body) {
+            console.error('Response body is null or undefined despite 200 status');
+            throw new Error('Empty response body');
+          }
+          
+          this.tokenService.setToken(response.body.token, credentials.rememberMe);
         }),
-        catchError(this.handleError)
+        map(response => response.body as LoginResponse), // Extract just the body for the return type
+        catchError((error: HttpErrorResponse) => {
+          console.error('Login error details:', {
+            status: error.status,
+            statusText: error.statusText,
+            url: error.url,
+            headers: error.headers ? Array.from(error.headers.keys()) : 'No headers',
+            error: error.error,
+            message: error.message
+          });
+          return this.handleError(error);
+        })
     );
   }
 

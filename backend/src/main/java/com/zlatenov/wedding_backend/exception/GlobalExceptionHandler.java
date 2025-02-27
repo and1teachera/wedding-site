@@ -114,9 +114,15 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<ErrorResponse> handleGenericException(Exception e) {
         log.error("Unexpected error occurred: ", e);
+        
+        // Check for JSON serialization issues
+        if (e.getMessage() != null && e.getMessage().contains("JSON")) {
+            log.error("Possible JSON Serialization Error: {}", e.getMessage());
+        }
+        
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ErrorResponse.of("INTERNAL_ERROR", "An unexpected error occurred"));
+                .body(ErrorResponse.of("INTERNAL_ERROR", "An unexpected error occurred: " + e.getMessage()));
     }
 
     //NoResourceFoundException

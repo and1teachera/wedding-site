@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -51,34 +52,46 @@ public class AuthenticationController {
     @RateLimited(requests = 5, timeWindowSeconds = 60, key = "#ip")
     @PostMapping("/login-by-names")
     public ResponseEntity<AuthenticationResponse> authenticateByNames(@RequestBody @Valid NameAuthenticationRequest request, HttpServletRequest httpRequest) {
-
         String ipAddress = extractIpAddress(httpRequest);
         String userAgent = httpRequest.getHeader("User-Agent");
 
-        log.info("Authentication attempt: {} {}, IP: {}, User-Agent: {}",
+        log.info("Authentication attempt: {} {}, IP: {}, User-Agent: {}", 
                 request.getFirstName(), request.getLastName(), ipAddress, userAgent);
 
-        User user = userService.authenticateUserWithNames(request, ipAddress, userAgent);
+        try {
+            User user = userService.authenticateUserWithNames(request, ipAddress, userAgent);
+            log.info("User authenticated successfully: {} {}", user.getFirstName(), user.getLastName());
 
-        String jwt = jwtTokenProvider.generateToken(user);
+            String jwt = jwtTokenProvider.generateToken(user);
+            log.info("JWT generated successfully, length: {}", jwt.length());
 
-        AuthenticationResponse response = AuthenticationResponse.builder()
-                .token(jwt)
-                .userType(user.isAdmin() ? "ADMIN" : "GUEST")
-                .user(AuthenticationResponse.UserInfo.builder()
-                        .firstName(user.getFirstName())
-                        .lastName(user.getLastName())
-                        .familyId(user.getFamily() != null ? user.getFamily().getId() : null)
-                        .build())
-                .build();
+            AuthenticationResponse response = AuthenticationResponse.builder()
+                    .token(jwt)
+                    .userType(user.isAdmin() ? "ADMIN" : "GUEST")
+                    .user(AuthenticationResponse.UserInfo.builder()
+                            .firstName(user.getFirstName())
+                            .lastName(user.getLastName())
+                            .familyId(user.getFamily() != null ? user.getFamily().getId() : null)
+                            .build())
+                    .build();
 
+            log.info("Authentication response built: token={}, userType={}, user={}", 
+                    response.getToken() != null ? "present" : "null",
+                    response.getUserType(),
+                    response.getUser() != null ? (response.getUser().getFirstName() + " " + response.getUser().getLastName()) : "null");
 
-        log.info("Authentication successful for user: {} {}, Family Id: {}",
-                user.getFirstName(),
-                user.getLastName(),
-                user.getFamily() != null ? user.getFamily().getId() : "none");
+            log.info("Authentication successful for user: {} {}, Family Id: {}",
+                    user.getFirstName(),
+                    user.getLastName(),
+                    user.getFamily() != null ? user.getFamily().getId() : "none");
 
-        return ResponseEntity.ok(response);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(response);
+        } catch (Exception e) {
+            log.error("Authentication error for user {} {}: {}", request.getFirstName(), request.getLastName(), e.getMessage(), e);
+            throw e;
+        }
     }
 
     /**

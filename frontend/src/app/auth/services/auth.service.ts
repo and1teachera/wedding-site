@@ -71,6 +71,7 @@ export class AuthService {
       })
     }).pipe(
         tap(response => {
+          console.log('Full auth response:', JSON.stringify(response)); // Log the full response
           this.tokenService.setToken(response.token, credentials.rememberMe);
           console.log('Token set in service');
         }),

@@ -45,23 +45,44 @@ public class JwtTokenProvider {
     private UserRepository userRepository;
 
     public String generateToken(User user) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("userType", user.isAdmin() ? "ADMIN" : "GUEST");
-        claims.put("familyId", user.getFamily() != null ? user.getFamily().getId() : null);
-        claims.put("userId", user.getId());
-
-
-        return createToken(claims, user.getFirstName() + " " + user.getLastName());
+        try {
+            log.info("Generating token for user: {} {}", user.getFirstName(), user.getLastName());
+            
+            Map<String, Object> claims = new HashMap<>();
+            claims.put("userType", user.isAdmin() ? "ADMIN" : "GUEST");
+            claims.put("familyId", user.getFamily() != null ? user.getFamily().getId() : null);
+            claims.put("userId", user.getId());
+            
+            log.debug("JWT claims: {}", claims);
+            
+            String token = createToken(claims, user.getFirstName() + " " + user.getLastName());
+            log.info("Token generated successfully, length: {}", token.length());
+            return token;
+        } catch (Exception e) {
+            log.error("Error generating JWT token: {}", e.getMessage(), e);
+            throw e;
+        }
     }
 
     private String createToken(Map<String, Object> claims, String subject) {
-        return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(subject)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationInMs))
-                .signWith(getSigningKey(), SignatureAlgorithm.HS512)
-                .compact();
+        try {
+            log.debug("Creating token with subject: {}", subject);
+            log.debug("JWT secret key length: {}", jwtSecret.length());
+            
+            String token = Jwts.builder()
+                    .setClaims(claims)
+                    .setSubject(subject)
+                    .setIssuedAt(new Date())
+                    .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationInMs))
+                    .signWith(getSigningKey(), SignatureAlgorithm.HS512)
+                    .compact();
+            
+            log.debug("Token created successfully");
+            return token;
+        } catch (Exception e) {
+            log.error("Error in createToken: {}", e.getMessage(), e);
+            throw e;
+        }
     }
 
     private Key getSigningKey() {

@@ -2,17 +2,13 @@
   <!-- Fixed navigation -->
   <app-navigation class="fixed top-0 left-0 right-0 z-50"></app-navigation>
 
-  <div class="pt-16">
-    <app-header
+  <main class="flex-grow pt-16">
+    <app-intro-section
         [title]="pageTitle"
         [weddingDate]="weddingDateString"
         [coupleNames]="coupleNames"
         [daysUntilWedding]="getDaysUntilWedding()"
-    ></app-header>
-  </div>
-
-  <main class="flex-grow">
-    <app-hero></app-hero>
+    ></app-intro-section>
     <app-honor-family class="block h-screen"></app-honor-family>
     <app-venue></app-venue>
     <app-schedule></app-schedule>

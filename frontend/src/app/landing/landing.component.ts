@@ -1,20 +1,26 @@
 import { Component } from '@angular/core';
-import { HeaderComponent } from './components/header/header.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
-import {HeroComponent} from "./components/hero/hero.component";
-import {HonorFamilyComponent} from "./components/honor-family/honor-family.component";
-import {FooterComponent} from "../shared/components/footer/footer.component";
-import {VenueComponent} from "./components/venue/venue.component";
-import {AccommodationComponent} from "./components/accommodation/accommodation.component";
-import {ScheduleComponent} from "./components/schedule/schedule.component";
-import {InfoSectionComponent} from "./components/info-section/info-section.component";
-import {ContactSectionComponent} from "./components/contact-section/contact-section.component";
+import { IntroSectionComponent } from './components/intro-section/intro-section.component';
+import { HonorFamilyComponent } from "./components/honor-family/honor-family.component";
+import { VenueComponent } from "./components/venue/venue.component";
+import { AccommodationComponent } from "./components/accommodation/accommodation.component";
+import { ScheduleComponent } from "./components/schedule/schedule.component";
+import { InfoSectionComponent } from "./components/info-section/info-section.component";
+import { ContactSectionComponent } from "./components/contact-section/contact-section.component";
 
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [HeaderComponent, NavigationComponent, HeroComponent, HonorFamilyComponent,
-    VenueComponent, FooterComponent, AccommodationComponent, ScheduleComponent, InfoSectionComponent, ContactSectionComponent],
+  imports: [
+    NavigationComponent, 
+    IntroSectionComponent, 
+    HonorFamilyComponent,
+    VenueComponent, 
+    AccommodationComponent,
+    ScheduleComponent, 
+    InfoSectionComponent, 
+    ContactSectionComponent
+  ],
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.css'],
 })

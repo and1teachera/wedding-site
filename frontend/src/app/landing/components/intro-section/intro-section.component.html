@@ -1,0 +1,18 @@
+<app-section-container id="intro" ariaLabel="Wedding Introduction">
+  <div class="flex flex-col w-full max-w-[1160px] mx-auto bg-[#F7F1E1]">
+    <!-- Header Section -->
+    <div class="w-full">
+      <app-header
+          [title]="title"
+          [weddingDate]="weddingDate"
+          [coupleNames]="coupleNames"
+          [daysUntilWedding]="daysUntilWedding"
+      ></app-header>
+    </div>
+    
+    <!-- Hero Section -->
+    <div class="w-full">
+      <app-hero></app-hero>
+    </div>
+  </div>
+</app-section-container>

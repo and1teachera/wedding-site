@@ -65,20 +65,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "4200:4200"
-    depends_on:
-      - backend
-    networks:
-      - wedding_network
-
-  nginx:
-    image: nginx:alpine
-    container_name: wedding_nginx
-    ports:
       - "80:80"
-    volumes:
-      - ./frontend/nginx.conf:/etc/nginx/conf.d/default.conf
-      - ./frontend/dist/frontend:/usr/share/nginx/html
     depends_on:
       - backend
     networks:

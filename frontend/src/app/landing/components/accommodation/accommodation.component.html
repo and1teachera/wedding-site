@@ -1,7 +1,7 @@
 <app-section-container ariaLabel="Accommodation Information" id="accommodation">
   <div class="space-y-12">
     <!-- Media Container -->
-    <app-grid-container columns="grid-cols-1 sm:grid-cols-2">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
       <!-- Map Section -->
       <div class="relative w-full min-h-[400px] sm:min-h-[450px] lg:min-h-[600px] rounded-lg overflow-hidden shadow-xl">
         <iframe
@@ -31,7 +31,7 @@
               ngSrc="assets/images/accommodation/accommodation-sm.jpg" width="640">
         </picture>
       </div>
-    </app-grid-container>
+    </div>
 
     <div class="text-center space-y-6">
       <h2 class="font-display text-5xl lg:text-6xl text-gray-800">{{ accommodationInfo.name }}</h2>

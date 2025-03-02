@@ -11,5 +11,7 @@ import { CommonModule } from '@angular/common';
 export class SectionContainerComponent {
   @Input() id?: string;
   @Input() ariaLabel?: string;
-  @Input() sectionClass = 'min-h-[100svh] flex items-center justify-center py-8 sm:py-12 lg:py-16 bg-[#F7F1E1]';
+  @Input() sectionClass = 'min-h-[100svh] flex flex-col justify-center py-8 sm:py-12 lg:py-16 bg-[#F7F1E1]';
+  @Input() maxWidth = 'max-w-6xl';
+  @Input() additionalClasses = '';
 }

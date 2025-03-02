@@ -1,8 +1,8 @@
 <section
     [id]="id"
-    [class]="sectionClass"
+    [class]="sectionClass + ' ' + additionalClasses"
     [attr.aria-label]="ariaLabel">
-  <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="w-full {{maxWidth}} mx-auto px-4 sm:px-6 lg:px-8">
     <ng-content></ng-content>
   </div>
 </section>

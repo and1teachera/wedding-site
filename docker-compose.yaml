@@ -35,6 +35,50 @@ services:
         max-size: "10m"
         max-file: "3"
         tag: "mariadb"
+        
+  loki:
+    image: grafana/loki:latest
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./loki-config.yaml:/etc/loki/local-config.yaml
+      - loki_data:/tmp/loki
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - wedding_network
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:3100/ready || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+  promtail:
+    image: grafana/promtail:latest
+    volumes:
+      - ./promtail-config.yaml:/etc/promtail/config.yaml
+      - ./logs:/var/log/wedding
+    command: -config.file=/etc/promtail/config.yaml
+    networks:
+      - wedding_network
+    depends_on:
+      loki:
+        condition: service_healthy
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    volumes:
+      - ./grafana-provisioning:/etc/grafana/provisioning
+      - grafana_data:/var/lib/grafana
+    networks:
+      - wedding_network
+    depends_on:
+      - loki
 
   backend:
     build:
@@ -54,10 +98,13 @@ services:
       - JWT_SECRET=${JWT_SECRET:-default-secret-key}
       - DEFAULT_PASSWORD=mywedding
       - LOGGING_LEVEL_COM_ZLATENOV_WEDDING_BACKEND=DEBUG
+      - LOKI_URL=http://loki:3100/loki/api/v1/push
     volumes:
-      - ./logs:/app/logs
+      - ./logs:/var/log/wedding
     depends_on:
       mariadb:
+        condition: service_healthy
+      loki:
         condition: service_healthy
     networks:
       - wedding_network
@@ -86,6 +133,7 @@ services:
       - ./logs/nginx:/var/log/nginx
     depends_on:
       - backend
+      - promtail
     networks:
       - wedding_network
     logging:
@@ -98,6 +146,10 @@ services:
 volumes:
   mariadb_data:
     name: wedding_mariadb_data
+  loki_data:
+    name: wedding_loki_data
+  grafana_data:
+    name: wedding_grafana_data
 
 networks:
   wedding_network:

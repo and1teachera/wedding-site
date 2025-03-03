@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 export enum LogLevel {
   TRACE = 0,
@@ -31,6 +33,9 @@ export class LoggingService {
   private readonly bufferSize = 10;
   private sendingLogs = false;
   
+  // Environment detection for production or staging
+  private isProdOrStaging = window.location.hostname !== 'localhost';
+  
   // Store correlation IDs
   private currentRequestId?: string;
   private currentTraceId?: string;
@@ -45,10 +50,46 @@ export class LoggingService {
     // Set up error listeners
     this.setupErrorListeners();
     
+    // Try to send any pending logs that failed to send previously
+    this.sendPendingLogs();
+    
     // Flush logs on window unload
     window.addEventListener('beforeunload', () => {
       this.flushLogs();
     });
+    
+    // Flush logs periodically (every 30 seconds)
+    setInterval(() => {
+      if (this.buffer.length > 0) {
+        this.flushLogs();
+      }
+    }, 30000);
+  }
+  
+  private sendPendingLogs(): void {
+    try {
+      const pendingLogsJson = localStorage.getItem('pendingLogs');
+      if (pendingLogsJson) {
+        const pendingLogs = JSON.parse(pendingLogsJson) as LogEntry[];
+        if (pendingLogs.length > 0) {
+          console.info(`Attempting to send ${pendingLogs.length} pending logs`);
+          this.sendLogsToBackend(pendingLogs)
+            .subscribe({
+              next: () => {
+                // Clear pending logs on success
+                localStorage.removeItem('pendingLogs');
+              },
+              error: () => {
+                // Keep pending logs on failure (will try again later)
+              }
+            });
+        }
+      }
+    } catch (e) {
+      console.error('Failed to process pending logs:', e);
+      // Clear corrupted logs
+      localStorage.removeItem('pendingLogs');
+    }
   }
   
   setRequestId(requestId: string | undefined): void {
@@ -150,12 +191,52 @@ export class LoggingService {
     this.buffer = [];
     this.sendingLogs = true;
     
-    // For future implementation:
-    // In production, we would send logs to a backend endpoint
-    // For now, we'll just log to console
-    console.info(`[LoggingService] ${logsToSend.length} logs would be sent to server`);
-    
-    this.sendingLogs = false;
+    // Send logs to backend in staging/production
+    if (this.isProdOrStaging) {
+      this.sendLogsToBackend(logsToSend)
+        .pipe(
+          finalize(() => {
+            this.sendingLogs = false;
+          })
+        )
+        .subscribe({
+          next: () => {
+            // Successfully sent logs to the backend
+          },
+          error: (err) => {
+            console.error('Failed to send logs to backend:', err);
+            
+            // Store in local storage as fallback with a size limit (5MB)
+            try {
+              const storedLogs = JSON.parse(localStorage.getItem('pendingLogs') || '[]');
+              // Add failed logs to stored logs, maintaining a limit
+              const allLogs = [...storedLogs, ...logsToSend].slice(-100); // Keep only last 100 entries
+              localStorage.setItem('pendingLogs', JSON.stringify(allLogs));
+            } catch (storageErr) {
+              console.error('Failed to store logs in local storage:', storageErr);
+            }
+          }
+        });
+    } else {
+      // Local development - just log to console
+      console.info(`[LoggingService] ${logsToSend.length} logs would be sent to server`);
+      this.sendingLogs = false;
+    }
+  }
+  
+  private sendLogsToBackend(logs: LogEntry[]): Observable<unknown> {
+    return this.http.post('/api/logs', {
+      logs,
+      clientInfo: {
+        userAgent: navigator.userAgent,
+        url: window.location.href,
+        timestamp: new Date().toISOString()
+      }
+    }, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    });
   }
   
   private setupErrorListeners(): void {

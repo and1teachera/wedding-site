@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <!-- Console appender for local development -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
             <includeMdcKeyName>traceId</includeMdcKeyName>
@@ -11,10 +12,11 @@
         </encoder>
     </appender>
 
+    <!-- File appender for Promtail to collect -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/wedding-app.log</file>
+        <file>/var/log/wedding/wedding-app.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/wedding-app.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>/var/log/wedding/wedding-app.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
@@ -29,9 +31,9 @@
 
     <!-- Auth-specific logging appender -->
     <appender name="AUTH_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/auth.log</file>
+        <file>/var/log/wedding/auth.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/auth.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>/var/log/wedding/auth.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>90</maxHistory>
         </rollingPolicy>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
@@ -43,11 +45,80 @@
             <includeMdcKeyName>reason</includeMdcKeyName>
         </encoder>
     </appender>
+    
+    <!-- Frontend log appender -->
+    <appender name="FRONTEND_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/var/log/wedding/frontend.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/var/log/wedding/frontend.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <includeMdcKeyName>traceId</includeMdcKeyName>
+            <includeMdcKeyName>requestId</includeMdcKeyName>
+            <includeMdcKeyName>userId</includeMdcKeyName>
+            <includeMdcKeyName>clientUrl</includeMdcKeyName>
+            <includeMdcKeyName>clientUserAgent</includeMdcKeyName>
+            <includeMdcKeyName>source</includeMdcKeyName>
+        </encoder>
+    </appender>
+    
+    <!-- Direct Loki appender for staging and production -->
+    <springProfile name="staging,prod">
+        <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
+            <http>
+                <url>${LOKI_URL:-http://loki:3100/loki/api/v1/push}</url>
+            </http>
+            <format>
+                <label>
+                    <pattern>app=wedding-backend,env=${SPRING_PROFILES_ACTIVE:-dev},level=%level</pattern>
+                </label>
+                <message>
+                    <pattern>
+                        {
+                            "timestamp": "%d{yyyy-MM-dd'T'HH:mm:ss.SSS'Z'}",
+                            "level": "%level",
+                            "thread": "%thread",
+                            "logger": "%logger{36}",
+                            "message": "%message",
+                            "traceId": "%mdc{traceId}",
+                            "requestId": "%mdc{requestId}",
+                            "userId": "%mdc{userId}",
+                            "clientIp": "%mdc{clientIp}",
+                            "statusCode": "%mdc{statusCode}",
+                            "requestDuration": "%mdc{requestDuration}",
+                            "exception": "%exception"
+                        }
+                    </pattern>
+                </message>
+            </format>
+        </appender>
+    </springProfile>
 
     <!-- Authentication-specific logger -->
     <logger name="com.zlatenov.wedding_backend.service.LoginAuditServiceImpl" level="INFO" additivity="false">
         <appender-ref ref="AUTH_FILE" />
         <appender-ref ref="CONSOLE" />
+        <springProfile name="staging,prod">
+            <appender-ref ref="LOKI" />
+        </springProfile>
+    </logger>
+    
+    <!-- Frontend specific loggers -->
+    <logger name="frontend" level="INFO" additivity="false">
+        <appender-ref ref="FRONTEND_FILE" />
+        <appender-ref ref="CONSOLE" />
+        <springProfile name="staging,prod">
+            <appender-ref ref="LOKI" />
+        </springProfile>
+    </logger>
+
+    <logger name="frontend.error" level="ERROR" additivity="false">
+        <appender-ref ref="FRONTEND_FILE" />
+        <appender-ref ref="CONSOLE" />
+        <springProfile name="staging,prod">
+            <appender-ref ref="LOKI" />
+        </springProfile>
     </logger>
 
     <!-- SQL query logging - only active in development -->
@@ -65,5 +136,8 @@
     <root level="INFO">
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="FILE" />
+        <springProfile name="staging,prod">
+            <appender-ref ref="LOKI" />
+        </springProfile>
     </root>
 </configuration>

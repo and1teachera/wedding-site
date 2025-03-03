@@ -47,7 +47,7 @@ export class LoggingService {
     
     // Flush logs on window unload
     window.addEventListener('beforeunload', () => {
-      this.flushLogs(true);
+      this.flushLogs();
     });
   }
   

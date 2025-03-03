@@ -29,6 +29,12 @@ services:
       - --max-connections=50
       - --innodb-buffer-pool-size=128M
       - --expire-logs-days=0
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        tag: "mariadb"
 
   backend:
     build:
@@ -47,6 +53,9 @@ services:
       - MAIL_PASSWORD=${MAIL_PASSWORD}
       - JWT_SECRET=${JWT_SECRET:-default-secret-key}
       - DEFAULT_PASSWORD=mywedding
+      - LOGGING_LEVEL_COM_ZLATENOV_WEDDING_BACKEND=DEBUG
+    volumes:
+      - ./logs:/app/logs
     depends_on:
       mariadb:
         condition: service_healthy
@@ -58,6 +67,12 @@ services:
       timeout: 5s
       retries: 3
       start_period: 40s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "5"
+        tag: "backend"
 
 
   frontend:
@@ -66,10 +81,19 @@ services:
       dockerfile: Dockerfile
     ports:
       - "80:80"
+    volumes:
+      - ./frontend/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./logs/nginx:/var/log/nginx
     depends_on:
       - backend
     networks:
       - wedding_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        tag: "frontend"
 
 volumes:
   mariadb_data:

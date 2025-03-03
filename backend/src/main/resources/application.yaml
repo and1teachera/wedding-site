@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: dev
 #  mail:
 #    host: ${MAIL_HOST}
 #    port: ${MAIL_PORT}
@@ -50,8 +52,45 @@ management:
     mail:
       enabled: false
 
+# Common logging config
+logging:
+  config: classpath:logback.xml
+  level:
+    root: INFO
+    com.zlatenov.wedding_backend: INFO
+
+---
+# Development profile
+spring:
+  config:
+    activate:
+      on-profile: dev
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        session:
+          events:
+            log:
+              LOG_QUERIES_SLOWER_THAN_MS: 500
+
 logging:
   level:
-    org.springframework.security: DEBUG
     com.zlatenov.wedding_backend: DEBUG
     org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+---
+# Production profile
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+logging:
+  level:
+    com.zlatenov.wedding_backend: INFO
+    org.springframework.web: WARN
+    org.springframework.security: WARN

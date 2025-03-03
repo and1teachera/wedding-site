@@ -6,7 +6,7 @@ import { LoggingService } from './logging.service';
 export class GlobalErrorHandler implements ErrorHandler {
   constructor(private injector: Injector) {}
 
-  handleError(error: any): void {
+  handleError(error: Error | HttpErrorResponse | unknown): void {
     const loggingService = this.injector.get(LoggingService);
     
     let message = '';

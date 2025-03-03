@@ -18,7 +18,7 @@ export interface LogEntry {
   userId?: string;
   requestId?: string;
   traceId?: string;
-  additional?: any;
+  additional?: Record<string, unknown>;
   stack?: string;
 }
 
@@ -26,16 +26,16 @@ export interface LogEntry {
   providedIn: 'root'
 })
 export class LoggingService {
-  private level: LogLevel = LogLevel.INFO;
+  private readonly level: LogLevel = LogLevel.INFO;
   private buffer: LogEntry[] = [];
-  private bufferSize = 10;
+  private readonly bufferSize = 10;
   private sendingLogs = false;
   
   // Store correlation IDs
   private currentRequestId?: string;
   private currentTraceId?: string;
 
-  constructor(private http: HttpClient) {
+  constructor(private readonly http: HttpClient) {
     // Initialize from localStorage if available
     const storedLevel = localStorage.getItem('logLevel');
     if (storedLevel) {
@@ -59,31 +59,31 @@ export class LoggingService {
     this.currentTraceId = traceId;
   }
   
-  trace(message: string, context?: string, additional?: any): void {
+  trace(message: string, context?: string, additional?: Record<string, unknown>): void {
     this.log(LogLevel.TRACE, message, context, additional);
   }
   
-  debug(message: string, context?: string, additional?: any): void {
+  debug(message: string, context?: string, additional?: Record<string, unknown>): void {
     this.log(LogLevel.DEBUG, message, context, additional);
   }
   
-  info(message: string, context?: string, additional?: any): void {
+  info(message: string, context?: string, additional?: Record<string, unknown>): void {
     this.log(LogLevel.INFO, message, context, additional);
   }
   
-  warn(message: string, context?: string, additional?: any): void {
+  warn(message: string, context?: string, additional?: Record<string, unknown>): void {
     this.log(LogLevel.WARN, message, context, additional);
   }
   
-  error(message: string, context?: string, additional?: any, stack?: string): void {
+  error(message: string, context?: string, additional?: Record<string, unknown>, stack?: string): void {
     this.log(LogLevel.ERROR, message, context, additional, stack);
   }
   
-  fatal(message: string, context?: string, additional?: any, stack?: string): void {
+  fatal(message: string, context?: string, additional?: Record<string, unknown>, stack?: string): void {
     this.log(LogLevel.FATAL, message, context, additional, stack);
   }
   
-  private log(level: LogLevel, message: string, context?: string, additional?: any, stack?: string): void {
+  private log(level: LogLevel, message: string, context?: string, additional?: Record<string, unknown>, stack?: string): void {
     if (level < this.level) {
       return;
     }
@@ -109,7 +109,7 @@ export class LoggingService {
     }
   }
   
-  private logToConsole(level: LogLevel, message: string, context?: string, additional?: any, stack?: string): void {
+  private logToConsole(level: LogLevel, message: string, context?: string, additional?: Record<string, unknown>, stack?: string): void {
     const logFn = this.getConsoleMethod(level);
     const formattedMessage = context ? `[${context}] ${message}` : message;
     
@@ -124,7 +124,7 @@ export class LoggingService {
     }
   }
   
-  private getConsoleMethod(level: LogLevel): Function {
+  private getConsoleMethod(level: LogLevel): (message?: unknown, ...optionalParams: unknown[]) => void {
     switch (level) {
       case LogLevel.TRACE:
       case LogLevel.DEBUG:
@@ -141,7 +141,7 @@ export class LoggingService {
     }
   }
   
-  flushLogs(synchronous = false): void {
+  flushLogs(): void {
     if (this.buffer.length === 0 || this.sendingLogs) {
       return;
     }

@@ -92,7 +92,7 @@ function generateRequestId(): string {
   });
 }
 
-function sanitizeHeaders(headers: any): Record<string, string> {
+function sanitizeHeaders(headers: HttpRequest<unknown>['headers']): Record<string, string> {
   const headersMap: Record<string, string> = {};
   
   if (headers && typeof headers.keys === 'function') {

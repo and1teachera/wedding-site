@@ -37,13 +37,14 @@ services:
         tag: "mariadb"
         
   loki:
-    image: grafana/loki:latest
+    image: grafana/loki:2.8.0
+    user: "0"  # Run as root to avoid permission issues
     ports:
       - "3100:3100"
     volumes:
-      - ./loki-config.yaml:/etc/loki/local-config.yaml
-      - loki_data:/tmp/loki
-    command: -config.file=/etc/loki/local-config.yaml
+      - loki_data:/loki
+    # Use the default configuration with one override
+    command: -config.file=/etc/loki/local-config.yaml -log.level=debug
     networks:
       - wedding_network
 #    healthcheck:
@@ -64,21 +65,6 @@ services:
     depends_on:
       loki:
         condition: service_healthy
-
-  grafana:
-    image: grafana/grafana:latest
-    ports:
-      - "3000:3000"
-    environment:
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
-    volumes:
-      - ./grafana-provisioning:/etc/grafana/provisioning
-      - grafana_data:/var/lib/grafana
-    networks:
-      - wedding_network
-    depends_on:
-      - loki
 
   backend:
     build:

@@ -99,6 +99,7 @@ services:
       - DEFAULT_PASSWORD=mywedding
       - LOGGING_LEVEL_COM_ZLATENOV_WEDDING_BACKEND=DEBUG
       - LOKI_URL=http://loki:3100/loki/api/v1/push
+      - LOG_PATH=/var/log/wedding
     volumes:
       - ./logs:/var/log/wedding
     depends_on:

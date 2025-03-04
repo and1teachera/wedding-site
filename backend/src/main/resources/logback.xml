@@ -14,9 +14,12 @@
 
     <!-- File appender for Promtail to collect -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>/var/log/wedding/wedding-app.log</file>
+        <!-- Prudent mode for better handling of concurrent file access -->
+        <prudent>true</prudent>
+        <!-- Use environment variable with fallback path -->
+        <file>${LOG_PATH:-/var/log/wedding}/wedding-app.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/var/log/wedding/wedding-app.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${LOG_PATH:-/var/log/wedding}/wedding-app.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
@@ -31,9 +34,10 @@
 
     <!-- Auth-specific logging appender -->
     <appender name="AUTH_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>/var/log/wedding/auth.log</file>
+        <prudent>true</prudent>
+        <file>${LOG_PATH:-/var/log/wedding}/auth.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/var/log/wedding/auth.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${LOG_PATH:-/var/log/wedding}/auth.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>90</maxHistory>
         </rollingPolicy>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
@@ -48,9 +52,10 @@
     
     <!-- Frontend log appender -->
     <appender name="FRONTEND_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>/var/log/wedding/frontend.log</file>
+        <prudent>true</prudent>
+        <file>${LOG_PATH:-/var/log/wedding}/frontend.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/var/log/wedding/frontend.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${LOG_PATH:-/var/log/wedding}/frontend.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
@@ -66,8 +71,13 @@
     <!-- Direct Loki appender for staging and production -->
     <springProfile name="staging,prod">
         <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
+            <!-- Configure reconnect settings to be more resilient -->
             <http>
                 <url>${LOKI_URL:-http://loki:3100/loki/api/v1/push}</url>
+                <!-- Allow for retries and longer timeouts -->
+                <connectionTimeoutMs>10000</connectionTimeoutMs>
+                <requestTimeoutMs>15000</requestTimeoutMs>
+                <maxRetries>3</maxRetries>
             </http>
             <format>
                 <label>
@@ -92,7 +102,14 @@
                     </pattern>
                 </message>
             </format>
+            <!-- Handle errors gracefully, don't crash the application -->
+            <onError>NOOP</onError>
         </appender>
+    </springProfile>
+    
+    <!-- No-op appender for test and development as fallback -->
+    <springProfile name="default,dev,test">
+        <appender name="LOKI" class="ch.qos.logback.core.helpers.NOPAppender" />
     </springProfile>
 
     <!-- Authentication-specific logger -->
@@ -100,7 +117,7 @@
         <appender-ref ref="AUTH_FILE" />
         <appender-ref ref="CONSOLE" />
         <springProfile name="staging,prod">
-            <appender-ref ref="LOKI" />
+            <appender-ref ref="LOKI" optional="true" />
         </springProfile>
     </logger>
     
@@ -109,7 +126,7 @@
         <appender-ref ref="FRONTEND_FILE" />
         <appender-ref ref="CONSOLE" />
         <springProfile name="staging,prod">
-            <appender-ref ref="LOKI" />
+            <appender-ref ref="LOKI" optional="true" />
         </springProfile>
     </logger>
 
@@ -117,7 +134,7 @@
         <appender-ref ref="FRONTEND_FILE" />
         <appender-ref ref="CONSOLE" />
         <springProfile name="staging,prod">
-            <appender-ref ref="LOKI" />
+            <appender-ref ref="LOKI" optional="true" />
         </springProfile>
     </logger>
 
@@ -137,7 +154,7 @@
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="FILE" />
         <springProfile name="staging,prod">
-            <appender-ref ref="LOKI" />
+            <appender-ref ref="LOKI" optional="true" />
         </springProfile>
     </root>
 </configuration>

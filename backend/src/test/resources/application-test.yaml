@@ -23,3 +23,5 @@ spring:
   flyway:
     enabled: false
 DEFAULT_PASSWORD: testpassword
+logging:
+  config: classpath:logback-test.xml

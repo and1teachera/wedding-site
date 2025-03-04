@@ -62,9 +62,9 @@ services:
     command: -config.file=/etc/promtail/config.yaml
     networks:
       - wedding_network
-    depends_on:
-      loki:
-        condition: service_healthy
+#    depends_on:
+#      loki:
+#        condition: service_healthy
 
   backend:
     build:
@@ -91,8 +91,8 @@ services:
     depends_on:
       mariadb:
         condition: service_healthy
-      loki:
-        condition: service_healthy
+#      loki:
+#        condition: service_healthy
     networks:
       - wedding_network
     healthcheck:

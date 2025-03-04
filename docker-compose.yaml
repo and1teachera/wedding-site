@@ -46,12 +46,12 @@ services:
     command: -config.file=/etc/loki/local-config.yaml
     networks:
       - wedding_network
-    healthcheck:
-      test: ["CMD-SHELL", "wget -q --spider http://localhost:3100/ready || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 20s
+#    healthcheck:
+#      test: ["CMD-SHELL", "wget -q --spider http://localhost:3100/ready || exit 1"]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 3
+#      start_period: 20s
 
   promtail:
     image: grafana/promtail:latest

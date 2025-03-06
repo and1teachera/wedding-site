@@ -1,0 +1,117 @@
+apiVersion: 1
+
+groups:
+  - name: wedding_site_alerts
+    folder: Alerts
+    interval: 1m
+    rules:
+      - name: Backend Service Down
+        condition: B
+        data:
+          - refId: A
+            datasourceUid: P8E80F9AEF21F6940
+            model:
+              editorMode: code
+              expr: count_over_time({app="wedding-backend"} |= "health" |= "UP" [5m])
+              queryType: range
+              refId: A
+          - refId: B
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 0
+                    type: lt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - A
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              refId: B
+        noDataState: Alerting
+        execErrState: Alerting
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Backend service may be down"
+          description: "No health check responses have been received from the backend service for the last 5 minutes."
+          
+      - name: High Error Rate
+        condition: B
+        data:
+          - refId: A
+            datasourceUid: P8E80F9AEF21F6940
+            model:
+              editorMode: code
+              expr: sum(count_over_time({app="wedding-backend", level="ERROR"} [5m]))
+              queryType: range
+              refId: A
+          - refId: B
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 20
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - A
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              refId: B
+        noDataState: NoData
+        execErrState: Error
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High backend error rate detected"
+          description: "The backend service has reported more than 20 errors in the last 5 minutes."
+          
+      - name: Security Alert - Multiple Failed Logins
+        condition: B
+        data:
+          - refId: A
+            datasourceUid: P8E80F9AEF21F6940
+            model:
+              editorMode: code
+              expr: sum by(client_ip) (count_over_time({app="wedding-frontend", component="nginx"} |= "/api/auth/login" [10m]))
+              queryType: range
+              refId: A
+          - refId: B
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 5
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - A
+                  reducer:
+                    params: []
+                    type: max
+                  type: query
+              refId: B
+        noDataState: NoData
+        execErrState: Error
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Multiple failed login attempts detected"
+          description: "A single IP address has made more than 5 login attempts in the last 10 minutes."

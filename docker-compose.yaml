@@ -35,6 +35,26 @@ services:
         max-size: "10m"
         max-file: "3"
         tag: "mariadb"
+  
+  # MySQL Exporter for MariaDB metrics
+  mysqld-exporter:
+    image: prom/mysqld-exporter:v0.14.0
+    restart: unless-stopped
+    environment:
+      - DATA_SOURCE_NAME=monitoring:${MONITORING_PASSWORD}@(mariadb:3306)/
+    ports:
+      - "9104:9104"
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    networks:
+      - wedding_network
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:9104/metrics"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
         
   loki:
     image: grafana/loki:2.8.0
@@ -94,6 +114,7 @@ services:
       - ./grafana-provisioning:/etc/grafana/provisioning
     depends_on:
       - loki
+      - prometheus
     networks:
       - wedding_network
     deploy:
@@ -152,6 +173,25 @@ services:
         tag: "backend"
 
 
+  # Nginx metrics exporter
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:0.11.0
+    restart: unless-stopped
+    command:
+      - -nginx.scrape-uri=http://frontend/nginx_status
+    ports:
+      - "9113:9113"
+    depends_on:
+      - frontend
+    networks:
+      - wedding_network
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:9113/metrics"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
   frontend:
     build:
       context: ./frontend
@@ -186,6 +226,60 @@ services:
         max-file: "3"
         tag: "frontend"
 
+# Node exporter for host metrics
+  node-exporter:
+    image: prom/node-exporter:v1.6.1
+    container_name: wedding_node_exporter
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--path.rootfs=/rootfs'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    ports:
+      - "9100:9100"
+    networks:
+      - wedding_network
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:9100/metrics"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # Prometheus for metrics collection and storage
+  prometheus:
+    image: prom/prometheus:v2.47.2
+    container_name: wedding_prometheus
+    restart: unless-stopped
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    ports:
+      - "9090:9090"
+    depends_on:
+      - backend
+      - nginx-exporter
+      - mysqld-exporter
+      - node-exporter
+    networks:
+      - wedding_network
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:9090/-/healthy"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
 volumes:
   mariadb_data:
     name: wedding_mariadb_data
@@ -193,6 +287,8 @@ volumes:
     name: wedding_loki_data
   grafana_data:
     name: wedding_grafana_data
+  prometheus_data:
+    name: wedding_prometheus_data
 
 networks:
   wedding_network:

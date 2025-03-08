@@ -38,12 +38,16 @@ management:
     web:
       base-path: /actuator
       exposure:
-        include: health,info
+        include: health,info,prometheus,metrics
   endpoint:
     health:
       show-details: always
       probes:
         enabled: true
+    prometheus:
+      enabled: true
+    metrics:
+      enabled: true
   health:
     defaults:
       enabled: true
@@ -51,6 +55,21 @@ management:
       enabled: true
     mail:
       enabled: false
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+      percentiles:
+        http.server.requests: 0.5, 0.9, 0.95, 0.99
+    enable:
+      jvm: true
+      process: true
+      system: true
+      jdbc: true
+      http: true
+    tags:
+      application: ${spring.application.name}
+      service: wedding-backend
 
 # Common logging config
 logging:

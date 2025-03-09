@@ -1,0 +1,11 @@
+/* Basic styling for the table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Allow for horizontal scrolling on mobile */
+.overflow-x-auto {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}

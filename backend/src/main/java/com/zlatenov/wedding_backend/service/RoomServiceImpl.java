@@ -1,5 +1,6 @@
 package com.zlatenov.wedding_backend.service;
 
+import com.zlatenov.wedding_backend.dto.RoomAvailabilityDto;
 import com.zlatenov.wedding_backend.dto.RoomBookingRequest;
 import com.zlatenov.wedding_backend.dto.RoomBookingResponse;
 import com.zlatenov.wedding_backend.exception.ResourceNotFoundException;
@@ -21,6 +22,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 /**
  * @author Angel Zlatenov
@@ -239,6 +243,83 @@ public class RoomServiceImpl implements RoomService {
         return RoomBookingResponse.builder()
                 .success(true)
                 .message("Room booking cancelled successfully")
+                .build();
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public RoomAvailabilityDto getAllRoomsWithBookings() {
+        // Fetch all rooms
+        List<Room> allRooms = roomRepository.findAll();
+        
+        int availableRooms = 0;
+        int bookedRooms = 0;
+        
+        // Create DTOs for each room with booking details
+        List<RoomAvailabilityDto.RoomInfoDto> roomDtos = new ArrayList<>();
+        
+        for (Room room : allRooms) {
+            // Count available vs. booked rooms
+            if (room.isAvailable()) {
+                availableRooms++;
+            } else {
+                bookedRooms++;
+            }
+            
+            // Get booking information if the room is booked
+            RoomAvailabilityDto.BookingInfoDto bookingInfo = null;
+            if (!room.isAvailable()) {
+                // Get the latest booking for this room
+                Optional<RoomBooking> latestBooking = roomBookingRepository.findLatestBookingByRoomId(room.getId());
+                
+                if (latestBooking.isPresent()) {
+                    RoomBooking booking = latestBooking.get();
+                    String bookedBy = "";
+                    Long familyId = null;
+                    
+                    // Determine who booked the room
+                    if (booking.getFamily() != null) {
+                        bookedBy = booking.getFamily().getName();
+                        familyId = booking.getFamily().getId();
+                    } else if (booking.getGroup() != null) {
+                        bookedBy = "Group: " + booking.getGroup().getGroupName();
+                        familyId = null;
+                    }
+                    
+                    bookingInfo = RoomAvailabilityDto.BookingInfoDto.builder()
+                            .bookingId(booking.getId())
+                            .status(booking.getStatus().toString())
+                            .bookingTime(booking.getBookingTime())
+                            .bookedBy(bookedBy)
+                            .familyId(familyId)
+                            .notes(booking.getNotes())
+                            .build();
+                }
+            }
+            
+            // Build the room DTO
+            RoomAvailabilityDto.RoomInfoDto roomDto = RoomAvailabilityDto.RoomInfoDto.builder()
+                    .roomId(room.getId())
+                    .roomNumber(room.getRoomNumber())
+                    .available(room.isAvailable())
+                    .booking(bookingInfo)
+                    .build();
+            
+            roomDtos.add(roomDto);
+        }
+        
+        // Sort rooms by room number for easier display
+        roomDtos.sort(Comparator.comparing(RoomAvailabilityDto.RoomInfoDto::getRoomNumber));
+        
+        log.info("Retrieved room availability. Total: {}, Available: {}, Booked: {}", 
+                allRooms.size(), availableRooms, bookedRooms);
+        
+        // Build the response
+        return RoomAvailabilityDto.builder()
+                .rooms(roomDtos)
+                .totalRooms(allRooms.size())
+                .availableRooms(availableRooms)
+                .bookedRooms(bookedRooms)
                 .build();
     }
 }

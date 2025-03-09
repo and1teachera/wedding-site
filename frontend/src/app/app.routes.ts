@@ -5,7 +5,8 @@ import { RsvpComponent } from './rsvp/rsvp.component';
 import { AuthGuard } from './auth/services/auth.guard';
 import { AdminUserCreationComponent } from './admin/admin-user-creation/admin-user-creation.component';
 import { AdminRsvpListComponent } from './admin/admin-rsvp-list/admin-rsvp-list.component';
-import {AdminGuard} from "./admin/guards/admin.guard";
+import { AdminRoomsComponent } from './admin/admin-rooms/admin-rooms.component';
+import { AdminGuard } from "./admin/guards/admin.guard";
 
 export const routes: Routes = [
     {
@@ -43,6 +44,11 @@ export const routes: Routes = [
                 path: 'rsvp',
                 component: AdminRsvpListComponent,
                 title: 'RSVP Responses - Admin'
+            },
+            {
+                path: 'rooms',
+                component: AdminRoomsComponent,
+                title: 'Room Availability - Admin'
             },
             {
                 path: 'users',

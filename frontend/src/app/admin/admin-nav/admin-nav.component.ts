@@ -17,6 +17,13 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
           RSVP Responses
         </a>
         <a 
+          routerLink="/admin/rooms" 
+          routerLinkActive="bg-pink-600 text-white" 
+          class="px-4 py-2 rounded-md hover:bg-pink-100 transition-colors"
+          [routerLinkActiveOptions]="{ exact: true }">
+          Room Availability
+        </a>
+        <a 
           routerLink="/admin/users" 
           routerLinkActive="bg-pink-600 text-white" 
           class="px-4 py-2 rounded-md hover:bg-pink-100 transition-colors"

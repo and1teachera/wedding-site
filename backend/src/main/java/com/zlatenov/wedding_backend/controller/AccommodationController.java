@@ -1,5 +1,6 @@
 package com.zlatenov.wedding_backend.controller;
 
+import com.zlatenov.wedding_backend.dto.RoomAvailabilityDto;
 import com.zlatenov.wedding_backend.dto.RoomBookingRequest;
 import com.zlatenov.wedding_backend.dto.RoomBookingResponse;
 import com.zlatenov.wedding_backend.service.RoomService;
@@ -8,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -68,6 +70,14 @@ public class AccommodationController {
 
         Long userId = tokenService.getUserIdFromAuthentication(authentication);
         RoomBookingResponse response = roomService.requestSingleAccommodation(userId, request);
+        return ResponseEntity.ok(response);
+    }
+    
+    @GetMapping("/admin/rooms")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<RoomAvailabilityDto> getAllRoomsWithBookings() {
+        log.info("Admin request to get all rooms with booking information");
+        RoomAvailabilityDto response = roomService.getAllRoomsWithBookings();
         return ResponseEntity.ok(response);
     }
 

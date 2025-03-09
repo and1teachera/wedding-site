@@ -1,5 +1,6 @@
 package com.zlatenov.wedding_backend.service;
 
+import com.zlatenov.wedding_backend.dto.RoomAvailabilityDto;
 import com.zlatenov.wedding_backend.dto.RoomBookingRequest;
 import com.zlatenov.wedding_backend.dto.RoomBookingResponse;
 import jakarta.validation.Valid;
@@ -36,4 +37,10 @@ public interface RoomService {
     RoomBookingResponse getBookingStatusForUser(Long userId);
 
     RoomBookingResponse requestSingleAccommodation(Long userId, @Valid RoomBookingRequest request);
+    
+    /**
+     * Get all rooms with their availability and booking details
+     * @return DTO containing all rooms and summary statistics
+     */
+    RoomAvailabilityDto getAllRoomsWithBookings();
 }

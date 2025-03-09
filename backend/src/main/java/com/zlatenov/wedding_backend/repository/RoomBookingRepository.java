@@ -28,4 +28,14 @@ public interface RoomBookingRepository extends JpaRepository<RoomBooking, Long> 
             "WHERE rb.family_id = :familyId " +
             "ORDER BY rb.id DESC LIMIT 1", nativeQuery = true)
     Optional<RoomBooking> findLatestBookingByFamilyId(@Param("familyId") Long familyId);
+    
+    /**
+     * Find the latest booking for a room
+     * @param roomId The room Id
+     * @return The latest booking for the room or empty if none exists
+     */
+    @Query(value = "SELECT * FROM room_bookings rb " +
+            "WHERE rb.room_id = :roomId " +
+            "ORDER BY rb.booking_time DESC LIMIT 1", nativeQuery = true)
+    Optional<RoomBooking> findLatestBookingByRoomId(@Param("roomId") Long roomId);
 }

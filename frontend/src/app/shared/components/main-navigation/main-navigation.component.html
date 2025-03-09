@@ -23,6 +23,12 @@
              class="bg-pink-600 text-white px-4 py-2 rounded-md hover:bg-pink-700">
             RSVP
           </a>
+          <a *ngIf="isAdmin" 
+             routerLink="/admin" 
+             routerLinkActive="text-pink-600"
+             class="text-gray-700 hover:text-gray-900">
+            Admin
+          </a>
           <button (click)="onLogout()"
                   [disabled]="isLoggingOut"
                   class="text-gray-700 hover:text-gray-900 disabled:opacity-50">
@@ -75,6 +81,13 @@
            (click)="closeMenu()"
            class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50">
           RSVP
+        </a>
+        <a *ngIf="isAdmin"
+           routerLink="/admin"
+           routerLinkActive="bg-pink-50 text-pink-600"
+           (click)="closeMenu()"
+           class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50">
+          Admin
         </a>
         <button (click)="onLogout()"
                 [disabled]="isLoggingOut"

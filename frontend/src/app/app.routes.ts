@@ -4,6 +4,7 @@ import { LandingComponent } from './landing/landing.component';
 import { RsvpComponent } from './rsvp/rsvp.component';
 import { AuthGuard } from './auth/services/auth.guard';
 import { AdminUserCreationComponent } from './admin/admin-user-creation/admin-user-creation.component';
+import { AdminRsvpListComponent } from './admin/admin-rsvp-list/admin-rsvp-list.component';
 import {AdminGuard} from "./admin/guards/admin.guard";
 
 export const routes: Routes = [
@@ -33,6 +34,16 @@ export const routes: Routes = [
         path: 'admin',
         canActivate: [AuthGuard, AdminGuard],
         children: [
+            {
+                path: '',
+                redirectTo: 'rsvp',
+                pathMatch: 'full'
+            },
+            {
+                path: 'rsvp',
+                component: AdminRsvpListComponent,
+                title: 'RSVP Responses - Admin'
+            },
             {
                 path: 'users',
                 component: AdminUserCreationComponent,

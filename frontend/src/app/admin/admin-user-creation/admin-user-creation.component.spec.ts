@@ -6,6 +6,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SectionContainerComponent } from '../../shared/components/layout/section-container/section-container.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { AdminNavComponent } from '../admin-nav/admin-nav.component';
 
 describe('AdminUserCreationComponent', () => {
   let component: AdminUserCreationComponent;
@@ -19,8 +21,10 @@ describe('AdminUserCreationComponent', () => {
         MatFormFieldModule,
         MatInputModule,
         NoopAnimationsModule,
+        RouterTestingModule,
         AdminUserCreationComponent,
-        SectionContainerComponent
+        SectionContainerComponent,
+        AdminNavComponent
       ]
     }).compileComponents();
 

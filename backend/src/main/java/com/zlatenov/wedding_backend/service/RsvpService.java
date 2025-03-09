@@ -1,5 +1,6 @@
 package com.zlatenov.wedding_backend.service;
 
+import com.zlatenov.wedding_backend.dto.AllRsvpResponsesDto;
 import com.zlatenov.wedding_backend.dto.FamilyMembersResponse;
 import com.zlatenov.wedding_backend.dto.GuestResponse;
 import com.zlatenov.wedding_backend.dto.RsvpRequest;
@@ -44,4 +45,10 @@ public interface RsvpService {
      * @return Response with success status
      */
     RsvpResponse savePrimaryGuestResponse(@Valid GuestResponse guestResponse, String username);
+    
+    /**
+     * Get all RSVP responses for admin view
+     * @return DTO containing all responses and summary statistics
+     */
+    AllRsvpResponsesDto getAllRsvpResponses();
 }

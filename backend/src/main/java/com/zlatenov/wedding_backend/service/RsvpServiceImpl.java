@@ -1,6 +1,7 @@
 package com.zlatenov.wedding_backend.service;
 
 import com.zlatenov.wedding_backend.dto.AccommodationRequest;
+import com.zlatenov.wedding_backend.dto.AllRsvpResponsesDto;
 import com.zlatenov.wedding_backend.dto.FamilyMembersResponse;
 import com.zlatenov.wedding_backend.dto.GuestResponse;
 import com.zlatenov.wedding_backend.dto.RsvpRequest;
@@ -173,6 +174,64 @@ public class RsvpServiceImpl implements RsvpService {
                 .message("Primary guest response saved successfully")
                 .primaryUserId(primaryUser.getId())
                 .confirmedAttendees(response.getStatus() == ResponseStatus.YES ? 1 : 0)
+                .build();
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public AllRsvpResponsesDto getAllRsvpResponses() {
+        // Fetch all responses
+        List<UserResponse> allUserResponses = userResponseRepository.findAll();
+        
+        // Prepare counters for summary
+        int confirmedGuests = 0;
+        int pendingGuests = 0;
+        int declinedGuests = 0;
+        
+        // Map to response DTOs
+        List<AllRsvpResponsesDto.RsvpEntryDto> responseDtos = new ArrayList<>();
+        
+        for (UserResponse response : allUserResponses) {
+            User user = response.getUser();
+            
+            // Count by status
+            if (response.getStatus() == ResponseStatus.YES) {
+                confirmedGuests++;
+            } else if (response.getStatus() == ResponseStatus.MAYBE) {
+                pendingGuests++;
+            } else if (response.getStatus() == ResponseStatus.NO) {
+                declinedGuests++;
+            }
+            
+            // Get family name if user belongs to a family
+            String familyName = user.getFamily() != null ? user.getFamily().getName() : "No Family";
+            
+            // Create the DTO
+            AllRsvpResponsesDto.RsvpEntryDto entryDto = AllRsvpResponsesDto.RsvpEntryDto.builder()
+                    .userId(user.getId())
+                    .firstName(user.getFirstName())
+                    .lastName(user.getLastName())
+                    .email(user.getEmail())
+                    .status(response.getStatus().toString())
+                    .isChild(user.isChild())
+                    .dietaryNotes(response.getDietaryNotes())
+                    .additionalNotes(response.getAdditionalNotes())
+                    .familyName(familyName)
+                    .build();
+            
+            responseDtos.add(entryDto);
+        }
+        
+        log.info("Retrieved all RSVP responses. Total: {}, Confirmed: {}, Pending: {}, Declined: {}",
+                allUserResponses.size(), confirmedGuests, pendingGuests, declinedGuests);
+        
+        // Build the response DTO
+        return AllRsvpResponsesDto.builder()
+                .responses(responseDtos)
+                .totalGuests(allUserResponses.size())
+                .confirmedGuests(confirmedGuests)
+                .pendingGuests(pendingGuests)
+                .declinedGuests(declinedGuests)
                 .build();
     }
 

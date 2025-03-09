@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AdminRoomService, RoomAvailability, RoomInfo } from '../services/admin-room.service';
+import { AdminRoomService, RoomAvailability } from '../services/admin-room.service';
 import { SectionContainerComponent } from "../../shared/components/layout/section-container/section-container.component";
 import { AdminNavComponent } from '../admin-nav/admin-nav.component';
 

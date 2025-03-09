@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AdminRsvpService, AllRsvpResponses, RsvpEntry } from '../services/admin-rsvp.service';
+import { AdminRsvpService, AllRsvpResponses } from '../services/admin-rsvp.service';
 import { SectionContainerComponent } from "../../shared/components/layout/section-container/section-container.component";
 import { AdminNavComponent } from '../admin-nav/admin-nav.component';
 

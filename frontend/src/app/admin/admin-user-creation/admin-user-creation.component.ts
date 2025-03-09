@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {SectionContainerComponent} from "../../shared/components/layout/section-container/section-container.component";
 import {AdminService, FamilyCreationRequest, UserCreationRequest} from "../services/admin.service";
+import { AdminNavComponent } from '../admin-nav/admin-nav.component';
 
 @Component({
   selector: 'app-admin-user-creation',
@@ -18,7 +19,8 @@ import {AdminService, FamilyCreationRequest, UserCreationRequest} from "../servi
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    SectionContainerComponent
+    SectionContainerComponent,
+    AdminNavComponent
   ],
   templateUrl: './admin-user-creation.component.html',
   styleUrls: ['./admin-user-creation.component.css']

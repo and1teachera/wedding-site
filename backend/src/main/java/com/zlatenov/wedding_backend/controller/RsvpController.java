@@ -1,5 +1,6 @@
 package com.zlatenov.wedding_backend.controller;
 
+import com.zlatenov.wedding_backend.dto.AllRsvpResponsesDto;
 import com.zlatenov.wedding_backend.dto.FamilyMembersResponse;
 import com.zlatenov.wedding_backend.dto.GuestResponse;
 import com.zlatenov.wedding_backend.dto.RsvpRequest;
@@ -9,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -62,5 +64,13 @@ public class RsvpController {
         RsvpResponse response = rsvpService.savePrimaryGuestResponse(request, authentication.getName());
 
         return ResponseEntity.ok(response);
+    }
+    
+    @GetMapping("/admin/all-responses")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<AllRsvpResponsesDto> getAllRsvpResponses() {
+        log.info("Admin request to get all RSVP responses");
+        AllRsvpResponsesDto responses = rsvpService.getAllRsvpResponses();
+        return ResponseEntity.ok(responses);
     }
 }

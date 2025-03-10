@@ -15,7 +15,7 @@ export class AdminSingleAccommodationComponent implements OnInit {
   requests: SingleUserAccommodationResponses | null = null;
   isLoading = true;
   error: string | null = null;
-  processingRequest: { [key: number]: boolean } = {};
+  processingRequest: Record<number, boolean> = {};
 
   constructor(private singleAccommodationService: SingleAccommodationService) {}
 

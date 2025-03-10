@@ -8,6 +8,7 @@ import com.zlatenov.wedding_backend.exception.ResourceNotFoundException;
 import com.zlatenov.wedding_backend.exception.RsvpValidationException;
 import com.zlatenov.wedding_backend.exception.UnauthorizedAccessException;
 import com.zlatenov.wedding_backend.security.JwtTokenProvider;
+import com.zlatenov.wedding_backend.service.AccommodationService;
 import com.zlatenov.wedding_backend.service.RoomService;
 import com.zlatenov.wedding_backend.service.TokenService;
 import org.junit.jupiter.api.DisplayName;
@@ -48,6 +49,9 @@ class AccommodationControllerTest {
 
     @MockitoBean
     private TokenService tokenService;
+
+    @MockitoBean
+    private AccommodationService accommodationService;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 

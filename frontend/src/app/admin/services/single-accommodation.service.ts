@@ -21,6 +21,11 @@ export interface SingleUserAccommodationResponses {
   cancelledRequests: number;
 }
 
+interface ApiResponse {
+  success: boolean;
+  message: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -39,14 +44,14 @@ export class SingleAccommodationService {
   /**
    * Approve a single user accommodation request (admin only)
    */
-  approveRequest(requestId: number): Observable<any> {
-    return this.http.post(`${this.API_URL}/admin/single-requests/${requestId}/approve`, {});
+  approveRequest(requestId: number): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.API_URL}/admin/single-requests/${requestId}/approve`, {});
   }
   
   /**
    * Reject a single user accommodation request (admin only)
    */
-  rejectRequest(requestId: number): Observable<any> {
-    return this.http.post(`${this.API_URL}/admin/single-requests/${requestId}/reject`, {});
+  rejectRequest(requestId: number): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.API_URL}/admin/single-requests/${requestId}/reject`, {});
   }
 }

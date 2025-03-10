@@ -3,6 +3,8 @@ package com.zlatenov.wedding_backend.controller;
 import com.zlatenov.wedding_backend.dto.RoomAvailabilityDto;
 import com.zlatenov.wedding_backend.dto.RoomBookingRequest;
 import com.zlatenov.wedding_backend.dto.RoomBookingResponse;
+import com.zlatenov.wedding_backend.dto.SingleUserAccommodationResponsesDto;
+import com.zlatenov.wedding_backend.service.AccommodationService;
 import com.zlatenov.wedding_backend.service.RoomService;
 import com.zlatenov.wedding_backend.service.TokenService;
 import jakarta.validation.Valid;
@@ -11,11 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Angel Zlatenov
@@ -29,6 +27,7 @@ public class AccommodationController {
 
     private final RoomService roomService;
     private final TokenService tokenService;
+    private final AccommodationService accommodationService;
 
     @GetMapping("/available-rooms")
     public ResponseEntity<Integer> getAvailableRoomsCount() {
@@ -80,5 +79,47 @@ public class AccommodationController {
         RoomAvailabilityDto response = roomService.getAllRoomsWithBookings();
         return ResponseEntity.ok(response);
     }
-
+    
+    /**
+     * Admin endpoint to get all single user accommodation requests
+     */
+    @GetMapping("/admin/single-requests")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<SingleUserAccommodationResponsesDto> getAllSingleUserRequests() {
+        log.info("Admin request to get all single user accommodation requests");
+        SingleUserAccommodationResponsesDto response = accommodationService.getAllSingleUserRequests();
+        return ResponseEntity.ok(response);
+    }
+    
+    /**
+     * Admin endpoint to approve a single user accommodation request
+     */
+    @PostMapping("/admin/single-requests/{id}/approve")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> approveSingleUserRequest(@PathVariable("id") Long requestId) {
+        log.info("Admin request to approve single user accommodation request with ID: {}", requestId);
+        boolean success = accommodationService.approveSingleUserRequest(requestId);
+        
+        if (success) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+    
+    /**
+     * Admin endpoint to reject a single user accommodation request
+     */
+    @PostMapping("/admin/single-requests/{id}/reject")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> rejectSingleUserRequest(@PathVariable("id") Long requestId) {
+        log.info("Admin request to reject single user accommodation request with ID: {}", requestId);
+        boolean success = accommodationService.rejectSingleUserRequest(requestId);
+        
+        if (success) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

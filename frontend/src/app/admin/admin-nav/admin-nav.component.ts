@@ -24,6 +24,13 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
           Room Availability
         </a>
         <a 
+          routerLink="/admin/single-accommodation" 
+          routerLinkActive="bg-pink-600 text-white" 
+          class="px-4 py-2 rounded-md hover:bg-pink-100 transition-colors"
+          [routerLinkActiveOptions]="{ exact: true }">
+          Single Accommodation
+        </a>
+        <a 
           routerLink="/admin/users" 
           routerLinkActive="bg-pink-600 text-white" 
           class="px-4 py-2 rounded-md hover:bg-pink-100 transition-colors"

@@ -6,6 +6,7 @@ import { AuthGuard } from './auth/services/auth.guard';
 import { AdminUserCreationComponent } from './admin/admin-user-creation/admin-user-creation.component';
 import { AdminRsvpListComponent } from './admin/admin-rsvp-list/admin-rsvp-list.component';
 import { AdminRoomsComponent } from './admin/admin-rooms/admin-rooms.component';
+import { AdminSingleAccommodationComponent } from './admin/admin-single-accommodation/admin-single-accommodation.component';
 import { AdminGuard } from "./admin/guards/admin.guard";
 
 export const routes: Routes = [
@@ -49,6 +50,11 @@ export const routes: Routes = [
                 path: 'rooms',
                 component: AdminRoomsComponent,
                 title: 'Room Availability - Admin'
+            },
+            {
+                path: 'single-accommodation',
+                component: AdminSingleAccommodationComponent,
+                title: 'Single User Accommodation - Admin'
             },
             {
                 path: 'users',

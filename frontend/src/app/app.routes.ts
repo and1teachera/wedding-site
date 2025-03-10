@@ -8,6 +8,7 @@ import { AdminRsvpListComponent } from './admin/admin-rsvp-list/admin-rsvp-list.
 import { AdminRoomsComponent } from './admin/admin-rooms/admin-rooms.component';
 import { AdminSingleAccommodationComponent } from './admin/admin-single-accommodation/admin-single-accommodation.component';
 import { AdminGuard } from "./admin/guards/admin.guard";
+import { ProfileComponent } from './profile/profile.component';
 
 export const routes: Routes = [
     {
@@ -30,6 +31,12 @@ export const routes: Routes = [
         path: 'rsvp',
         component: RsvpComponent,
         title: 'RSVP - Angel & Mirena Wedding',
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'profile',
+        component: ProfileComponent,
+        title: 'My Profile - Angel & Mirena Wedding',
         canActivate: [AuthGuard]
     },
     {

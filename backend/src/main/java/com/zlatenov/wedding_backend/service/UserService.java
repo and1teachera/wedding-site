@@ -22,4 +22,11 @@ public interface UserService {
     User getByFirstNameAndLastName(String firstName, String lastName);
 
     List<User> getFamilyMembers(Long familyId);
+    
+    /**
+     * Save user changes
+     * @param user The user to save
+     * @return The saved user
+     */
+    User saveUser(User user);
 }

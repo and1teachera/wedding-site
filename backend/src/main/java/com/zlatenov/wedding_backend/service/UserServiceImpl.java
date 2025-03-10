@@ -80,6 +80,12 @@ public class UserServiceImpl implements com.zlatenov.wedding_backend.service.Use
     public List<User> getFamilyMembers(Long familyId) {
         return userRepository.findByFamilyId(familyId);
     }
+    
+    @Override
+    @Transactional
+    public User saveUser(User user) {
+        return userRepository.save(user);
+    }
 
     /**
      * Updates a user's password. The new password will be hashed using BCrypt

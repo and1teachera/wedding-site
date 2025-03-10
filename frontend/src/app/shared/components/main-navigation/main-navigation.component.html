@@ -29,6 +29,11 @@
              class="text-gray-700 hover:text-gray-900">
             Admin
           </a>
+          <a routerLink="/profile"
+             routerLinkActive="text-pink-600"
+             class="text-gray-700 hover:text-gray-900">
+            Профил
+          </a>
           <button (click)="onLogout()"
                   [disabled]="isLoggingOut"
                   class="text-gray-700 hover:text-gray-900 disabled:opacity-50">
@@ -88,6 +93,12 @@
            (click)="closeMenu()"
            class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50">
           Admin
+        </a>
+        <a routerLink="/profile"
+           routerLinkActive="bg-pink-50 text-pink-600"
+           (click)="closeMenu()"
+           class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50">
+          Профил
         </a>
         <button (click)="onLogout()"
                 [disabled]="isLoggingOut"

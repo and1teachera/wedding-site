@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -22,4 +23,9 @@ public interface SingleUserAccommodationRepository extends JpaRepository<SingleU
             "ORDER BY request_date DESC LIMIT 1",
             nativeQuery = true)
     Optional<SingleUserAccommodationRequest> findLatestPendingByUserId(@Param("userId") Long userId);
+    
+    /**
+     * Find all requests ordered by request date (newest first)
+     */
+    List<SingleUserAccommodationRequest> findAllByOrderByRequestDateDesc();
 }

@@ -27,15 +27,15 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-medium text-gray-700">Име</label>
-                <div class="mt-1 p-2 bg-gray-100 rounded-md">
+                <label for="firstName" class="block text-sm font-medium text-gray-700">Име</label>
+                <div id="firstName" class="mt-1 p-2 bg-gray-100 rounded-md">
                   {{ userProfile?.firstName }}
                 </div>
               </div>
 
               <div>
-                <label class="block text-sm font-medium text-gray-700">Фамилия</label>
-                <div class="mt-1 p-2 bg-gray-100 rounded-md">
+                <label for="lastName" class="block text-sm font-medium text-gray-700">Фамилия</label>
+                <div id="lastName" class="mt-1 p-2 bg-gray-100 rounded-md">
                   {{ userProfile?.lastName }}
                 </div>
               </div>

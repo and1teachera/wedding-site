@@ -14,28 +14,28 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
           routerLinkActive="bg-pink-600 text-white" 
           class="px-4 py-2 rounded-md hover:bg-pink-100 transition-colors"
           [routerLinkActiveOptions]="{ exact: true }">
-          RSVP Responses
+          Отговори за присъствие
         </a>
         <a 
           routerLink="/admin/rooms" 
           routerLinkActive="bg-pink-600 text-white" 
           class="px-4 py-2 rounded-md hover:bg-pink-100 transition-colors"
           [routerLinkActiveOptions]="{ exact: true }">
-          Room Availability
+          Наличност на стаи
         </a>
         <a 
           routerLink="/admin/single-accommodation" 
           routerLinkActive="bg-pink-600 text-white" 
           class="px-4 py-2 rounded-md hover:bg-pink-100 transition-colors"
           [routerLinkActiveOptions]="{ exact: true }">
-          Single Accommodation
+          Единично настаняване
         </a>
         <a 
           routerLink="/admin/users" 
           routerLinkActive="bg-pink-600 text-white" 
           class="px-4 py-2 rounded-md hover:bg-pink-100 transition-colors"
           [routerLinkActiveOptions]="{ exact: true }">
-          User Management
+          Управление на потребители
         </a>
       </nav>
     </div>

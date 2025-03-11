@@ -1,17 +1,17 @@
 <app-section-container>
   <div class="max-w-4xl mx-auto">
-    <h1 class="text-3xl font-display text-gray-800 mb-4 text-center">Create New Users</h1>
+    <h1 class="text-3xl font-display text-gray-800 mb-4 text-center">Създаване на нови потребители</h1>
     
     <app-admin-nav></app-admin-nav>
 
     <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="space-y-6 mt-6">
       <!-- Primary User Fields -->
       <div class="bg-white/50 rounded-lg p-6 shadow-sm space-y-4">
-        <h2 class="text-xl font-display text-gray-800 mb-4">Primary User</h2>
+        <h2 class="text-xl font-display text-gray-800 mb-4">Основен потребител</h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label for="primaryFirstName" class="block text-sm font-medium text-gray-700">First Name</label>
+            <label for="primaryFirstName" class="block text-sm font-medium text-gray-700">Име</label>
             <input
                 id="primaryFirstName"
                 type="text"
@@ -20,7 +20,7 @@
           </div>
 
           <div>
-            <label for="primaryLastName" class="block text-sm font-medium text-gray-700">Last Name</label>
+            <label for="primaryLastName" class="block text-sm font-medium text-gray-700">Фамилия</label>
             <input
                 id="primaryLastName"
                 type="text"
@@ -29,7 +29,7 @@
           </div>
 
           <div>
-            <label for="primaryEmail" class="block text-sm font-medium text-gray-700">Email (Optional)</label>
+            <label for="primaryEmail" class="block text-sm font-medium text-gray-700">Имейл (незадължително)</label>
             <input
                 id="primaryEmail"
                 type="email"
@@ -38,7 +38,7 @@
           </div>
 
           <div>
-            <label for="primaryPhone" class="block text-sm font-medium text-gray-700">Phone (Optional)</label>
+            <label for="primaryPhone" class="block text-sm font-medium text-gray-700">Телефон (незадължително)</label>
             <input
                 id="primaryPhone"
                 type="tel"
@@ -53,7 +53,7 @@
               type="button"
               (click)="toggleFamilyMembers()"
               class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
-            {{ hasFamilyMembers ? 'Remove' : 'Add' }} Family Members
+            {{ hasFamilyMembers ? 'Премахни' : 'Добави' }} членове на семейството
           </button>
         </div>
       </div>
@@ -61,7 +61,7 @@
       <!-- Family Name (only shown when has family members) -->
       <div *ngIf="hasFamilyMembers" class="bg-white/50 rounded-lg p-6 shadow-sm">
         <div>
-          <label for="familyName" class="block text-sm font-medium text-gray-700">Family Name</label>
+          <label for="familyName" class="block text-sm font-medium text-gray-700">Име на семейството</label>
           <input
               id="familyName"
               type="text"
@@ -76,18 +76,18 @@
              [formGroupName]="i"
              class="bg-white/50 rounded-lg p-6 shadow-sm">
           <div class="flex justify-between items-center mb-4">
-            <h3 class="text-lg font-display text-gray-800">Family Member {{i + 1}}</h3>
+            <h3 class="text-lg font-display text-gray-800">Член на семейството {{i + 1}}</h3>
             <button
                 type="button"
                 (click)="removeFamilyMember(i)"
                 class="text-red-600 hover:text-red-800">
-              Remove
+              Премахни
             </button>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label [for]="'memberFirstName' + i" class="block text-sm font-medium text-gray-700">First Name</label>
+              <label [for]="'memberFirstName' + i" class="block text-sm font-medium text-gray-700">Име</label>
               <input
                   [id]="'memberFirstName' + i"
                   type="text"
@@ -96,7 +96,7 @@
             </div>
 
             <div>
-              <label [for]="'memberLastName' + i" class="block text-sm font-medium text-gray-700">Last Name</label>
+              <label [for]="'memberLastName' + i" class="block text-sm font-medium text-gray-700">Фамилия</label>
               <input
                   [id]="'memberLastName' + i"
                   type="text"
@@ -105,7 +105,7 @@
             </div>
 
             <div>
-              <label [for]="'memberEmail' + i" class="block text-sm font-medium text-gray-700">Email (Optional)</label>
+              <label [for]="'memberEmail' + i" class="block text-sm font-medium text-gray-700">Имейл (незадължително)</label>
               <input
                   [id]="'memberEmail' + i"
                   type="email"
@@ -114,7 +114,7 @@
             </div>
 
             <div>
-              <label [for]="'memberPhone' + i" class="block text-sm font-medium text-gray-700">Phone (Optional)</label>
+              <label [for]="'memberPhone' + i" class="block text-sm font-medium text-gray-700">Телефон (незадължително)</label>
               <input
                   [id]="'memberPhone' + i"
                   type="tel"
@@ -130,7 +130,7 @@
                   type="checkbox"
                   formControlName="isChild"
                   class="rounded border-gray-300 text-pink-600 shadow-sm focus:border-pink-500 focus:ring-pink-500">
-              <span class="ml-2 text-sm text-gray-600">Is Child</span>
+              <span class="ml-2 text-sm text-gray-600">Дете</span>
             </label>
           </div>
         </div>
@@ -140,7 +140,7 @@
             type="button"
             (click)="addFamilyMember()"
             class="w-full py-2 px-4 border border-transparent text-sm font-medium rounded-md text-pink-700 bg-pink-100 hover:bg-pink-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
-          Add Another Family Member
+          Добави друг член на семейството
         </button>
       </div>
 
@@ -150,7 +150,7 @@
             type="submit"
             [disabled]="!userForm.valid || isSubmitting"
             class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 disabled:opacity-50">
-          {{ isSubmitting ? 'Creating...' : 'Create User(s)' }}
+          {{ isSubmitting ? 'Създаване...' : 'Създай потребител(и)' }}
         </button>
       </div>
     </form>

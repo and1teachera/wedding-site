@@ -1,4 +1,7 @@
 <div class="min-h-screen bg-white">
   <app-navigation *ngIf="tokenService.isTokenValid()"></app-navigation>
   <router-outlet></router-outlet>
+  
+<!--  &lt;!&ndash; Always show demo mode toggle for testing purposes &ndash;&gt;-->
+<!--  <app-demo-mode-toggle></app-demo-mode-toggle>-->
 </div>

@@ -67,12 +67,12 @@ services:
     command: -config.file=/etc/loki/local-config.yaml -log.level=debug
     networks:
       - wedding_network
-#    healthcheck:
-#      test: ["CMD-SHELL", "wget -q --spider http://localhost:3100/ready || exit 1"]
-#      interval: 10s
-#      timeout: 5s
-#      retries: 3
-#      start_period: 20s
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:3100/ready || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
 
   promtail:
     image: grafana/promtail:latest
@@ -93,9 +93,9 @@ services:
       timeout: 5s
       retries: 3
       start_period: 20s
-#    depends_on:
-#      loki:
-#        condition: service_healthy
+    depends_on:
+      loki:
+        condition: service_healthy
         
   grafana:
     image: grafana/grafana:10.0.3
@@ -155,8 +155,8 @@ services:
     depends_on:
       mariadb:
         condition: service_healthy
-#      loki:
-#        condition: service_healthy
+      loki:
+        condition: service_healthy
     networks:
       - wedding_network
     healthcheck:

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-import {Observable, throwError, of} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
 import { TokenService } from './token.service';
 
@@ -52,8 +52,6 @@ export interface LoginResponse {
 })
 export class AuthService {
   private readonly API_URL = '/api/auth';
-  // Demo mode flag - set to true to enable bypass
-  private demoModeEnabled = true;
 
   constructor(
       private http: HttpClient,
@@ -61,26 +59,6 @@ export class AuthService {
   ) {}
 
   loginWithNames(credentials: NameLoginCredentials): Observable<LoginResponse> {
-    if (this.demoModeEnabled) {
-      console.log('Demo mode enabled, bypassing authentication');
-      
-      // Create a dummy successful response
-      const dummyResponse: LoginResponse = {
-        token: 'demo-token-' + Date.now(),
-        userType: 'GUEST',
-        user: {
-          firstName: credentials.firstName || 'Demo',
-          lastName: credentials.lastName || 'User'
-        }
-      };
-      
-      // Store the token
-      this.tokenService.setToken(dummyResponse.token, true);
-      
-      // Return as an observable
-      return of(dummyResponse);
-    }
-  
     console.log('Attempting login with names:', credentials.firstName, credentials.lastName);
     
     const request: NameAuthenticationRequest = {
@@ -151,26 +129,6 @@ export class AuthService {
   }
 
   loginWithEmail(credentials: EmailLoginCredentials): Observable<LoginResponse> {
-    if (this.demoModeEnabled) {
-      console.log('Demo mode enabled, bypassing authentication');
-      
-      // Create a dummy successful response
-      const dummyResponse: LoginResponse = {
-        token: 'demo-token-' + Date.now(),
-        userType: 'GUEST',
-        user: {
-          firstName: 'Demo',
-          lastName: 'User'
-        }
-      };
-      
-      // Store the token
-      this.tokenService.setToken(dummyResponse.token, true);
-      
-      // Return as an observable
-      return of(dummyResponse);
-    }
-    
     const request: EmailAuthenticationRequest = {
       email: credentials.email,
       password: credentials.password

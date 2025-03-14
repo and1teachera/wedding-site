@@ -55,10 +55,6 @@ export class LogoutService {
   private performLocalCleanup(): void {
     // Clear authentication data
     this.tokenService.removeToken();
-    
-    // Reset demo login flag if it exists
-    this.tokenService.setDemoLoginAttempted(false);
-    
     sessionStorage.removeItem('clearOnClose');
 
     // Navigate to login page

@@ -16,17 +16,11 @@ interface JwtPayload {
 export class TokenService {
   private readonly TOKEN_KEY = 'wedding_auth_token';
   private readonly SESSION_CLEANUP_KEY = 'clearOnClose';
-  private readonly DEMO_LOGIN_ATTEMPTED_KEY = 'demo_login_attempted';
-  
-  // Flag to track if demo login has been attempted
-  private demoLoginAttempted = false;
 
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   isAuthenticated$: Observable<boolean> = this.isAuthenticatedSubject.asObservable();
 
   constructor() {
-    // Initialize demo login attempted flag from localStorage
-    this.demoLoginAttempted = localStorage.getItem(this.DEMO_LOGIN_ATTEMPTED_KEY) === 'true';
     this.isAuthenticatedSubject.next(this.isTokenValid());
   }
 
@@ -62,11 +56,6 @@ export class TokenService {
   }
 
   isTokenValid(): boolean {
-    // Demo mode check - only valid if login has been attempted
-    if (localStorage.getItem('demoMode') === 'true' && this.demoLoginAttempted) {
-      return true;
-    }
-
     const token = this.getToken();
     if (!token) return false;
 
@@ -80,20 +69,8 @@ export class TokenService {
       return false;
     }
   }
-  
-  // Method to set the demo login attempted flag
-  setDemoLoginAttempted(value: boolean): void {
-    this.demoLoginAttempted = value;
-    // Store in localStorage to persist between page reloads
-    localStorage.setItem(this.DEMO_LOGIN_ATTEMPTED_KEY, value ? 'true' : 'false');
-  }
 
   isAdmin(): boolean {
-    // Demo mode - never admin
-    if (localStorage.getItem('demoMode') === 'true') {
-      return false;
-    }
-
     const token = this.getToken();
     if (!token) return false;
 
@@ -106,11 +83,6 @@ export class TokenService {
   }
 
   getFamilyId(): number | null {
-    // Demo mode - return fake family ID
-    if (localStorage.getItem('demoMode') === 'true') {
-      return 1;
-    }
-    
     try {
       const token = this.getToken();
       if (!token) return null;

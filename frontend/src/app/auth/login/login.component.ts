@@ -28,7 +28,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   rememberMe = false;
   isLoading = false;
   errorMessage = '';
-  isDemoMode = false;
   private returnUrl = '/home';
   private queryParamsSub?: Subscription;
 
@@ -40,9 +39,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    // Check if demo mode is enabled
-    this.isDemoMode = localStorage.getItem('demoMode') === 'true';
-    
     if (this.tokenService.isTokenValid()) {
       this.navigateToReturnUrl();
       return;
@@ -70,23 +66,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onSubmit(event: Event): void {
     event.preventDefault();
-    
-    // Check if demo mode is enabled
-    if (localStorage.getItem('demoMode') === 'true') {
-      console.log('Demo mode enabled, bypassing login');
-      
-      // Set the demo login flag
-      this.tokenService.setDemoLoginAttempted(true);
-      
-      // Store a demo token directly
-      this.tokenService.setToken('demo-token-' + Date.now(), true);
-      
-      // Navigate to home
-      this.navigateToReturnUrl();
-      return;
-    }
-    
-    // Normal login flow if demo mode is disabled
     if (this.loginMethod === 'names') {
       if (!this.validateNameLoginInputs()) {
         return;

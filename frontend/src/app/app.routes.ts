@@ -7,6 +7,7 @@ import { AdminUserCreationComponent } from './admin/admin-user-creation/admin-us
 import { AdminRsvpListComponent } from './admin/admin-rsvp-list/admin-rsvp-list.component';
 import { AdminRoomsComponent } from './admin/admin-rooms/admin-rooms.component';
 import { AdminSingleAccommodationComponent } from './admin/admin-single-accommodation/admin-single-accommodation.component';
+import { AdminFamiliesComponent } from './admin/admin-families/admin-families.component';
 import { AdminGuard } from "./admin/guards/admin.guard";
 import { ProfileComponent } from './profile/profile.component';
 
@@ -45,8 +46,13 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                redirectTo: 'rsvp',
+                redirectTo: 'families',
                 pathMatch: 'full'
+            },
+            {
+                path: 'families',
+                component: AdminFamiliesComponent,
+                title: 'Families Overview - Admin'
             },
             {
                 path: 'rsvp',

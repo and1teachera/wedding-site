@@ -137,7 +137,7 @@ jobs:
 #          echo "Backend container is running, checking health..."
 #          timeout=120
 #          while [ $timeout -gt 0 ]; do
-#            if curl -f "http://localhost:8080/actuator/health" 2>/dev/null; then
+#            if curl -f "http://localhost:8080/adminInfo/health" 2>/dev/null; then
 #              echo "Backend is healthy"
 #              break
 #            fi

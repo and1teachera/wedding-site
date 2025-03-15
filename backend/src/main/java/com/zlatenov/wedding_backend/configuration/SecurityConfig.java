@@ -46,7 +46,7 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/actuator/**").permitAll()
+                    .requestMatchers("/adminInfo/**").permitAll()
                     .requestMatchers("/logs/**").permitAll() // Allow frontend logs endpoint
                     .requestMatchers("/auth/**").permitAll()
                     .requestMatchers("/error").permitAll()

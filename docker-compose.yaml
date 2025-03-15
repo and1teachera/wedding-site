@@ -160,7 +160,7 @@ services:
     networks:
       - wedding_network
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://backend:8080/actuator/health" ]
+      test: [ "CMD", "curl", "-f", "http://backend:8080/adminInfo/health" ]
       interval: 10s
       timeout: 5s
       retries: 3

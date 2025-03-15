@@ -105,7 +105,7 @@ This document provides a comprehensive overview of the architecture for the wedd
 
 ### **Security**
 
-- Spring Security protects sensitive endpoints (e.g., `/actuator/prometheus`) and restricts access to admin roles.
+- Spring Security protects sensitive endpoints (e.g., `/adminInfo/prometheus`) and restricts access to admin roles.
 
 
 ---

@@ -1,0 +1,10 @@
+/* Custom styles for AdminFamiliesComponent */
+.expanded-row {
+  transition: all 0.3s ease-in-out;
+}
+
+.collapsed-row {
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}

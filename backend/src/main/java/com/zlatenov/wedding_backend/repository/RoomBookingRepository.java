@@ -13,6 +13,7 @@ import java.util.Optional;
 public interface RoomBookingRepository extends JpaRepository<RoomBooking, Long> {
     List<RoomBooking> findByFamilyId(Long familyId);
     List<RoomBooking> findByGroupId(Long groupId);
+    List<RoomBooking> findByStatus(com.zlatenov.wedding_backend.model.BookingStatus status);
 
     /**
      * Find the latest confirmed booking for a family

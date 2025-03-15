@@ -1,0 +1,182 @@
+<app-section-container>
+  <div class="space-y-6">
+    <h1 class="text-3xl font-display text-gray-800 mb-4">Families & Guests Overview</h1>
+    
+    <app-admin-nav></app-admin-nav>
+
+    <!-- Loading indicator -->
+    <div *ngIf="isLoading" class="flex justify-center py-8">
+      <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-pink-500"></div>
+    </div>
+
+    <!-- Error message -->
+    <div *ngIf="error && !isLoading" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+      {{ error }}
+    </div>
+
+    <!-- Summary stats -->
+    <div *ngIf="familyData && !isLoading" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
+      <div class="bg-white p-4 rounded shadow">
+        <h3 class="text-sm font-semibold mb-1">Families</h3>
+        <p class="text-2xl font-bold">{{ familyData.totalFamilies }}</p>
+      </div>
+      <div class="bg-white p-4 rounded shadow">
+        <h3 class="text-sm font-semibold mb-1">Single Guests</h3>
+        <p class="text-2xl font-bold">{{ familyData.totalSingleUsers }}</p>
+      </div>
+      <div class="bg-white p-4 rounded shadow">
+        <h3 class="text-sm font-semibold mb-1">Total Guests</h3>
+        <p class="text-2xl font-bold">{{ familyData.totalGuests }}</p>
+      </div>
+      <div class="bg-green-50 p-4 rounded shadow">
+        <h3 class="text-sm font-semibold mb-1">Confirmed</h3>
+        <p class="text-2xl font-bold text-green-600">{{ getRsvpStatusCount('YES') }}</p>
+      </div>
+      <div class="bg-red-50 p-4 rounded shadow">
+        <h3 class="text-sm font-semibold mb-1">Declined</h3>
+        <p class="text-2xl font-bold text-red-600">{{ getRsvpStatusCount('NO') }}</p>
+      </div>
+      <div class="bg-yellow-50 p-4 rounded shadow">
+        <h3 class="text-sm font-semibold mb-1">Pending</h3>
+        <p class="text-2xl font-bold text-yellow-600">{{ getRsvpStatusCount('MAYBE') }}</p>
+      </div>
+    </div>
+
+    <!-- Families Section -->
+    <div *ngIf="familyData && !isLoading" class="space-y-6">
+      <h2 class="text-2xl font-display text-gray-800 border-b pb-2">Families ({{ familyData.totalFamilies }})</h2>
+      
+      <div *ngIf="familyData.families.length === 0" class="bg-gray-100 p-4 rounded text-center">
+        No families found.
+      </div>
+
+      <div *ngFor="let family of familyData.families" class="bg-white rounded-lg shadow overflow-hidden">
+        <!-- Family header - always visible -->
+        <button 
+          (click)="toggleFamily(family.id)"
+          (keydown.enter)="toggleFamily(family.id)" 
+          type="button"
+          class="w-full text-left p-4 flex justify-between items-center cursor-pointer hover:bg-gray-50 border-b focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50">
+          <div class="flex-grow">
+            <h3 class="text-xl font-semibold text-gray-800">{{ family.name }}</h3>
+            <div class="flex space-x-4 text-sm text-gray-600 mt-1">
+              <span>Total Members: {{ family.totalMembers }}</span>
+              <span class="text-green-600">Confirmed: {{ family.confirmedMembers }}</span>
+              <span *ngIf="family.hasRoomBooked" class="text-blue-600">
+                Room Booked: #{{ family.roomNumber }}
+              </span>
+            </div>
+          </div>
+          <div class="flex-shrink-0">
+            <svg class="h-5 w-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+              <path 
+                *ngIf="!expandedFamilies[family.id]"
+                fill-rule="evenodd" 
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" 
+                clip-rule="evenodd">
+              </path>
+              <path 
+                *ngIf="expandedFamilies[family.id]"
+                fill-rule="evenodd" 
+                d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" 
+                clip-rule="evenodd">
+              </path>
+            </svg>
+          </div>
+        </button>
+        
+        <!-- Family member details (collapsible) -->
+        <div *ngIf="expandedFamilies[family.id]" class="p-4 bg-gray-50">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">RSVP</th>
+                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dietary Notes</th>
+                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Additional Notes</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <tr *ngFor="let member of family.members">
+                <td class="px-4 py-2 whitespace-nowrap">
+                  <div class="font-medium text-gray-900">{{ member.firstName }} {{ member.lastName }}</div>
+                </td>
+                <td class="px-4 py-2 whitespace-nowrap">
+                  <span class="text-sm text-gray-500">{{ member.isChild ? 'Child' : 'Adult' }}</span>
+                </td>
+                <td class="px-4 py-2 whitespace-nowrap">
+                  <span [class]="'text-sm font-medium ' + getStatusClass(member.rsvpStatus)">
+                    {{ member.rsvpStatus }}
+                  </span>
+                </td>
+                <td class="px-4 py-2">
+                  <span class="text-sm text-gray-500">{{ member.dietaryNotes || 'None' }}</span>
+                </td>
+                <td class="px-4 py-2">
+                  <span class="text-sm text-gray-500">{{ member.additionalNotes || 'None' }}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Single Users Section -->
+    <div *ngIf="familyData && !isLoading" class="space-y-6 mt-10">
+      <h2 class="text-2xl font-display text-gray-800 border-b pb-2">Single Guests ({{ familyData.totalSingleUsers }})</h2>
+      
+      <div *ngIf="familyData.singleUsers.length === 0" class="bg-gray-100 p-4 rounded text-center">
+        No single guests found.
+      </div>
+
+      <div *ngIf="familyData.singleUsers.length > 0" class="bg-white rounded-lg shadow overflow-hidden">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">RSVP Status</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Accommodation</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <tr *ngFor="let user of familyData.singleUsers">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="font-medium text-gray-900">{{ user.firstName }} {{ user.lastName }}</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-500">{{ user.email || 'N/A' }}</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span [class]="'text-sm font-medium ' + getStatusClass(user.rsvpStatus)">
+                  {{ user.rsvpStatus }}
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div *ngIf="user.hasAccommodationRequest">
+                  <span [class]="'text-sm font-medium ' + getAccommodationStatusClass(user.accommodationStatus)">
+                    {{ user.accommodationStatus }}
+                  </span>
+                </div>
+                <div *ngIf="!user.hasAccommodationRequest" class="text-sm text-gray-500">
+                  No request
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Refresh button -->
+    <div *ngIf="!isLoading" class="flex justify-end mt-4">
+      <button 
+        (click)="loadFamilyData()" 
+        class="bg-pink-600 text-white px-4 py-2 rounded-md hover:bg-pink-700 transition-colors">
+        Refresh Data
+      </button>
+    </div>
+  </div>
+</app-section-container>

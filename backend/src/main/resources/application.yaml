@@ -97,11 +97,11 @@ spring:
 
 logging:
   level:
-    com.zlatenov.wedding_backend: DEBUG
-    org.springframework.web: DEBUG
-    org.springframework.security: DEBUG
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    com.zlatenov.wedding_backend: INFO
+    org.springframework.web: WARN
+    org.springframework.security: WARN
+    org.hibernate.SQL: WARN
+    org.hibernate.type.descriptor.sql.BasicBinder: INFO
 
 ---
 # Production profile

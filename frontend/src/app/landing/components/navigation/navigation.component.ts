@@ -1,16 +1,14 @@
 import { Component, HostListener } from '@angular/core';
-import { CommonModule, ViewportScroller} from '@angular/common';
-import {
-  ContentContainerComponent
-} from "../../../shared/components/layout/content-container/content-container.component";
-import {RouterLink} from "@angular/router";
-import {TokenService} from "../../../auth/services/token.service";
-import {LogoutService} from "../../../auth/services/logout.service";
+import { CommonModule, ViewportScroller } from '@angular/common';
+import { ContentContainerComponent } from '../../../shared/components/layout/content-container/content-container.component';
+import {Router, RouterLink, RouterLinkActive} from '@angular/router';
+import { TokenService } from '../../../auth/services/token.service';
+import { LogoutService } from '../../../auth/services/logout.service';
 
 @Component({
   selector: 'app-navigation',
   standalone: true,
-  imports: [CommonModule, ContentContainerComponent, RouterLink],
+  imports: [CommonModule, ContentContainerComponent, RouterLink, RouterLinkActive],
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.css'],
 })
@@ -22,7 +20,8 @@ export class NavigationComponent {
   constructor(
       private scroller: ViewportScroller,
       private tokenService: TokenService,
-      private logoutService: LogoutService
+      private logoutService: LogoutService,
+      private router: Router
   ) {}
 
   @HostListener('window:scroll', [])
@@ -64,7 +63,7 @@ export class NavigationComponent {
         // Force logout even if there was an error with the server request
         this.logoutService.forceLogout();
         this.closeMenu();
-      }
+      },
     });
   }
 
@@ -76,4 +75,9 @@ export class NavigationComponent {
     return this.tokenService.isAdmin();
   }
 
+  isRestrictedPage(): boolean {
+    const restrictedRoutes = ['/profile', '/rsvp'];
+    const currentPath = this.router.url.split('?')[0].split('#')[0]; // Remove query params and fragments
+    return restrictedRoutes.includes(currentPath);
+  }
 }

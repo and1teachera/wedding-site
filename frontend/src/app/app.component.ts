@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import {MainNavigationComponent} from "./shared/components/main-navigation/main-navigation.component";
 import {TokenService} from "./auth/services/token.service";
 import {CommonModule} from "@angular/common";
+import {NavigationComponent} from "./landing/components/navigation/navigation.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, MainNavigationComponent],
+    imports: [CommonModule, RouterOutlet, NavigationComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'frontend';
+  title = 'Wedding Website';
   constructor(public tokenService: TokenService) {}
 }

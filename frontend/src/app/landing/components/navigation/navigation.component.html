@@ -17,7 +17,7 @@
         (click)="toggleMenu()"
         [attr.aria-expanded]="isMenuOpen"
         aria-label="Главно меню"
-        class="focus:bg-transparent md:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100"
+        class="focus:bg-transparent md:hidden p-2 rounded-md text-gray-700 hover:bg-transparent"
       >
         <svg
           class="h-6 w-6"
@@ -164,13 +164,13 @@
             >Настаняване</a
           >
           <a
-            (click)="scrollToSection($event, 'dress-code')"
+            (click)="scrollToSection($event, 'info-section')"
             class="block text-gray-700 hover:bg-gray-100 px-3 py-6 rounded-md"
             href="#dress-code"
             >Дрескод</a
           >
           <a
-            (click)="scrollToSection($event, 'faq')"
+            (click)="scrollToSection($event, 'info-section')"
             class="block text-gray-700 hover:bg-gray-100 px-3 py-6 rounded-md"
             href="#faq"
             >Въпроси</a
@@ -194,6 +194,7 @@
         <ng-container *ngIf="isRestrictedPage()">
           <a
             routerLink="/home"
+            (click)="closeMenu()"
             routerLinkActive="text-pink-600"
             class="block text-gray-700 hover:bg-gray-100 px-3 py-6 rounded-md"
           >
@@ -204,6 +205,7 @@
         <!-- RSVP Button - Always Visible -->
         <a
           [routerLink]="['/rsvp']"
+          (click)="closeMenu()"
           class="block w-full bg-pink-600 text-white px-3 py-3 rounded-md hover:bg-pink-700 transition-colors duration-200"
         >
           Отговор на поканата
@@ -211,6 +213,7 @@
 
         <a
           [routerLink]="['/profile']"
+          (click)="closeMenu()"
           class="block text-gray-700 hover:bg-gray-100 px-3 py-6 rounded-md"
         >
           Профил

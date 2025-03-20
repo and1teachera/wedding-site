@@ -1,11 +1,11 @@
 <app-section-container id="rsvp">
   <div class="text-center my-10 md:my-28 lg:my-28">
     <h1
-      class="mt-16 text-4xl md:text-6xl lg:text-6xl font-display text-gray-800 mb-4"
+      class="mt-16 text-4xl md:text-5xl lg:text-5xl font-display text-gray-800 mb-4"
     >
       Отговор
     </h1>
-    <p class="text-xl md:text-2xl lg:text-2xl text-gray-600">
+    <p class="text-xl text-gray-600">
       Моля, потвърдете присъствието си на нашата сватба
     </p>
   </div>
@@ -162,7 +162,7 @@
             <textarea
               (input)="onFamilyMemberSelectionChange()"
               [(ngModel)]="primaryGuest.additionalNotes"
-              class="border-b border-gray-400 w-full bg-transparent rounded-none px-3 py-0.5 md:py-2 lg:py-2 focus:outline-none focus:border-pink-500"
+              class="resize-none border-b border-gray-400 w-full bg-transparent rounded-none px-3 py-0.5 md:py-2 lg:py-2 focus:outline-none focus:border-pink-500"
               id="primaryAdditionalNotes"
               placeholder="Други детайли, които трябва да знаем"
               rows="2"
@@ -228,7 +228,7 @@
                 (input)="onFamilyMemberSelectionChange()"
                 [(ngModel)]="member.additionalNotes"
                 [id]="'memberAdditionalNotes' + i"
-                class="border-b border-gray-400 w-full bg-transparent rounded-none px-3 py-0.5 md:py-2 lg:py-2 focus:outline-none focus:border-pink-500"
+                class="resize-none border-b border-gray-400 w-full bg-transparent rounded-none px-3 py-0.5 md:py-2 lg:py-2 focus:outline-none focus:border-pink-500"
                 placeholder="Други детайли, които трябва да знаем"
                 rows="2"
               ></textarea>
@@ -436,7 +436,7 @@
             <textarea
               [(ngModel)]="accommodationNotes"
               [disabled]="!attending || (hasRoomBooking && !isBookingRoom)"
-              class="border-b border-gray-400 w-full bg-transparent rounded-none px-3 py-0.5 md:py-2 lg:py-2 focus:outline-none focus:border-pink-500"
+              class="resize-none border-b border-gray-400 w-full bg-transparent rounded-none px-3 py-0.5 md:py-2 lg:py-2 focus:outline-none focus:border-pink-500"
               id="accommodationNotes"
               placeholder="Специални изисквания или предпочитания"
               rows="3"

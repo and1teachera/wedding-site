@@ -1,4 +1,18 @@
 :host {
-    display: block;
-    font-family: 'Cormorant Garamond', serif;
+  display: block;
+  font-family: "Cormorant Garamond", serif;
+}
+
+@media (max-height: 600px) {
+  .h-screen {
+    height: auto;
+    min-height: 100vh;
+  }
+}
+
+@media (max-height: 800px) {
+  .h-screen {
+    height: auto;
+    min-height: 100vh;
+  }
 }

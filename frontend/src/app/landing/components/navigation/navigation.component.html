@@ -1,13 +1,13 @@
 <nav
     class="fixed top-0 left-0 right-0 z-50 bg-[#F7F1E1] shadow-md border-b border-gray-300"
 >
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between h-16 items-center">
+  <div class="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16 md:h-24 lg:h-24 items-center">
       <!-- Left Side Logo -->
       <div class="flex-shrink-0 flex items-center">
         <a
+            class="text-4xl font-display text-gray-800 hover:text-gray-600"
             routerLink="/home"
-            class="text-2xl font-display text-gray-800 hover:text-gray-600"
         >
           A&M
         </a>
@@ -17,7 +17,7 @@
           (click)="toggleMenu()"
           [attr.aria-expanded]="isMenuOpen"
           aria-label="Главно меню"
-          class="md:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100"
+          class="focus:bg-transparent md:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100"
       >
         <svg
             class="h-6 w-6"
@@ -48,50 +48,50 @@
         <ng-container *ngIf="!isRestrictedPage()">
           <a
               (click)="scrollToSection($event, 'honor-family')"
-              class="text-gray-700 hover:text-gray-900"
+              class="text-xl text-gray-700 hover:text-gray-900"
               href="#honor-family"
           >Кумове</a
           >
           <a
               (click)="scrollToSection($event, 'venue')"
-              class="text-gray-700 hover:text-gray-900"
+              class="text-xl text-gray-700 hover:text-gray-900"
               href="#venue"
           >Място</a
           >
           <a
               (click)="scrollToSection($event, 'schedule')"
-              class="text-gray-700 hover:text-gray-900"
+              class="text-xl text-gray-700 hover:text-gray-900"
               href="#schedule"
           >Програма</a
           >
           <a
               (click)="scrollToSection($event, 'accommodation')"
-              class="text-gray-700 hover:text-gray-900"
+              class="text-xl text-gray-700 hover:text-gray-900"
               href="#accommodation"
           >Настаняване</a
           >
           <a
               (click)="scrollToSection($event, 'info-section')"
-              class="text-gray-700 hover:text-gray-900"
+              class="text-xl text-gray-700 hover:text-gray-900"
               href="#dress-code"
           >Дрескод</a
           >
           <a
               (click)="scrollToSection($event, 'info-section')"
-              class="text-gray-700 hover:text-gray-900"
+              class="text-xl text-gray-700 hover:text-gray-900"
               href="#faq"
           >Въпроси</a
           >
           <a
               (click)="scrollToSection($event, 'contacts')"
-              class="text-gray-700 hover:text-gray-900"
+              class="text-xl text-gray-700 hover:text-gray-900"
               href="#contacts"
           >Контакти</a
           >
           <a
               *ngIf="isAdmin"
               [routerLink]="['/admin/users']"
-              class="text-gray-700 hover:text-gray-900"
+              class="text-xl text-gray-700 hover:text-gray-900"
           >
             Администратор
           </a>
@@ -99,9 +99,9 @@
 
         <ng-container *ngIf="isRestrictedPage()">
           <a
+              class="text-xl text-gray-700 hover:text-gray-900"
               routerLink="/home"
               routerLinkActive="text-pink-600"
-              class="text-gray-700 hover:text-gray-900"
           >
             Начало
           </a>
@@ -114,18 +114,17 @@
           Отговор на поканата
         </a>
 
-
-          <a
+        <a
             [routerLink]="['/profile']"
-            class="text-gray-700 hover:text-gray-900"
-          >
-            Профил
-          </a>
+            class="text-xl text-gray-700 hover:text-gray-900"
+        >
+          Профил
+        </a>
 
         <!-- Logout Button for Desktop -->
         <button
-            *ngIf="isAuthenticated"
             (click)="onLogout()"
+            *ngIf="isAuthenticated"
             [disabled]="isLoggingOut"
             class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
         >
@@ -183,10 +182,10 @@
           >Контакти</a
           >
           <a
+              (click)="closeMenu()"
               *ngIf="isAdmin"
               [routerLink]="['/admin/users']"
               class="block text-gray-700 hover:bg-gray-100 px-3 py-6 rounded-md"
-              (click)="closeMenu()"
           >
             Администратор
           </a>
@@ -194,9 +193,9 @@
 
         <ng-container *ngIf="isRestrictedPage()">
           <a
+              class="block text-gray-700 hover:bg-gray-100 px-3 py-6 rounded-md"
               routerLink="/home"
               routerLinkActive="text-pink-600"
-              class="block text-gray-700 hover:bg-gray-100 px-3 py-6 rounded-md"
           >
             Начало
           </a>
@@ -210,19 +209,17 @@
           Отговор на поканата
         </a>
 
-
-
-            <a
-              [routerLink]="['/profile']"
-              class="block text-gray-700 hover:bg-gray-100 px-3 py-6 rounded-md"
-          >
-            Профил
-          </a>
+        <a
+            [routerLink]="['/profile']"
+            class="block text-gray-700 hover:bg-gray-100 px-3 py-6 rounded-md"
+        >
+          Профил
+        </a>
 
         <!-- Logout Button for Mobile -->
         <button
-            *ngIf="isAuthenticated"
             (click)="onLogout()"
+            *ngIf="isAuthenticated"
             [disabled]="isLoggingOut"
             class="block w-full mt-2 bg-gray-500 text-white px-3 py-3 rounded-md hover:bg-gray-600 transition-colors duration-200"
         >

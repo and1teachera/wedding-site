@@ -1,42 +1,67 @@
-<app-section-container ariaLabel="Информация за настаняването" id="accommodation">
-  <div class="space-y-12">
+<app-section-container
+  ariaLabel="Информация за настаняването"
+  id="accommodation"
+>
+  <div class="pt-20 pb-10 md:py-32 lg:py-32 space-y-12">
     <!-- Media Container -->
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
       <!-- Map Section -->
-      <div class="relative w-full min-h-[400px] sm:min-h-[450px] lg:min-h-[600px] rounded-lg overflow-hidden shadow-xl">
+      <div
+        class="relative w-full min-h-[400px] sm:min-h-[450px] lg:min-h-[600px] rounded-lg overflow-hidden shadow-xl"
+      >
         <iframe
-            allowfullscreen
-            class="absolute inset-0 w-full h-full border-0"
-            referrerpolicy="no-referrer-when-downgrade"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d189353.03588038535!2d24.622790455595332!3d42.13656416538875!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14acbf50281e118b%3A0xc5bc0a79505f6171!2zIlZpbGxhIFl1c3RpbmEiIFZpbmV5YXJkIHBhcmsgLyDQn9Cw0YDQui3Qu9C-0LfQtSDQktC40LvQsCDQrtGB0YLQuNC90LA!5e0!3m2!1sbg!2sbg!4v1738354516628!5m2!1sbg!2sbg"
-            title="Място на настаняването">
+          allowfullscreen
+          class="absolute inset-0 w-full h-full border-0"
+          referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d189353.03588038535!2d24.622790455595332!3d42.13656416538875!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14acbf50281e118b%3A0xc5bc0a79505f6171!2zIlZpbGxhIFl1c3RpbmEiIFZpbmV5YXJkIHBhcmsgLyDQn9Cw0YDQui3Qu9C-0LfQtSDQktC40LvQsCDQrtGB0YLQuNC90LA!5e0!3m2!1sbg!2sbg!4v1738354516628!5m2!1sbg!2sbg"
+          title="Място на настаняването"
+        >
         </iframe>
 
         <noscript>
-          <div class="absolute inset-0 bg-gray-200 flex items-center justify-center text-gray-800 text-center p-4">
-            Не може да се зареди картата. Моля, активирайте JavaScript или проверете връзката си с интернет.
+          <div
+            class="absolute inset-0 bg-gray-200 flex items-center justify-center text-gray-800 text-center p-4"
+          >
+            Не може да се зареди картата. Моля, активирайте JavaScript или
+            проверете връзката си с интернет.
           </div>
         </noscript>
       </div>
 
       <!-- Accommodation Details Section -->
-      <div class="relative w-full min-h-[400px] sm:min-h-[450px] lg:min-h-[600px] rounded-lg overflow-hidden shadow-lg">
+      <div
+        class="relative w-full min-h-[400px] sm:min-h-[450px] lg:min-h-[600px] rounded-lg overflow-hidden shadow-lg"
+      >
         <picture>
-          <source media="(min-width: 1024px)" srcset="assets/images/accommodation/accommodation-lg.jpg">
-          <source media="(min-width: 640px)" srcset="assets/images/accommodation/accommodation-md.jpg">
+          <source
+            media="(min-width: 1024px)"
+            srcset="assets/images/accommodation/accommodation-lg.jpg"
+          />
+          <source
+            media="(min-width: 640px)"
+            srcset="assets/images/accommodation/accommodation-md.jpg"
+          />
           <img
-              alt="Хотел Юстина"
-              class="w-full h-full object-cover"
-              height="360"
-              ngSrc="assets/images/accommodation/accommodation-sm.jpg" width="640">
+            alt="Хотел Юстина"
+            class="w-full h-full object-cover"
+            height="360"
+            ngSrc="assets/images/accommodation/accommodation-sm.jpg"
+            width="640"
+          />
         </picture>
       </div>
     </div>
 
     <div class="text-center space-y-6">
-      <h2 class="font-display text-5xl lg:text-6xl text-gray-800">{{ accommodationInfo.name }}</h2>
-      <p class="font-body text-2xl text-gray-600">{{ accommodationInfo.address }}</p>
-      <p class="font-body text-xl lg:text-2xl text-gray-700 leading-relaxed">{{ accommodationInfo.description }}</p>
+      <h2 class="font-display text-5xl lg:text-6xl text-gray-800">
+        {{ accommodationInfo.name }}
+      </h2>
+      <p class="font-body text-2xl text-gray-600">
+        {{ accommodationInfo.address }}
+      </p>
+      <p class="font-body text-xl lg:text-2xl text-gray-700 leading-relaxed">
+        {{ accommodationInfo.description }}
+      </p>
     </div>
   </div>
 </app-section-container>

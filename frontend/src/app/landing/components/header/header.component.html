@@ -1,8 +1,17 @@
 <header class="text-center pb-4 bg-[#F7F1E1]">
   <div class="w-full max-w-[1160px] mx-auto">
-    <app-title-picture [title]="title"></app-title-picture>
-    <h2 class="text-5xl md:text-7xl font-light mb-6 font-body tracking-wider">{{ coupleNames }}</h2>
+    <app-title-picture
+      [title]="title"
+      [responsiveClasses]="
+        'w-[60%] ipad-pro:w-[50%] ipad-air:w-[50%] md:w-[60%] lg:w-[60%] lg:-mt-10 md:-mt-10 -mt-5 mb-10'
+      "
+    ></app-title-picture>
+    <h2 class="text-5xl md:text-7xl font-light mb-6 font-body tracking-wider">
+      {{ coupleNames }}
+    </h2>
     <p class="text-xl md:text-4xl text-gray-700 mb-2">{{ weddingDate }}</p>
-    <p class="text-xl md:text-2xl text-gray-700">Остават {{ daysUntilWedding }} Дни!</p>
+    <p class="text-xl md:text-2xl text-gray-700">
+      Остават {{ daysUntilWedding }} Дни!
+    </p>
   </div>
 </header>

@@ -9,6 +9,7 @@ import {
   RoomBookingRequest,
   RoomBookingResponse
 } from '../accommodation/services/accommodation.service';
+import { NotificationService } from '../shared/services/notification.service';
 
 interface FamilyMember {
   id: number;
@@ -55,7 +56,8 @@ export class RsvpComponent implements OnInit {
   constructor(
       private router: Router,
       private rsvpService: RsvpService,
-      private accommodationService: AccommodationService
+      private accommodationService: AccommodationService,
+      private notificationService: NotificationService
   ) {}
 
   ngOnInit() {
@@ -175,12 +177,23 @@ export class RsvpComponent implements OnInit {
       next: () => {
         this.attending = willAttend;
         this.isLoading = false;
+        
+        // Add notification
+        if (willAttend) {
+          this.notificationService.success("Благодарим ви! Вашият отговор беше записан успешно!");
+        } else {
+          this.notificationService.info("Съжаляваме, че няма да можете да присъствате! Вашият отговор беше записан успешно!");
+        }
+        
         this.nextStep();
       },
       error: (error) => {
         console.error('Error saving attendance:', error);
         this.errorMessage = 'Възникна грешка при записване на отговора. Моля, опитайте отново по-късно.';
         this.isLoading = false;
+        
+        // Add error notification
+        this.notificationService.error(this.errorMessage);
       }
     });
   }
@@ -227,12 +240,19 @@ export class RsvpComponent implements OnInit {
       next: () => {
         this.isLoading = false;
         this.hasChanges = false;
+        
+        // Add notification
+        this.notificationService.success("Благодарим ви! Вашият отговор беше записан успешно!");
+        
         this.nextStep();
       },
       error: (error) => {
         console.error('Error saving family selections:', error);
         this.errorMessage = 'Възникна грешка при записване на отговорите. Моля, опитайте отново по-късно.';
         this.isLoading = false;
+        
+        // Add error notification
+        this.notificationService.error(this.errorMessage);
       }
     });
   }
@@ -270,12 +290,19 @@ export class RsvpComponent implements OnInit {
 
         if (response.success) {
           this.availableRooms--;
+          
+          // Add notification
+          const roomNumber = response.roomNumber ?? '';
+          this.notificationService.success(`Стая номер ${roomNumber} беше успешно запазена за вас и семейството ви!`);
         }
       },
       error: (error) => {
         console.error('Error booking room:', error);
         this.errorMessage = 'Възникна грешка при резервиране на стаята. Моля, опитайте отново по-късно.';
         this.isBookingRoom = false;
+        
+        // Add error notification
+        this.notificationService.error(this.errorMessage);
       }
     });
   }
@@ -296,17 +323,26 @@ export class RsvpComponent implements OnInit {
 
         if (response.success) {
           this.availableRooms++;
+          
+          // Add notification
+          this.notificationService.success("Вашата резервация беше отказана. Благодарим ви!");
         }
       },
       error: (error) => {
         console.error('Error cancelling booking:', error);
         this.errorMessage = 'Възникна грешка при отказване на резервацията. Моля, опитайте отново по-късно.';
         this.isBookingRoom = false;
+        
+        // Add error notification
+        this.notificationService.error(this.errorMessage);
       }
     });
   }
 
   finishProcess() {
+    // Show completion notification
+    this.notificationService.success("Вашият отговор беше успешно записан! Благодарим ви!");
+    
     // Navigate to home with success message
     this.router.navigate(['/home'], {
       queryParams: {
@@ -341,14 +377,22 @@ export class RsvpComponent implements OnInit {
         this.roomBooking = response.success ? response : null;
         this.isBookingRoom = false;
 
-        if (response.success && !this.isSingleUser) {
-          this.availableRooms--;
+        if (response.success) {
+          if (!this.isSingleUser) {
+            this.availableRooms--;
+            this.notificationService.success(`Стая номер ${response.roomNumber || ''} беше успешно запазена за вас и семейството ви!`);
+          } else {
+            this.notificationService.success("Заявката ви беше записана и скоро ще бъде разгледана!");
+          }
         }
       },
       error: (error) => {
         console.error('Error processing accommodation request:', error);
         this.errorMessage = 'Възникна грешка при обработката на заявката. Моля, опитайте отново по-късно.';
         this.isBookingRoom = false;
+        
+        // Add error notification
+        this.notificationService.error(this.errorMessage);
       }
     });
   }
@@ -390,14 +434,22 @@ export class RsvpComponent implements OnInit {
         this.roomBooking = null;
         this.isBookingRoom = false;
 
-        if (response.success && !this.isSingleUser) {
-          this.availableRooms++;
+        if (response.success) {
+          if (!this.isSingleUser) {
+            this.availableRooms++;
+            this.notificationService.success("Вашата резервация беше отказана. Благодарим ви!");
+          } else {
+            this.notificationService.success("Заявката ви беше отказана. Благодарим ви!");
+          }
         }
       },
       error: (error) => {
         console.error('Error cancelling accommodation:', error);
         this.errorMessage = 'Възникна грешка при отказване на заявката. Моля, опитайте отново по-късно.';
         this.isBookingRoom = false;
+        
+        // Add error notification
+        this.notificationService.error(this.errorMessage);
       }
     });
   }

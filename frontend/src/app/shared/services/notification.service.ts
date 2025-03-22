@@ -16,7 +16,7 @@ export class NotificationService {
   private notifications$ = new BehaviorSubject<Notification[]>([]);
   
   // Method to show a notification
-  show(message: string, type: 'success' | 'error' | 'info' | 'warning' = 'info', duration: number = 3000): string {
+  show(message: string, type: 'success' | 'error' | 'info' | 'warning' = 'info', duration = 3000): string {
     const id = this.generateId();
     const notification: Notification = { id, message, type, duration };
     

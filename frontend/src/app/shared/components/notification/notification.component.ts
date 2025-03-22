@@ -12,9 +12,16 @@ import { Notification, NotificationService } from '../../services/notification.s
       <div *ngFor="let notification of notifications" 
            class="notification"
            [class]="notification.type"
-           (click)="dismiss(notification.id)">
+           role="alert"
+           tabindex="0"
+           (click)="dismiss(notification.id)"
+           (keydown.enter)="dismiss(notification.id)"
+           (keydown.space)="dismiss(notification.id)">
         <div class="message">{{ notification.message }}</div>
-        <button class="close-btn" (click)="dismiss(notification.id); $event.stopPropagation()">×</button>
+        <button class="close-btn" 
+                (click)="dismiss(notification.id); $event.stopPropagation()"
+                (keydown.enter)="dismiss(notification.id); $event.stopPropagation()"
+                aria-label="Close notification">×</button>
       </div>
     </div>
   `,

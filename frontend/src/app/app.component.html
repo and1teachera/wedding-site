@@ -1,4 +1,5 @@
 <div class="min-h-screen bg-white">
   <app-navigation *ngIf="tokenService.isTokenValid()"></app-navigation>
   <router-outlet></router-outlet>
+  <app-notification position="top-center"></app-notification>
 </div>
